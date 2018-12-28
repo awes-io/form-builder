@@ -1,0 +1,50 @@
+{
+    "name": "awes-forms",
+    "version": "0.0.1",
+    "description": "Dynamic forms package",
+    "main": "dist/js/main.js",
+    "module": "src/js/plugin.js",
+    "files": [
+        "dist/js/main.js",
+        "dist/js/main.legacy.js"
+    ],
+    "scripts": {
+        "start": "npm run watch",
+        "watch": "cross-env NODE_ENV=development BROWSERSLIST_ENV=modern gulp",
+        "watch:legacy": "cross-env NODE_ENV=development BROWSERSLIST_ENV=legacy gulp",
+        "build": "npm run build:modern && npm run build:legacy",
+        "build:modern": "cross-env NODE_ENV=production cross-env BROWSERSLIST_ENV=modern gulp",
+        "build:legacy": "cross-env NODE_ENV=production cross-env BROWSERSLIST_ENV=legacy rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@gitlab.awescode.com:packages/forms.git"
+    },
+    "author": "AwesCode (https://www.awescode.de/)",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.2.2",
+        "@babel/preset-env": "^7.2.3",
+        "browser-sync": "^2.26.3",
+        "core-js": "^2.6.1",
+        "cross-env": "^5.2.0",
+        "gulp": "^4.0.0",
+        "gulp-clean": "^0.4.0",
+        "gulp-noop": "^1.0.0",
+        "gulp-plumber": "^1.2.1",
+        "gulp-rollup": "^2.16.2",
+        "gulp-sourcemaps": "^2.6.4",
+        "rollup": "^0.68.2",
+        "rollup-plugin-babel": "^4.1.0",
+        "rollup-plugin-commonjs": "^9.2.0",
+        "rollup-plugin-json": "^3.1.0",
+        "rollup-plugin-license": "^0.7.0",
+        "rollup-plugin-node-resolve": "^4.0.0",
+        "rollup-plugin-uglify-es": "0.0.1",
+        "rollup-plugin-vue": "^4.3.2",
+        "vue-template-compiler": "^2.5.21"
+    },
+    "dependencies": {
+        "autosize": "^4.0.2"
+    }
+}

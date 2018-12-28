@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AwesCode Forms package test</title>
+    <script>
+      AWES_CONFIG = {
+        key: '4e5612aca7540ad54a71d9289ba7db3a'
+      }
+    </script>
+    <script src="/core/main.js" async defer></script>
+    <script src="/js/main.js" async defer></script>
+</head>
+
+<body>
+    <div id="awes-app">
+        <form-builder url="http://httpbin.org/post" >
+          <fb-input name="input" label="label"></fb-input>
+          <fb-multi-block name="multi">
+            <fb-input name="input" label="multi-block"></fb-input>
+          </fb-multi-block>
+          <fb-checkbox name="check" label="checkbox"></fb-checkbox>
+          <fb-select name="select" label="select" :select-options="[{name:'one', value: 1}, {name:'two', value: 2}]"></fb-select>
+          <fb-textarea name="textarea" label="textarea"></fb-textarea>
+          <!-- <input type="range" min="0" max="1" style="width:2em"> -->
+        </form-builder>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+# Browsers that we support
+
+[modern]
+last 2 Chrome versions
+last 2 Firefox versions
+
+
+[legacy]
+last 1 IE version
+> .5%
+not dead
