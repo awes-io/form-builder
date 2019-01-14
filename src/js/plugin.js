@@ -8,6 +8,8 @@ import fbSelect from '../vue/fb-select.vue'
 import fbTextarea from '../vue/fb-textarea.vue'
 import fbCode from '../vue/fb-code.vue'
 import fbCompanySlug from '../vue/fb-company-slug.vue'
+import fbAutoCaptcha from '../vue/fb-auto-captcha.vue'
+import fbRadioGroup from '../vue/fb-radio-group.vue'
 
 export function install(Vue) {
 
@@ -23,6 +25,8 @@ export function install(Vue) {
     Vue.component('fb-textarea', fbTextarea)
     Vue.component('fb-code', fbCode)
     Vue.component('fb-company-slug', fbCompanySlug)
+    Vue.component('fb-auto-captcha', fbAutoCaptcha)
+    Vue.component('fb-radio-group', fbRadioGroup)
 }
 
 export default {

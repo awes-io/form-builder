@@ -52,6 +52,13 @@ const awesPlugin = {
                 Vue.component('multiselect', window.VueMultiselect.default)
             }
         },
+        'vue-recaptcha': {
+            src: 'https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js',
+            deps: ['vue'],
+            cb() {
+                Vue.component('vue-recaptcha', window.VueRecaptcha)
+            }
+        },
         'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js',
         'hammerjs': 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js'
     },
