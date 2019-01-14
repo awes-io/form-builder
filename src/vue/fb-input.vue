@@ -46,7 +46,6 @@
 <script>
   import fieldMixin from './mixins/fb-field.js';
   import focusMixin from './mixins/fb-focus.js';
-  import fbErrorWrap from './fb-error-wrap.vue';
   
   let _inputsId = 0
 
@@ -57,8 +56,6 @@
       inheritAttrs: false,
 
       mixins: [ fieldMixin, focusMixin ],
-
-      components: { fbErrorWrap },
 
       props: {
         label: {

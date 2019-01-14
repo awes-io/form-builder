@@ -8,24 +8,42 @@
     <title>AwesCode Forms package test</title>
     <script>
       AWES_CONFIG = {
-        key: '4e5612aca7540ad54a71d9289ba7db3a'
+        key: '680a7d07f89b94e7fc83be657a2daa27',
+        companySlug: {
+            domain: 'domain.test'
+        }
       }
     </script>
-    <script src="/core/main.js" async defer></script>
-    <script src="/js/main.js" async defer></script>
+    <script src="/js/main.js"></script>
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/js-core/v0.x.x/js/main.js"></script>
 </head>
 
 <body>
     <div id="awes-app">
         <form-builder url="http://httpbin.org/post" >
+          <div>Input example</div>
           <fb-input name="input" label="label"></fb-input>
+
+          <div>Multi-block example</div>
           <fb-multi-block name="multi">
             <fb-input name="input" label="multi-block"></fb-input>
           </fb-multi-block>
+
+          <div>Checkbox example</div>
           <fb-checkbox name="check" label="checkbox"></fb-checkbox>
+
+          <div>Select example</div>
           <fb-select name="select" label="select" :select-options="[{name:'one', value: 1}, {name:'two', value: 2}]"></fb-select>
+
+          <div>Textarea example</div>
           <fb-textarea name="textarea" label="textarea"></fb-textarea>
-          <!-- <input type="range" min="0" max="1" style="width:2em"> -->
+
+          <div>Code example</div>
+          <fb-code name="code"></fb-code>
+
+          <div>Company slug example</div>
+          <fb-input name="company"></fb-input>
+          <fb-company-slug name="slug" input="company"></fb-company-slug>
         </form-builder>
     </div>
 </body>

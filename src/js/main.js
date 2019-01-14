@@ -1,6 +1,4 @@
 import { plugin, updateMountedComponents } from './plugin'
-import formBuilder from '../vue/form-builder.vue'
-import fbInput from '../vue/fb-input.vue'
 import lang from './lang.js'
 
 let counter = 200
@@ -28,7 +26,22 @@ let counter = 200
         },
         'v-tooltip': {
             src: 'https://unpkg.com/v-tooltip@2.0.0-rc.33/dist/v-tooltip.min.js',
-            deps: ['vue']
+            deps: ['vue'],
+            cb() {
+                VTooltip.default.options.popover = Object.assign(VTooltip.default.options.popover, {
+                    defaultPlacement: 'right',
+                    defaultAutoHide: false,
+                    defaultTrigger: 'manual',
+                    defaultPopperOptions: {
+                        modifiers: {
+                            flip: {
+                                behavior: ['right', 'top']
+                            }
+                        }
+
+                    }
+                })
+            }
         },
         'vue-multiselect': {
             src: ['https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.js',
@@ -37,7 +50,8 @@ let counter = 200
             cb() { 
                 Vue.component('multiselect', window.VueMultiselect.default)
             }
-        }
+        },
+        'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js'
       },
 
       install() {
