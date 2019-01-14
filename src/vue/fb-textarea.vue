@@ -34,7 +34,6 @@
 <script>
   import fieldMixin from './mixins/fb-field.js';
   import focusMixin from './mixins/fb-focus.js';
-  import fbErrorWrap from './fb-error-wrap.vue';
   import autosize from "autosize";
 
   let unwatcher;
@@ -46,8 +45,6 @@
     inheritAttrs: false,
 
     mixins: [ fieldMixin, focusMixin ],
-
-    components: { fbErrorWrap },
 
 
     props: {

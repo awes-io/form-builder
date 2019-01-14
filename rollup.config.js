@@ -10,11 +10,14 @@ const babelPlugin = require('rollup-plugin-babel')
 const licensePlugin = require('rollup-plugin-license')
 
 module.exports = {
-    allowRealFiles: true, // solves gulp-rollup hipotetical file system problem
     input: './src/js/main.js',
     output: {
         file: isModern ? './dist/js/main.js' : './dist/js/main.legacy.js',
-        format: 'iife'
+        format: 'iife',
+        external: {
+            Urlify: 'Urlify',
+            AWES: 'AWES'
+        }
     },
     plugins: [
         vuePlugin(),

@@ -1,6 +1,6 @@
 {
     "name": "awes-forms",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Dynamic forms package",
     "main": "dist/js/main.js",
     "module": "src/js/plugin.js",
@@ -42,6 +42,7 @@
         "rollup-plugin-node-resolve": "^4.0.0",
         "rollup-plugin-uglify-es": "0.0.1",
         "rollup-plugin-vue": "^4.3.2",
+        "stylus": "^0.54.5",
         "vue-template-compiler": "^2.5.21"
     },
     "dependencies": {

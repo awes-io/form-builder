@@ -22,7 +22,7 @@ if ( isDev ) {
       server: ['./examples', './dist']
     })
 
-    gulp.watch(['./src/js/**/*.js', './src/vue/**/*.vue'], gulp.series('build:js', 'reload'))
+    gulp.watch(['./src/js/**/*.js', './src/vue/**/*.vue', 'src/vue/**/*.js'], gulp.series('build:js', 'reload'))
     gulp.watch('./examples/**/*.html', gulp.series('reload'))
   })
 
@@ -35,6 +35,7 @@ if ( isDev ) {
  */
 
 const rollupConfig = require('./rollup.config.js')
+rollupConfig.allowRealFiles = true // solves gulp-rollup hipotetical file system problem
 rollupConfig.rollup = require('rollup')
 
 gulp.task('build:js', function(){
