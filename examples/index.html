@@ -9,6 +9,7 @@
     <script>
       AWES_CONFIG = {
         key: '680a7d07f89b94e7fc83be657a2daa27',
+        reCaptchaSiteKey: '6Lf6bm8UAAAAAEzGZHWPwnlBYoLIcndT-ITBo9fS',
         companySlug: {
             domain: 'domain.test'
         }
@@ -32,6 +33,12 @@
           <div>Checkbox example</div>
           <fb-checkbox name="check" label="checkbox"></fb-checkbox>
 
+          <div>Switcher example</div>
+          <fb-checkbox name="check" label="checkbox" theme="s2"></fb-checkbox>
+
+          <div>Radio-group example</div>
+          <fb-radio-group name="radio" label="radio" :items="[{name:'one', value: 1}, {name:'two', value: 2}, {name:'three', value: 3}]"></fb-radio-group>
+
           <div>Select example</div>
           <fb-select name="select" label="select" :select-options="[{name:'one', value: 1}, {name:'two', value: 2}]"></fb-select>
 
@@ -44,6 +51,9 @@
           <div>Company slug example</div>
           <fb-input name="company"></fb-input>
           <fb-company-slug name="slug" input="company"></fb-company-slug>
+
+          <div>Auto captcha</div>
+          <fb-auto-captcha show></fb-auto-captcha>
         </form-builder>
     </div>
 </body>
