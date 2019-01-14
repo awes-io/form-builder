@@ -1,6 +1,3 @@
-// import store module
-import storeModule from './store-module'
-
 // importing components
 import formBuilder from '../vue/form-builder.vue'
 import fbErrorWrap from '../vue/fb-error-wrap.vue'
@@ -14,11 +11,8 @@ import fbCompanySlug from '../vue/fb-company-slug.vue'
 
 export function install(Vue) {
 
-    try {
-        Vue.prototype.$awesForms = new Vuex.Store(storeModule)
-    } catch (e) {
-        console.log('Error creating store :', e);
-    }
+    if ( this.installed ) return
+    this.installed = true
 
     Vue.component('form-builder', formBuilder)
     Vue.component('fb-error-wrap', fbErrorWrap)
@@ -31,20 +25,9 @@ export function install(Vue) {
     Vue.component('fb-company-slug', fbCompanySlug)
 }
 
-export const plugin = {
+export default {
+
+    installed: false,
+
     install
-}
-
-export function updateMountedComponents(VueInstance) {
-
-    VueInstance.$options.components = Object.assign( VueInstance.$options.components, {
-        formBuilder,
-        fbInput,
-        fbMultiBlock,
-        fbCheckbox,
-        fbSelect,
-        fbTextarea,
-        fbCode,
-        fbCompanySlug
-    })
 }

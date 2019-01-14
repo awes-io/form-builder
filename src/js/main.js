@@ -1,23 +1,24 @@
-import { plugin, updateMountedComponents } from './plugin'
+import plugin from './plugin'
 import lang from './lang.js'
+import storeModule from './store-module'
 
-let counter = 200
+const awesPlugin = {
 
-;(function main() {
-
-  if ( window && ( 'AWES' in window ) ) {
-
-    AWES.use({
-
-      modules: {
+    modules: {
         'vue': {
             src: 'https://unpkg.com/vue@2.5.21/dist/vue.js',
-            cb() { Vue.config.ignoredElements.push('form-builder', /^fb-/) }
+            cb() {
+                // Vue.config.ignoredElements.push('form-builder', /^fb-/)
+                Vue.use(plugin)
+            }
         },
         'lodash': 'https://unpkg.com/lodash@4.17.11/lodash.min.js',
         'vuex': {
             src: 'https://unpkg.com/vuex@2.5.0/dist/vuex.min.js',
-            deps: ['vue']
+            deps: ['vue'],
+            cb() {
+                Vue.prototype.$awesForms = new Vuex.Store(storeModule)
+            }
         },
         'vue-shortkey': {
             src: 'https://unpkg.com/vue-shortkey@3',
@@ -52,23 +53,17 @@ let counter = 200
             }
         },
         'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js'
-      },
+    },
 
-      install() {
+    install() {
         AWES.lang = lang
-        Vue.use(plugin)
         if ( AWES._vueRoot && AWES._vueRoot._isMounted ) updateMountedComponents(AWES._vueRoot)
-      }
-    })
+    }
+}
 
-  } else if ( counter ) {
-
-    counter--
-    setTimeout(main, 300)
-
-  } else {
-
-    console.error('Delayed loading failed, no AWES core found')
-
-  }
-})()
+if (window && ('AWES' in window)) {
+    AWES.use(awesPlugin)
+} else {
+    window.__awes_plugins_stack__ = window.__awes_plugins_stack__ || []
+    window.__awes_plugins_stack__.push(awesPlugin)
+}
