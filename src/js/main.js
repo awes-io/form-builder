@@ -6,7 +6,7 @@ const awesPlugin = {
 
     modules: {
         'vue': {
-            src: 'https://unpkg.com/vue@2.5.21/dist/vue.js',
+            src: 'https://unpkg.com/vue@2.5.21/dist/vue.min.js',
             cb() {
                 // Vue.config.ignoredElements.push('form-builder', /^fb-/)
                 Vue.use(plugin)
@@ -52,12 +52,12 @@ const awesPlugin = {
                 Vue.component('multiselect', window.VueMultiselect.default)
             }
         },
-        'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js'
+        'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js',
+        'hammerjs': 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js'
     },
 
     install() {
         AWES.lang = lang
-        if ( AWES._vueRoot && AWES._vueRoot._isMounted ) updateMountedComponents(AWES._vueRoot)
     }
 }
 

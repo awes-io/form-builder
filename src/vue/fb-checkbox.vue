@@ -36,7 +36,6 @@
 <script>
   import fieldMixin from './mixins/fb-field.js';
   import focusMixin from './mixins/fb-focus.js';
-  // import Hammer from 'hammerjs';
 
   export default {
 
@@ -83,27 +82,30 @@
 
     methods: {
       
-      // enableSwitcher() {
-      //   this.__hammer = new Hammer.Manager( this.$refs.switcher, {
-      //       recognizers: [
-      //           [ Hammer.Swipe, {
-      //               threshold: 5,
-      //               velocity: .1,
-      //               direction: Hammer.DIRECTION_HORIZONTAL
-      //           }]
-      //       ]
-      //   })
-      //   this.__hammer.on('swipeleft', () => { this.value = false })
-      //   this.__hammer.on('swiperight', () => { this.value = true })
-      // }
+      enableSwitcher() {
+        this.__hammer = new Hammer.Manager( this.$refs.switcher, {
+            recognizers: [
+                [ Hammer.Swipe, {
+                    threshold: 5,
+                    velocity: .1,
+                    direction: Hammer.DIRECTION_HORIZONTAL
+                }]
+            ]
+        })
+        this.__hammer.on('swipeleft', () => { this.value = false })
+        this.__hammer.on('swiperight', () => { this.value = true })
+      }
     },
   
     mounted() {
-      // if ( this.isSwitcher ) this.enableSwitcher()
+      if ( this.isSwitcher ) this.enableSwitcher()
     },
     
     beforeDestroy() {
-      // if ( this.isSwitcher ) delete this.__hammer
+      if ( this.isSwitcher ) {
+        this.__hammer.destroy()
+        delete this.__hammer
+      }
     }
   }
 </script>
