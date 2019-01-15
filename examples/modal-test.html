@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test form-builder with modal component</title>
+    <script>
+        const AWES_CONFIG = {
+          key: '680a7d07f89b94e7fc83be657a2daa27'
+        }
+    </script>
+    <script src="js/main.js"></script>
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/modal/v0.1.0/js/main.js"></script>
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/js-core/v0.1.2/js/main.js"></script>
+</head>
+<body>
+    <div id="awes-app">
+        <modal-window name="form">
+            <form-builder url="//httpbin.org/post">
+                <fb-input name="test" label="test"></fb-input>
+            </form-builder>
+        </modal-window>
+        <button @click="AWES.emit('modal::form.open')">Open modal</button>
+    </div>
+</body>
+</html>

@@ -33,7 +33,7 @@
               type="button"
               v-shortkey="['esc']"
               @shortkey="close"
-              @click.prevent="modal ? close(modal.name) : $emit('cancel')">
+              @click.prevent="modal ? close() : $emit('cancel')">
               {{ cancelText || $lang.FORMS_CANCEL }}
             </button> <!-- v-waves.button -->
             
@@ -293,14 +293,18 @@
         return this.$lang.FORMS_CONFIRM
       },
 
-      close( name = false ) {
-        if ( name && name !== this.modal.name ) return // may be called from other modal
+      close() {
         if ( this.checkCloseAllowed() ) {
           this.removeUnloadHandlers()
-          this.$root.$emit('modals:prevent', { name: this.modal.name, state: false })
-          this.$root.$emit('modals:close', this.modal.name)
+          AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
+          AWES.emit(`modal::${this.modal.name}.close`)
         }
       },
+      
+      preventModalClose(e) {
+        e.detail.preventClose()
+        this.close()
+      }
     },
 
 
@@ -310,9 +314,8 @@
       })
       if ( this.modal ) {
         this.__unwatchModalPrevent = this.$watch('isEdited', state => {
-          this.$root.$emit('modals:prevent', { name: this.modal.name, state })
+          AWES.on(`modal::${this.modal.name}.before-close`, this.preventModalClose)
         })
-        this.$root.$on('modals:on-close-prevented', this.close)
       }
     },
 
@@ -330,7 +333,7 @@
       if ( typeof this.__unwatchModalPrevent === 'function' ) this.__unwatchModalPrevent()
       this.$awesForms.commit('deleteForm', this.name)
       if ( typeof this._unwatchEdit === 'function' ) this._unwatchEdit()
-      this.$root.$off('modals:on-close-prevented', this.close)
+      AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
     }
   }
 </script>
