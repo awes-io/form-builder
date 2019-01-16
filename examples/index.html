@@ -21,41 +21,60 @@
 </head>
 
 <body>
+    <style>
+      .demo-title {
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-size: 25px;
+      }
+      .grid__cell {
+        margin-bottom: 10px;
+      }
+
+      .input__label {
+        margin-bottom: 5px;
+      }
+    </style>
+  
     <div id="awes-app">
+      <div style="max-width: 500px">
         <form-builder url="http://httpbin.org/post" >
-          <div>Input example</div>
+          <div class="demo-title">Input example</div>
           <fb-input name="input" label="label"></fb-input>
 
-          <div>Multi-block example</div>
+          <div class="demo-title">Multi-block example</div>
           <fb-multi-block name="multi">
             <fb-input name="input" label="multi-block"></fb-input>
           </fb-multi-block>
 
-          <div>Checkbox example</div>
+          <div  class="demo-title">Checkbox example</div>
           <fb-checkbox name="check" label="checkbox"></fb-checkbox>
 
-          <div>Switcher example</div>
+          <div  class="demo-title">Switcher example</div>
           <fb-checkbox name="check" label="checkbox" theme="s2"></fb-checkbox>
 
-          <div>Radio-group example</div>
+          <div  class="demo-title">Radio-group example</div>
           <fb-radio-group name="radio" label="radio" :items="[{name:'one', value: 1}, {name:'two', value: 2}, {name:'three', value: 3}]"></fb-radio-group>
 
-          <div>Select example</div>
+          <div  class="demo-title">Select example</div>
           <fb-select name="select" label="select" :select-options="[{name:'one', value: 1}, {name:'two', value: 2}]"></fb-select>
 
-          <div>Textarea example</div>
+          <div  class="demo-title">Textarea example</div>
           <fb-textarea name="textarea" label="textarea"></fb-textarea>
 
-          <div>Code example</div>
-          <fb-code name="code"></fb-code>
+          <div  class="demo-title">Code example</div>
+          <div class="grid__cell">
+            <fb-code name="code"></fb-code>
+          </div>
 
-          <div>Company slug example</div>
+          <div class="grid__title">Company slug example</div>
           <fb-input name="company"></fb-input>
           <fb-company-slug name="slug" input="company"></fb-company-slug>
 
-          <div>Auto captcha</div>
+          <div class="grid__title">Auto captcha</div>
           <fb-auto-captcha show></fb-auto-captcha>
         </form-builder>
+      </div>
     </div>
 </body>
 
