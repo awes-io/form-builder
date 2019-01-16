@@ -1,7 +1,3778 @@
-/**
- * Bundle of AWES form-builder
- * Generated: 2019-01-16
- * Version: 0.1.4
- */
+(function () {
+  'use strict';
 
-!function(){"use strict";function e(e,t,i,n,s,o,r,a,l,u){"function"==typeof r&&(l=a,a=r,r=!1);const c="function"==typeof i?i.options:i;e&&e.render&&(c.render=e.render,c.staticRenderFns=e.staticRenderFns,c._compiled=!0,s&&(c.functional=!0)),n&&(c._scopeId=n);let d;if(o?(d=function(e){(e=e||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(e=__VUE_SSR_CONTEXT__),t&&t.call(this,l(e)),e&&e._registeredComponents&&e._registeredComponents.add(o)},c._ssrRegister=d):t&&(d=r?function(){t.call(this,u(this.$root.$options.shadowRoot))}:function(e){t.call(this,a(e))}),d)if(c.functional){const e=c.render;c.render=function(t,i){return d.call(i),e(t,i)}}else{const e=c.beforeCreate;c.beforeCreate=e?[].concat(e,d):[d]}return i}function t(e,t,i){function n(e){if(!i||0===Object.keys(i).length)return e;for(let t in i)e[t]=i[t];return e}if(document.createEvent){const i=new Event(e,{bubbles:!0,cancelable:!0});t.dispatchEvent(n(i))}else{const i=document.createEventObject();t.fireEvent("on"+e,n(i))}}function i(e){return(e,t)=>n(e,t)}function n(e,t){const i=H?t.media||"default":e,n=W[i]||(W[i]={ids:new Set,styles:[]});if(!n.ids.has(e)){n.ids.add(e);let i=t.source;if(t.map&&(i+="\n/*# sourceURL="+t.map.sources[0]+" */",i+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(t.map))))+" */"),n.element||(n.element=document.createElement("style"),n.element.type="text/css",t.media&&n.element.setAttribute("media",t.media),z.appendChild(n.element)),"styleSheet"in n.element)n.styles.push(i),n.element.styleSheet.cssText=n.styles.filter(Boolean).join("\n");else{const e=n.ids.size-1,t=document.createTextNode(i),s=n.element.childNodes;s[e]&&n.element.removeChild(s[e]),s.length?n.element.insertBefore(t,s[e]):n.element.appendChild(t)}}}function s(e){this.installed||(this.installed=!0,e.component("form-builder",c),e.component("fb-error-wrap",h),e.component("fb-input",w),e.component("fb-multi-block",F),e.component("fb-checkbox",x),e.component("fb-select",N),e.component("fb-textarea",L),e.component("fb-code",V),e.component("fb-company-slug",U),e.component("fb-auto-captcha",Y),e.component("fb-radio-group",J))}function o(e,t,i,n){let s=e.forms.find(e=>e.id==t);const o=e.forms.findIndex(e=>e.id==t);null===n?_.unset(s,i):_.set(s,i,n),Vue.set(e.forms,o,s)}let r=0;const a=[{type:"beforeunload",handler:"windowUnloadHandler"},{type:"popstate",handler:"popStateHandler"}];var l={name:"form-builder",props:{cancelbtn:{type:Boolean,default:!1},name:{type:String,default:()=>`form-builder-${r++}`},url:{type:String,required:!0},sendText:String,cancelText:String,loadingText:String,default:{type:Object,default:null},method:{type:String,default:"post",validator(e){return void 0===e||["get","put","post","delete","patch"].includes(e.toLowerCase())}},storeData:String,disabledDialog:{type:Boolean,default:!1},autoSubmit:{type:Boolean,default:!1}},inject:{modal:{from:"modal",default:!1}},provide(){return{formId:this.name,isModal:!!this.modal}},data(){return{loading:!1,serverData:null,serverDataErrors:null,showLoader:!1}},computed:{form(){return this.$awesForms.getters.form(this.name)},isEdited(){return this.$awesForms.getters.isEdited(this.name)},workingState(){return this.$awesForms.getters.workingState(this.name)},storeFormData(){return!!this.storeData&&this.$awesForms.state[this.storeData]},usedFormData(){return this.storeFormData?(this.default&&console.warn("Only VUEX STORE data will be used, despite DEFAULT data exists"),this.storeFormData):!!this.default&&this.default}},watch:{usedFormData:{handler:function(e){this.form||(this.createForm(),e&&this.$awesForms.commit("setDefaultData",{id:this.name,fields:e}))},deep:!0,immediate:!0},loading(e){this.$awesForms.commit("toggleFormLoading",{id:this.name,isLoading:e})},serverData(e){e&&(this.storeData?this.$awesForms.commit("setData",{param:this.storeData,data:e.data}):this.$awesForms.commit("setDefaultData",{id:this.name,fields:e.data}),this.$awesForms.commit("resetFormEdited",this.name),this.serverData=null,this.$emit("sended",e.data),this.modal&&this.close(this.modal.name))},serverDataErrors(e){e&&(this.$awesForms.commit("setErrors",{id:this.name,errors:e}),this.serverDataErrors=null,this.disabledDialog||this.addUnloadHandlers())}},methods:{createForm(){this.$awesForms.commit("createForm",{id:this.name,url:this.url,method:this.method,storeData:this.storeData})},send(){this.$listeners.hasOwnProperty("send")?this.$emit("send",this.workingState):this.loading||(this.removeUnloadHandlers(),this.$awesForms.commit("resetErrors",this.name),this.loading=!0,AWES.on("core:ajax",this.onRequestProcess),AWES.ajax(this.workingState,this.url,this.method).then(e=>{this.serverData=e}).catch(e=>{this.serverDataErrors=e}).finally(()=>{this.loading=!1;this.showLoader=!1;AWES.off("core:ajax",this.onRequestProcess)}))},onRequestProcess(e){this.showLoader=e.detail},addUnloadHandlers(){a.forEach(e=>{window.addEventListener(e.type,this[e.handler],!1)})},removeUnloadHandlers(){a.forEach(e=>{window.removeEventListener(e.type,this[e.handler])})},checkCloseAllowed(){if(this.disabledDialog)return!0;if(this.isEdited){const e=confirm(this.$lang.FORMS_CONFIRM);return e}return!0},popStateHandler(){if(this.removeUnloadHandlers(),this.checkCloseAllowed())this.modal&&this.close();else{const e=this.modal?this.modal.hash:"",t=location.href+e;history.pushState({modal:e},document.title,t),this.addUnloadHandlers()}},windowUnloadHandler(e){return!(!this.disabledDialog&&this.isEdited)||(e.returnValue=this.$lang.FORMS_CONFIRM,this.$lang.FORMS_CONFIRM)},close(){this.checkCloseAllowed()&&(this.removeUnloadHandlers(),AWES.off(`modal::${this.modal.name}.before-close`,this.preventModalClose),AWES.emit(`modal::${this.modal.name}.close`))},preventModalClose(e){e.detail.preventClose(),this.close()}},created(){this.$root.$on("forms:submit",e=>{this.name===e&&this.send()}),this.modal&&(this.__unwatchModalPrevent=this.$watch("isEdited",e=>{AWES.on(`modal::${this.modal.name}.before-close`,this.preventModalClose)}))},mounted(){this.addUnloadHandlers(),this.autoSubmit&&(this._unwatchEdit=this.$watch("form.editCounter",this.send))},beforeDestroy(){this.removeUnloadHandlers(),"function"==typeof this.__unwatchModalPrevent&&this.__unwatchModalPrevent(),this.$awesForms.commit("deleteForm",this.name),"function"==typeof this._unwatchEdit&&this._unwatchEdit(),AWES.off(`modal::${this.modal.name}.before-close`,this.preventModalClose)}};const u=l;l.__file="form-builder.vue";var c=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("form",{staticClass:"form-builder",class:{modal__form:e.modal},attrs:{action:e.url,method:e.method}},[i("div",{staticClass:"grid grid_forms"},[e._t("default",null,{fields:e.workingState})],2),e._v(" "),e.autoSubmit?e._e():i("div",{class:e.modal?"line-btns":null},[i("div",{class:e.modal?"line-btns__wrap":"line-btns"},[i("button",{directives:[{name:"shortkey",rawName:"v-shortkey",value:["ctrl","enter"],expression:"['ctrl', 'enter']"}],staticClass:"btn btn-send waves-effect waves-button",class:{"loading-inline":e.showLoader},attrs:{disabled:!e.isEdited,"data-loading":e.$lang.FORMS_LOADING,type:"submit","data-awes":"modal_button_ok"},on:{shortkey:e.send,click:function(t){return t.preventDefault(),e.send(t)}},nativeOn:{click:function(t){return t.preventDefault(),e.send(t)}}},[e._v("\n          "+e._s(e.sendText||e.$lang.FORMS_SEND)+" "),i("span",{staticClass:"g-res--tablet-lg_n"},[e._v("(ctrl+enter)")])]),e._v(" "),e.modal||e.cancelbtn?i("button",{directives:[{name:"shortkey",rawName:"v-shortkey",value:["esc"],expression:"['esc']"}],staticClass:"btn waves-effect waves-button",class:{btn_transparent:e.cancelbtn},attrs:{type:"button"},on:{shortkey:e.close,click:function(t){t.preventDefault(),e.modal?e.close():e.$emit("cancel")}}},[e._v("\n          "+e._s(e.cancelText||e.$lang.FORMS_CANCEL)+"\n        ")]):e._e(),e._v(" "),e._t("buttons-after")],2)])])},staticRenderFns:[]},void 0,u,void 0,!1,void 0,void 0,void 0),d={name:"error-wrap",inject:{isModal:{from:"isModal",default:!1}},props:{open:{type:Boolean,default:!1},placement:{type:String,default:"top"},error:{type:Array}}};const f=d;d.__file="fb-error-wrap.vue";var h=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("v-popover",{staticClass:"display-block",attrs:{placement:e.placement,open:e.open,"popover-class":["theme-error",{tooltip_modal:e.isModal}]}},[e._t("default"),e._v(" "),e.open?i("span",{staticClass:"tooltip__text",attrs:{slot:"popover"},on:{click:function(t){e.$emit("clickTooltip")}},slot:"popover"},[e.error?i("span",{staticClass:"errors__list"},e._l(e.error,function(t,n){return i("span",{key:n},[e._v(e._s(t))])}),0):e._e()]):e._e()],2)},staticRenderFns:[]},void 0,f,void 0,!1,void 0,void 0,void 0),m={props:{name:{type:String,required:!0},id:Number,disabled:{type:Boolean,default:!1},cell:{type:[String,Number],validator(e){return["2","3"].includes(e.toString())}}},inject:{formId:{from:"formId",default:!1},isModal:{from:"isModal",default:!1},multiblock:{from:"multiblock",default:!1}},data(){return{tooltip:!1,hasError:!1}},computed:{realName(){return this.multiblock?`${this.multiblock}.${this.id}.${this.name}`:this.name},computedValue(){return this.$awesForms.getters.fieldValue(this.formId,this.realName)},formLoading(){return this.$awesForms.getters.loading(this.formId)},inActive(){return!(!this.inFocus&&!this.value)},isDisabled(){return this.formLoading||this.disabled||this.isMultiblockDisabled},isMultiblockDisabled(){return!!this.multiblock&&this.$awesForms.getters.multiblockDisabled(this.formId,this.multiblock)},cellClass(){return this.cell?"grid__cell_"+this.cell:""},error(){return this.$awesForms.getters.fieldError(this.formId,this.realName)},firstErrorField(){return this.$awesForms.getters.firstErrorField(this.formId)},shake(){return!this.formLoading&&this.tooltip}},watch:{error:{handler:function(e){e?(this.tooltip=!0,this.hasError=!0,this.$refs.element&&this.$refs.element.addEventListener("input",this.resetError,!1),"function"==typeof this.setFocus&&this.$nextTick(this.checkFocus)):(this.tooltip=!1,this.hasError=!1,this.resetInputWatcher())},immediate:!0}},methods:{createStoreInstance(){this.$awesForms.commit("setField",{id:this.formId,fieldName:this.realName,value:this.value,initial:!0})},initField(){void 0!==this.computedValue&&(this.value=this.computedValue),this.createStoreInstance(),this.__unwatchValue=this.$watch("value",this.valueHandler),this.multiblock&&(this.__unwatchId=this.$watch("id",this.idHandler))},idHandler(e,t){const i=`${this.multiblock}.${t}.${this.name}`,n=this.$awesForms.getters.fieldError(this.formId,i);n&&this.$awesForms.commit("renameError",{id:this.formId,oldName:i,newName:this.realName,message:n})},valueHandler(e){this.$awesForms.commit("setField",{id:this.formId,fieldName:this.realName,value:e})},clickTooltip(){this.tooltip=!1,"function"==typeof this.setFocus&&this.setFocus()},resetError(){this.tooltip=!1,this.$awesForms.commit("resetError",{id:this.formId,fieldName:this.realName}),this.resetInputWatcher()},resetInputWatcher(){this.$refs.element&&this.$refs.element.removeEventListener("input",this.resetError)},resetValue(e){this.formId===e&&(this.value=void 0)},checkFocus(){this.firstErrorField===this.realName&&(setTimeout(this.setFocus,0),this.$awesForms.commit("resetFirstErrorField",this.formId))}},created(){this.initField(),this.$root.$on("forms:reset",this.resetValue)},beforeDestroy(){this.multiblock&&(this.resetError(),this.$awesForms.commit("unsetRealField",{id:this.formId,fieldName:this.realName})),this.__unwatchValue(),"function"==typeof this.__unwatchId&&this.__unwatchId(),this.resetInputWatcher(),this.$root.$off("forms:reset",this.resetValue)}},p={props:{enterSkip:{type:Boolean,default:!1},focus:{type:Boolean,default:!1}},data(){return{inFocus:this.focus}},computed:{isFocusable(){return!this.enterSkip&&!this.disabled&&this.formId}},methods:{focusNext(e){try{const t=e.target.closest("form"),i=t.querySelectorAll(".is-focusable"),n=Array.from(i).findIndex(t=>t===e.target)+1;if(n<i.length)i[n].focus();else{e.target.blur();const i=t.querySelector('[type="submit"]');this.$nextTick(()=>{i.click();this.initWawesEffect(i)})}}catch(e){console.warn("Error while setting focus"),console.error(e)}},setFocus(e){try{let t=!1!==e?"focus":"blur";this.$refs.element[t]()}catch(e){console.warn("Error while setting focus"),console.error(e)}},initWawesEffect(e){let i={top:0,left:0};"function"==typeof e.getBoundingClientRect&&(i=e.getBoundingClientRect()),t("mousedown",e,{pageY:i.top+window.pageYOffset-document.documentElement.clientTop+e.clientHeight/2,pageX:i.left+window.pageXOffset-document.documentElement.clientLeft+e.clientWidth/2}),setTimeout(t,250,"mouseup",e)}},mounted(){this.setFocus(this.focus)}};let v=0;var b={name:"fb-input",inheritAttrs:!1,mixins:[m,p],props:{label:{type:String,default:""},spellcheck:{type:Boolean,default:!1}},data(){return{value:"",inputType:this.$attrs.type||"text",autoFilled:!1}},computed:{inputId(){return"input-"+v++}},methods:{togglePassword(){this.setFocus(),"password"===this.inputType?this.inputType="text":this.inputType="password"},autoFillHack(e){switch(e.animationName){case"autoFillStart":this.autoFilled=!0;break;case"autoFillEnd":this.autoFilled=!1}}}};const g=b;b.__file="fb-input.vue";var w=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",{staticClass:"fb__input grid__cell",class:[{input_active:e.inActive||e.autoFilled,input_error:e.hasError,"animated shake":e.shake,disabled:e.isDisabled},e.cellClass]},[i("div",{class:["input",{input_disabled:e.isDisabled}]},[i("fb-error-wrap",{attrs:{open:e.tooltip,error:e.error},on:{clickTooltip:e.clickTooltip}},[i("label",{staticClass:"input__label input__label_field",attrs:{for:"#"+e.inputId}},[e._v(e._s(e.label))]),e._v(" "),"checkbox"===e.inputType?i("input",e._b({directives:[{name:"model",rawName:"v-model",value:e.value,expression:"value"}],ref:"element",class:["input__field",{"is-focusable":e.isFocusable},{"in-focus":e.inFocus},{input__field_password:"password"===e.$attrs.type}],attrs:{id:e.inputId,"data-awes":e.$options.name+"."+e.name,disabled:e.isDisabled,spellcheck:e.spellcheck,type:"checkbox"},domProps:{checked:Array.isArray(e.value)?e._i(e.value,null)>-1:e.value},on:{focus:function(t){e.inFocus=!0},blur:function(t){e.inFocus=!1},keydown:function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key,"Enter")?(t.preventDefault(),e.focusNext(t)):null},animationstart:e.autoFillHack,change:function(t){var i=e.value,n=t.target,s=!!n.checked;if(Array.isArray(i)){var o=e._i(i,null);n.checked?o<0&&(e.value=i.concat([null])):o>-1&&(e.value=i.slice(0,o).concat(i.slice(o+1)))}else e.value=s}}},"input",e.$attrs,!1)):"radio"===e.inputType?i("input",e._b({directives:[{name:"model",rawName:"v-model",value:e.value,expression:"value"}],ref:"element",class:["input__field",{"is-focusable":e.isFocusable},{"in-focus":e.inFocus},{input__field_password:"password"===e.$attrs.type}],attrs:{id:e.inputId,"data-awes":e.$options.name+"."+e.name,disabled:e.isDisabled,spellcheck:e.spellcheck,type:"radio"},domProps:{checked:e._q(e.value,null)},on:{focus:function(t){e.inFocus=!0},blur:function(t){e.inFocus=!1},keydown:function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key,"Enter")?(t.preventDefault(),e.focusNext(t)):null},animationstart:e.autoFillHack,change:function(t){e.value=null}}},"input",e.$attrs,!1)):i("input",e._b({directives:[{name:"model",rawName:"v-model",value:e.value,expression:"value"}],ref:"element",class:["input__field",{"is-focusable":e.isFocusable},{"in-focus":e.inFocus},{input__field_password:"password"===e.$attrs.type}],attrs:{id:e.inputId,"data-awes":e.$options.name+"."+e.name,disabled:e.isDisabled,spellcheck:e.spellcheck,type:e.inputType},domProps:{value:e.value},on:{focus:function(t){e.inFocus=!0},blur:function(t){e.inFocus=!1},keydown:function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key,"Enter")?(t.preventDefault(),e.focusNext(t)):null},animationstart:e.autoFillHack,input:function(t){t.target.composing||(e.value=t.target.value)}}},"input",e.$attrs,!1)),e._v(" "),"password"===e.$attrs.type?i("button",{staticClass:"input__eye",attrs:{type:"button","aria-label":e.$lang.SHOW_PASSWORD},on:{click:function(t){return t.preventDefault(),e.togglePassword(t)}}},[i("i",{class:["icon","password"===e.inputType?"icon-eye":"icon-eye2"]})]):e._e()])],1)])},staticRenderFns:[]},void 0,g,void 0,!1,void 0,void 0,void 0);let y=0;var k={name:"fb-multi-block",mixins:[m],props:{label:String},provide(){return{multiblock:this.multiblock?this.realName:this.name}},data(){return{value:[{}],uniqIds:[]}},computed:{hasClose(){return this.value.length>1},errors(){return this.$awesForms.getters.formErrorsOrFalse(this.formId)}},watch:{disabled:{handler:function(e){this.$awesForms.commit("toggleMultiblockState",{id:this.formId,multiblock:this.realName,value:e})},immediate:!0}},methods:{initField(){if(void 0!==this.computedValue&&this.computedValue.length){this.value=this.computedValue;for(let e in this.computedValue)this.uniqIds.push(y++)}else this.uniqIds.push(y++);this.createStoreInstance(),this.__unwatchValue=this.$watch("value",this.valueHandler)},addField(){this.isDisabled||(this.value.push({}),this.uniqIds.push(y++),this.updateTooltips())},removeField(e){this.isDisabled||(this.$delete(this.value,e),this.uniqIds.splice(e,1),this.updateTooltips())},resetValue(){this.value=[{}]},updateTooltips(){this.errors&&this.$nextTick(()=>{t("scroll",window)})}}};const E=k;k.__file="fb-multi-block.vue";var F=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",{class:["grid__wrap multi-bl",{"multi-bl_disabled":this.isDisabled}]},[e._l(e.value,function(t,n){return i("div",{key:"slot-"+e.uniqIds[n],class:["grid__wrap",{"multi-bl__has-close":e.hasClose}]},[e._t("default",null,{id:n}),e._v(" "),e.hasClose?i("button",{staticClass:"multi-bl__clear",attrs:{"aria-label":"delete"},on:{click:function(t){t.preventDefault(),e.removeField(n)}}},[i("i",{staticClass:"icon icon-cross"})]):e._e()],2)}),e._v(" "),i("button",{staticClass:"multi-bl__add",on:{click:function(t){return t.preventDefault(),e.addField(t)}}},[e._v("\n    "+e._s(e.label||e.$lang.FORMS_MULTIBLOCK_ADD)+"\n  ")])],2)},staticRenderFns:[]},void 0,E,void 0,!1,void 0,void 0,void 0),S={name:"fb-checkbox",inheritAttrs:!1,mixins:[m,p],props:{label:{type:String,required:!0},padding:{type:Boolean,default:!0},theme:String},data(){return{value:!1}},computed:{themeClass(){return this.theme?`checkbox_${this.theme}`:null},isSwitcher(){return"s2"===this.theme}},methods:{enableSwitcher(){this.__hammer=new Hammer.Manager(this.$refs.switcher,{recognizers:[[Hammer.Swipe,{threshold:5,velocity:.1,direction:Hammer.DIRECTION_HORIZONTAL}]]}),this.__hammer.on("swipeleft",()=>{this.value=!1}),this.__hammer.on("swiperight",()=>{this.value=!0})}},mounted(){this.isSwitcher&&this.enableSwitcher()},beforeDestroy(){this.isSwitcher&&(this.__hammer.destroy(),delete this.__hammer)}};const $=S;S.__file="fb-checkbox.vue";var x=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",{staticClass:"grid__cell",class:[{checkbox_error:e.hasError},{checkbox_active:e.inActive},{grid__cell_padding:e.padding},e.cellClass]},[i("label",{class:["checkbox",e.themeClass,{checkbox_disabled:e.isDisabled}],attrs:{"data-awes":e.$options.name+"."+e.name}},[i("fb-error-wrap",{attrs:{open:e.tooltip,error:e.error},on:{clickTooltip:e.clickTooltip}},[i("input",e._b({directives:[{name:"model",rawName:"v-model",value:e.value,expression:"value"}],ref:"element",class:{"is-focusable":e.isFocusable,"in-focus":e.inFocus},attrs:{type:"checkbox",disabled:e.isDisabled},domProps:{checked:Array.isArray(e.value)?e._i(e.value,null)>-1:e.value},on:{focus:function(t){e.inFocus=!0},blur:function(t){e.inFocus=!1},keydown:function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key,"Enter")?(t.preventDefault(),e.focusNext(t)):null},change:function(t){var i=e.value,n=t.target,s=!!n.checked;if(Array.isArray(i)){var o=e._i(i,null);n.checked?o<0&&(e.value=i.concat([null])):o>-1&&(e.value=i.slice(0,o).concat(i.slice(o+1)))}else e.value=s}}},"input",e.$attrs,!1)),e._v(" "),i("span",{staticClass:"checkbox__text"},[i("i",{ref:"switcher",staticClass:"icon icon-checkbox"}),e._v(" "),i("span",[e._v(e._s(e.label))])])])],1)])},staticRenderFns:[]},void 0,$,void 0,!1,void 0,void 0,void 0),C={name:"fb-select",inheritAttrs:!1,mixins:[m],props:{label:String,selectOptions:{type:Array,default:()=>[]},multiple:{type:Boolean,default:!0},placeholderText:String},data(){return{selected:[],isOpened:!1}},computed:{value:{get(){return this.multiple?this.selected.map(e=>e.value):this.selected.value},set(e){this.multiple?this.selected=this.selectOptions.filter(t=>e.includes(t.value)):this.selected=this.selectOptions.find(t=>e===t.value)}},hasValue(){return!!(this.multiple?this.value.length:this.value)},inActive(){return this.isOpened||this.hasValue}},methods:{resetValue(e){this.formId===e&&(this.value=[])}}};const D=C;C.__file="fb-select.vue";var N=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",{staticClass:"mselect grid__cell",class:[{mselect_active:e.inActive},{mselect_opened:e.isOpened},e.cellClass]},[i("span",{staticClass:"mselect__label"},[e._v(e._s(e.label||e.$lang.FORMS_SELECT_LABEL))]),e._v(" "),i("multiselect",{staticClass:"input__field",attrs:{"show-labels":!1,multiple:e.multiple,placeholder:e.placeholderText||e.$lang.FORMS_SELECT_PLACEHOLDER,options:e.selectOptions,label:"name","track-by":"value","hide-selected":!0},on:{open:function(t){e.isOpened=!0},close:function(t){e.isOpened=!1}},model:{value:e.selected,callback:function(t){e.selected=t},expression:"selected"}})],1)},staticRenderFns:[]},void 0,D,void 0,!1,void 0,void 0,void 0),T=("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self&&self,function(e,t){return t={exports:{}},e(t,t.exports),t.exports}(function(e,t){!function(i,n){!function(e,t){function i(e){function t(t){var i=e.style.width;e.style.width="0px",e.offsetWidth,e.style.width=i,e.style.overflowY=t}function i(e){for(var t=[];e&&e.parentNode&&e.parentNode instanceof Element;)e.parentNode.scrollTop&&t.push({node:e.parentNode,scrollTop:e.parentNode.scrollTop}),e=e.parentNode;return t}function n(){if(0!==e.scrollHeight){var t=i(e),n=document.documentElement&&document.documentElement.scrollTop;e.style.height="",e.style.height=e.scrollHeight+a+"px",l=e.clientWidth,t.forEach(function(e){e.node.scrollTop=e.scrollTop}),n&&(document.documentElement.scrollTop=n)}}function s(){n();var i=Math.round(parseFloat(e.style.height)),s=window.getComputedStyle(e,null),o="content-box"===s.boxSizing?Math.round(parseFloat(s.height)):e.offsetHeight;if(o<i?"hidden"===s.overflowY&&(t("scroll"),n(),o="content-box"===s.boxSizing?Math.round(parseFloat(window.getComputedStyle(e,null).height)):e.offsetHeight):"hidden"!==s.overflowY&&(t("hidden"),n(),o="content-box"===s.boxSizing?Math.round(parseFloat(window.getComputedStyle(e,null).height)):e.offsetHeight),u!==o){u=o;var a=r("autosize:resized");try{e.dispatchEvent(a)}catch(e){}}}if(e&&e.nodeName&&"TEXTAREA"===e.nodeName&&!o.has(e)){var a=null,l=null,u=null,c=function(){e.clientWidth!==l&&s()},d=function(t){window.removeEventListener("resize",c,!1),e.removeEventListener("input",s,!1),e.removeEventListener("keyup",s,!1),e.removeEventListener("autosize:destroy",d,!1),e.removeEventListener("autosize:update",s,!1),Object.keys(t).forEach(function(i){e.style[i]=t[i]}),o.delete(e)}.bind(e,{height:e.style.height,resize:e.style.resize,overflowY:e.style.overflowY,overflowX:e.style.overflowX,wordWrap:e.style.wordWrap});e.addEventListener("autosize:destroy",d,!1),"onpropertychange"in e&&"oninput"in e&&e.addEventListener("keyup",s,!1),window.addEventListener("resize",c,!1),e.addEventListener("input",s,!1),e.addEventListener("autosize:update",s,!1),e.style.overflowX="hidden",e.style.wordWrap="break-word",o.set(e,{destroy:d,update:s}),function(){var t=window.getComputedStyle(e,null);"vertical"===t.resize?e.style.resize="none":"both"===t.resize&&(e.style.resize="horizontal"),a="content-box"===t.boxSizing?-(parseFloat(t.paddingTop)+parseFloat(t.paddingBottom)):parseFloat(t.borderTopWidth)+parseFloat(t.borderBottomWidth),isNaN(a)&&(a=0),s()}()}}function n(e){var t=o.get(e);t&&t.destroy()}function s(e){var t=o.get(e);t&&t.update()}var o="function"==typeof Map?new Map:function(){var e=[],t=[];return{has:function(t){return e.indexOf(t)>-1},get:function(i){return t[e.indexOf(i)]},set:function(i,n){-1===e.indexOf(i)&&(e.push(i),t.push(n))},delete:function(i){var n=e.indexOf(i);n>-1&&(e.splice(n,1),t.splice(n,1))}}}(),r=function(e){return new Event(e,{bubbles:!0})};try{new Event("test")}catch(e){r=function(e){var t=document.createEvent("Event");return t.initEvent(e,!0,!1),t}}var a=null;"undefined"==typeof window||"function"!=typeof window.getComputedStyle?((a=function(e){return e}).destroy=function(e){return e},a.update=function(e){return e}):((a=function(e,t){return e&&Array.prototype.forEach.call(e.length?e:[e],function(e){return i(e)}),e}).destroy=function(e){return e&&Array.prototype.forEach.call(e.length?e:[e],n),e},a.update=function(e){return e&&Array.prototype.forEach.call(e.length?e:[e],s),e}),t.default=a,e.exports=t.default}(e,t)}()}));let I;var O={name:"fb-textarea",inheritAttrs:!1,mixins:[m,p],props:{label:{type:String,default:""},fixsize:{type:Boolean,default:!1}},data(){return{value:""}},methods:{setAutoResize(){this.fixsize||(T(this.$refs.element),I=this.$watch("value",this.updateAutoResize))},updateAutoResize(){this.$nextTick(()=>{T.update(this.$refs.element)})}},mounted(){this.setAutoResize()},beforeDestroy(){"function"==typeof I&&I()}};const A=O;O.__file="fb-textarea.vue";var L=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",{staticClass:"fb__input grid__cell",class:[{input_active:e.inActive,input_error:e.hasError,"animated shake":e.shake,disabled:e.isDisabled},e.cellClass]},[i("div",{staticClass:"input",class:{input_disabled:e.isDisabled}},[i("fb-error-wrap",{attrs:{open:e.tooltip,error:e.error},on:{clickTooltip:e.clickTooltip}},[i("span",{staticClass:"input__label"},[e._v(e._s(e.label))]),e._v(" "),i("textarea",e._b({directives:[{name:"model",rawName:"v-model",value:e.value,expression:"value"}],ref:"element",class:["input__textarea",{"is-focusable":e.isFocusable},{"in-focus":e.inFocus}],attrs:{disabled:e.isDisabled},domProps:{value:e.value},on:{focus:function(t){e.inFocus=!0},blur:function(t){e.inFocus=!1},keydown:function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key,"Enter")?(t.preventDefault(),e.focusNext(t)):null},input:function(t){t.target.composing||(e.value=t.target.value)}}},"textarea",e.$attrs,!1))])],1)])},staticRenderFns:[]},void 0,A,void 0,!1,void 0,void 0,void 0),R={name:"fb-code",mixins:[m,p],props:{length:{type:Number,default:6},autoSubmit:{type:Boolean,default:!0}},data(){return{inputValue:[],inFocus:[]}},computed:{value:{get(){return this.inputValue.join("")},set(e){e=e.trim().replace(/\D/g,"").substr(0,this.length),this.inputValue=e.split("")}},hasCaptchaError(){return this.$awesForms.getters.hasCaptchaError(this.formId)}},watch:{error(e){e&&e.length?(this.value="",this.$refs.fields.forEach(e=>{e.addEventListener("input",this.resetError,!1)}),this.$nextTick(()=>{this.setFocus()})):this.$refs.fields.forEach(e=>{e.removeEventListener("input",this.resetError)})},hasCaptchaError(e){e||this.autoSubmitForm(this.value)}},methods:{setFocus(e=0){if("boolean"==typeof e&&!0===e)return void this.$refs.fields[0].focus();if("number"==typeof e){e>=this.length&&(e=this.length-1);const t=this.$refs.fields[e];setTimeout(()=>{t.focus();t.setSelectionRange(0,t.value.length)},10)}},onInput(e,t){const i=e.target.value.replace(/\D/g,"");e.target.value=i,this.$set(this.inputValue,t,i),this.isEmpty(t)||t===this.length-1||this.setFocus(t+1)},onBackspace(e,t){this.setFocus(t-1)},onLeft(e,t){this.setFocus(t-1)},onRight(e,t){this.setFocus(t+1)},onPaste(e){this.error&&this.error.length&&this.resetError(),this.value=e.clipboardData.getData("text")},isEmpty(e){return""===this.inputValue[e]||void 0===this.inputValue[e]},autoSubmitForm(e){this.hasCaptchaError||e.length===this.length&&this.$root.$emit("forms:submit",this.formId)}},created(){for(let e=0;e<this.length;e++)this.inFocus.push(!(0!==e||!this.focus)),this.inputValue.push("");this.autoSubmit&&(this.__unwatchFormSubmit=this.$watch("value",this.autoSubmitForm))},beforeDestroy(){this.$refs.fields.forEach(e=>{e.removeEventListener("input",this.resetError)}),this.__unwatchFormSubmit&&this.__unwatchFormSubmit()}};const M=R;R.__file="fb-code.vue";var V=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",{class:["keycode",{"animated shake":e.shake}]},[i("div",{staticClass:"keycode__block",class:{input_disabled:e.isDisabled}},[i("fb-error-wrap",{attrs:{open:e.tooltip,error:e.error},on:{clickTooltip:e.clickTooltip}},[i("div",{staticClass:"keycode__wrap",attrs:{id:"keywrap"}},e._l(e.length,function(t){return i("div",{staticClass:"keycode__ffield"},[i("input",{ref:"fields",refInFor:!0,class:["keycode__field",{"is-focusable":e.isFocusable,"in-focus":e.inFocus[t-1]}],attrs:{type:"tel",inputmode:"numeric",pattern:"[0-9]*",maxlength:"1",disabled:e.isDisabled},domProps:{value:e.inputValue[t-1]},on:{focus:function(i){e.inFocus[t-1]=!0},blur:function(i){e.inFocus[t-1]=!1},keydown:[function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key,"Enter")?(t.preventDefault(),e.focusNext(t)):null},function(i){if(!("button"in i)&&e._k(i.keyCode,"backspace",void 0,i.key,void 0))return null;t>1&&e.onBackspace(i,t-1)},function(i){return"button"in i||!e._k(i.keyCode,"left",37,i.key,["Left","ArrowLeft"])?"button"in i&&0!==i.button?null:void(t>1&&e.onLeft(i,t-1)):null},function(i){return"button"in i||!e._k(i.keyCode,"right",39,i.key,["Right","ArrowRight"])?"button"in i&&2!==i.button?null:void(t<e.length&&e.onRight(i,t-1)):null}],input:function(i){e.onInput(i,t-1)},paste:function(t){return t.preventDefault(),e.onPaste(t)}}})])}),0)])],1)])},staticRenderFns:[]},void 0,M,void 0,!1,void 0,void 0,void 0),j={companySlug:{domain:"awescrm.de",length:32,ulrifyOptions:{spaces:"-",toLower:!0,trim:!0,addEToUmlauts:!0,nonPrintable:"",failureOutput:""}}},B={name:"fb-company-slug",extends:w,props:{domain:String,input:{type:String,required:!0},maxLength:Number},data(){return{watchInput:!0}},computed:{fromName(){return this.multiblock?`${this.multiblock}.${this.id}.${this.input}`:this.input},fromValue(){return this.$awesForms.getters.fieldValue(this.formId,this.fromName)}},watch:{fromValue(e){this.watchInput&&(this.value=this.noramlizeUrl(e))}},methods:{noramlizeUrl(e){return this._toUrl(e).substr(0,this.maxlength)},toggleWatcher(e){""===e.target.value?this.watchInput=!0:this.watchInput&&(this.watchInput=!1)},slugBlur(e){this.inFocus=!1,this.watchInput||(this.value=this.noramlizeUrl(e.target.value))}},beforeCreate(){this._config=Object.assign({},j.companySlug,AWES._config.companySlug),this._toUrl=Urlify.create(this._config.ulrifyOptions)}};const H="undefined"!=typeof navigator&&/msie [6-9]\\b/.test(navigator.userAgent.toLowerCase()),z=document.head||document.getElementsByTagName("head")[0],W={},P=B;B.__file="fb-company-slug.vue";var U=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",{staticClass:"fb__input fb__input_slug grid__cell",class:[{input_active:e.inActive,input_error:e.hasError,"animated shake":e.shake,disabled:e.isDisabled},e.cellClass]},[i("div",{class:["input",{input_disabled:e.isDisabled}]},[i("fb-error-wrap",{attrs:{open:e.tooltip,error:e.error},on:{clickTooltip:e.clickTooltip}},[i("div",{staticClass:"fb__input-wrap"},[i("span",{staticClass:"fb__input-inner"},[i("label",{staticClass:"input__label",attrs:{for:"#"+e.inputId}},[e._v(e._s(e.label))]),e._v(" "),i("input",e._b({directives:[{name:"model",rawName:"v-model",value:e.value,expression:"value"}],ref:"element",class:["input__field",{"is-focusable":e.isFocusable},{"in-focus":e.inFocus}],attrs:{id:e.inputId,"data-awes":e.$options.name+"."+e.name,maxlength:e.maxLength||e._config.length,type:"text",disabled:e.isDisabled},domProps:{value:e.value},on:{input:[function(t){t.target.composing||(e.value=t.target.value)},e.toggleWatcher],focus:function(t){e.inFocus=!0},blur:e.slugBlur,keydown:function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key,"Enter")?(t.preventDefault(),e.focusNext(t)):null}}},"input",e.$attrs,!1))]),e._v(" "),i("span",{staticClass:"fb__input-domain"},[e._v("."+e._s(e.domain||e._config.domain))])])])],1)])},staticRenderFns:[]},function(e){e&&e("data-v-3396be98_0",{source:".fb__input_slug .input__field{text-align:right;padding-right:5px}.fb__input_slug .fb__input-wrap{display:flex}.fb__input_slug .fb__input-inner{flex-grow:1;display:block;position:relative}.fb__input_slug .fb__input-domain{color:grey;width:auto;display:inline-flex;align-items:center;font-size:16px;padding:12px 0 0 5px}",map:void 0,media:void 0})},P,void 0,!1,void 0,i,void 0),q={name:"fb-auto-captcha",mixins:[m],props:{show:{type:Boolean,default:!1},name:{default:"g-recaptcha-response"}},data(){return{value:null,sitekey:AWES_CONFIG.reCaptchaSiteKey,serverError:!1,reset:!1}},computed:{realName(){return"g-recaptcha-response"},isShow(){return this.show||this.serverError},theme(){try{let e=this.$store.state.theme;return e&&1===e.theme_dark?"dark":"light"}catch(e){return"light"}}},watch:{error(e){e&&e.length&&(this.serverError=!0)},formLoading(e){!e&&this.isShow&&this.$nextTick(()=>{this.$refs.recaptcha.reset()})},theme(){this.isShow&&(this.reset=!0,this.$nextTick(()=>{this.reset=!1}))}},methods:{onVerify(e){this.value=e,this.resetError()},manageCaptchaScript(e){switch(e){case"add":if(!document.getElementById("g-captcha-script")){const e=document.createElement("script");e.setAttribute("id","g-captcha-script"),e.setAttribute("src","https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"),document.head.appendChild(e)}break;case"remove":document.getElementById("g-captcha-script").remove()}}},created(){this.$isServer||this.manageCaptchaScript("add")},beforeDestroy(){this.manageCaptchaScript("remove")}};const X=q;q.__file="fb-auto-captcha.vue";var Y=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return e.isShow&&!e.reset?i("div",{class:["grid__cell",e.cellClass]},[i("fb-error-wrap",{attrs:{open:e.tooltip,error:e.error},on:{clickTooltip:e.clickTooltip}},[i("vue-recaptcha",{ref:"recaptcha",staticClass:"re-captcha",attrs:{sitekey:e.sitekey,theme:e.theme},on:{verify:e.onVerify,expired:function(t){e.value=null}}})],1)],1):e._e()},staticRenderFns:[]},void 0,X,void 0,!1,void 0,void 0,void 0),G={name:"fb-radio-group",mixins:[m,p],props:{box:{type:Boolean,default:!1},items:Array},data(){return{value:null,inFocus:[]}},methods:{checkActive(e){return e.value?this.value===e.value:this.value===e.toString()},setFocus(e=!0){"number"==typeof e?this.$refs.elements[e].focus():!0===e&&this.$refs.elements[0].focus()}},created(){for(let e=0;e<this.items.length;e++)this.inFocus.push(!(0!==e||!this.focus))}};const K=G;G.__file="fb-radio-group.vue";var J=e({render:function(){var e=this,t=e.$createElement,i=e._self._c||t;return e.items&&e.items.length?i("div",{staticClass:"grid__cell",class:[{"animated shake":e.shake},e.cellClass]},[i("fb-error-wrap",{attrs:{open:e.tooltip,error:e.error},on:{clickTooltip:e.clickTooltip}},[i("span",{class:["display-block",{"fc-radio":e.box}]},e._l(e.items,function(t,n){return i("label",{key:n,class:[{"fc-radio__box":e.box,"is-checked":e.checkActive(t)}]},[i("input",e._b({directives:[{name:"model",rawName:"v-model",value:e.value,expression:"value"}],ref:"fields",refInFor:!0,class:["fc-radio__field",{"is-focusable":e.isFocusable},{"in-focus":e.inFocus}],attrs:{type:"radio","data-awes":e.$options.name+"."+e.name,disabled:e.isDisabled},domProps:{value:t.value?t.value:t.toString(),checked:e._q(e.value,t.value?t.value:t.toString())},on:{focus:function(t){e.$set(e.inFocus,n,!0)},blur:function(t){e.$set(e.inFocus,n,!1)},keydown:function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key,"Enter")?(t.preventDefault(),e.focusNext(t)):null},change:function(i){e.value=t.value?t.value:t.toString()}}},"input",e.$attrs,!1)),e._v(" "),e._t("default",[i("span",{staticClass:"fc-radio__text"},[e._v(e._s(t.name?t.name:t.toString()))])],{item:t,checked:e.checkActive(t),focused:e.inFocus[n]})],2)}),0)])],1):e._e()},staticRenderFns:[]},void 0,K,void 0,!1,void 0,void 0,void 0),Z={installed:!1,install:s},Q={FORMS_SEND:"Send",FORMS_CANCEL:"Cancel",FORMS_LOADING:"Loading...",FORMS_CONFIRM:"Are you shure? All not submitted data will be erased...",FORMS_MULTIBLOCK_ADD:"add",FORMS_SELECT_LABEL:"Select a value",FORMS_SELECT_PLACEHOLDER:"Pick a value"};const ee=({id:id,url:url,method:method,storeData:storeData})=>({id:id,url:url,storeData:storeData,initialState:{_method:method},realFields:[],workingState:{},loading:!1,isEdited:!1,editCounter:0,errors:{},firstErrorField:null,multiblockState:{}});var te={state:{forms:[]},getters:{form:e=>t=>e.forms.find(e=>e.id==t),formErrorsOrFalse:(e,t)=>e=>{const i=t.form(e).errors;return!!Object.keys(i).length&&i},isEdited:(e,t)=>e=>t.form(e).isEdited,fieldValue:(e,t)=>(e,i)=>_.get(t.form(e).workingState,i),fieldError:(e,t)=>(e,i)=>_.get(t.form(e).errors,i),firstErrorField:(e,t)=>e=>t.form(e).firstErrorField,workingState:(e,t)=>e=>{const i=t.form(e);return i.workingState},loading:(e,t)=>e=>t.form(e).loading,multiblockDisabled:(e,t)=>(e,i)=>_.get(t.form(e).multiblockState,i),hasCaptchaError:(e,t)=>e=>!!t.form(e).errors.hasOwnProperty("g-recaptcha-response")},mutations:{createForm(e,t){if(this.getters.form(t.id))throw new Error(`Form with ID ${t.id} already exists`);e.forms.push(ee(t))},deleteForm(e,t){const i=e.forms.findIndex(e=>e.id===t);-1!==i?Vue.delete(e.forms,i):console.warn("No form to delete with id: "+t)},setDefaultData(e,{id:id,fields:fields}){const t=this.getters.form(id);t.initialState=_.merge(t.initialState,_.cloneDeep(fields)),t.workingState=_.cloneDeep(t.initialState)},resetFormEdited(e,t){this.getters.form(t).isEdited=!1},setErrors(e,{id:id,errors:errors}){const t=this.getters.form(id);t.firstErrorField=Object.keys(errors)[0],t.errors=errors},resetError(e,{id:id,fieldName:fieldName}){const t=this.getters.form(id);t&&(delete t.errors[fieldName],o(e,id,`errors`,t.errors))},resetErrors(e,t){this.getters.form(t).errors={}},renameError(e,{id:id,oldName:oldName,newName:newName,message:message}){const t=this.getters.form(id);Vue.set(t.errors,newName,message),Vue.delete(t.errors,oldName)},setField(e,{id:id,fieldName:fieldName,value:value,initial:initial}){o(e,id,`workingState.${fieldName}`,value);const t=this.getters.form(id);initial&&t.realFields.push(fieldName),!0!==initial&&(t.editCounter+=1,t.isEdited=!0)},unsetRealField(e,{id:id,fieldName:fieldName}){const t=this.getters.form(id);if(t){let e=t.realFields.indexOf(fieldName);Vue.delete(t.realFields,e)}},toggleFormLoading(e,{id:id,isLoading:isLoading}){this.getters.form(id).loading=isLoading},toggleMultiblockState(e,{id:id,multiblock:multiblock,value:value}){this.getters.form(id);o(e,id,`multiblockState.${multiblock}`,value)},resetFirstErrorField(e,t){this.getters.form(t).firstErrorField=null}}};const ie={modules:{vue:{src:"https://unpkg.com/vue@2.5.21/dist/vue.min.js",cb(){Vue.use(Z)}},lodash:"https://unpkg.com/lodash@4.17.11/lodash.min.js",vuex:{src:"https://unpkg.com/vuex@2.5.0/dist/vuex.min.js",deps:["vue"],cb(){Vue.prototype.$awesForms=new Vuex.Store(te)}},"vue-shortkey":{src:"https://unpkg.com/vue-shortkey@3",deps:["vue"],cb(){Vue.use(VueShortkey)}},"v-tooltip":{src:"https://unpkg.com/v-tooltip@2.0.0-rc.33/dist/v-tooltip.min.js",deps:["vue"],cb(){VTooltip.default.options.popover=Object.assign(VTooltip.default.options.popover,{defaultPlacement:"right",defaultAutoHide:!1,defaultTrigger:"manual",defaultPopperOptions:{modifiers:{flip:{behavior:["right","top"]}}}})}},"vue-multiselect":{src:["https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.js","https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css"],deps:["vue"],cb(){Vue.component("multiselect",window.VueMultiselect.default)}},"vue-recaptcha":{src:"https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js",deps:["vue"],cb(){Vue.component("vue-recaptcha",window.VueRecaptcha)}},urlify:"https://unpkg.com/urlify@0.3.6/dist/urlify.js",hammerjs:"https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"},install(){AWES.lang=Q}};window&&"AWES"in window?AWES.use(ie):(window.__awes_plugins_stack__=window.__awes_plugins_stack__||[],window.__awes_plugins_stack__.push(ie))}();
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+
+  let _uniqFormId = 0;
+
+  const UNLOAD_EVENTS = [{
+    type: 'beforeunload',
+    handler: 'windowUnloadHandler'
+  },
+  {
+    type: 'popstate',
+    handler: 'popStateHandler'
+  }];
+
+  var script = {
+
+    name: "form-builder",
+
+
+    props: {
+
+      cancelbtn: {
+        type: Boolean,
+        default: false
+      },
+
+      name: {
+        type: String,
+        default: () => `form-builder-${ _uniqFormId++ }`
+      },
+
+      url: {
+        type: String,
+        required: true
+      },
+
+      sendText: String,
+
+      cancelText: String,
+      
+      loadingText: String,
+
+      default: {
+        type: Object,
+        default: null
+      },
+
+      method: {
+        type: String,
+        default: 'post',
+        validator( method ) {
+          return method === undefined ||
+                 ['get', 'put', 'post', 'delete', 'patch'].includes( method.toLowerCase() )
+        }
+      },
+
+      storeData: String,
+
+      disabledDialog: {
+        type: Boolean,
+        default: false
+      },
+
+      autoSubmit: {
+        type: Boolean,
+        default: false
+      }
+    },
+
+
+    inject: {
+      modal: {
+        from: 'modal',
+        default: false
+      }
+    },
+
+
+    provide() {
+      return {
+        formId: this.name,
+        isModal: !!this.modal
+      }
+    },
+    
+    
+    data() {
+        return {
+            loading: false,
+            serverData: null,
+            serverDataErrors: null,
+            showLoader: false
+        }
+    },
+
+
+    computed: {
+
+      form() {
+        return this.$awesForms.getters['form'](this.name)
+      },
+
+      isEdited() {
+        return this.$awesForms.getters['isEdited'](this.name)
+      },
+
+      workingState() {
+        return this.$awesForms.getters['workingState'](this.name)
+      },
+
+      storeFormData() {
+        return this.storeData ? this.$awesForms.state[this.storeData] : false;
+      },
+
+      usedFormData() {
+        if ( this.storeFormData ) {
+          if ( this.default ) {
+            console.warn('Only VUEX STORE data will be used, despite DEFAULT data exists');
+          }
+          return this.storeFormData
+        } else if ( this.default ) {
+          return this.default
+        } else {
+          return false
+        }
+      }
+    },
+
+    watch: {
+
+      usedFormData: {
+        handler: function( fields ) {
+          if ( this.form ) return // only once, to create form
+          this.createForm();
+          if ( fields ) {
+            this.$awesForms.commit('setDefaultData', {
+              id: this.name,
+              fields,
+            });
+          }
+        },
+        deep: true,
+        immediate: true
+      },
+
+      loading( isLoading ) {
+        this.$awesForms.commit('toggleFormLoading', { id: this.name, isLoading });
+      },
+
+      serverData( data ) {
+        if ( data ) {
+          if ( this.storeData ) {
+            this.$awesForms.commit('setData', { param: this.storeData, data: data.data });
+          } else {
+            this.$awesForms.commit('setDefaultData', { id: this.name, fields: data.data });
+          }
+          this.$awesForms.commit('resetFormEdited', this.name);
+          this.serverData = null;
+          this.$emit('sended', data.data);
+          if ( this.modal ) this.close(this.modal.name);
+        }
+      },
+
+      serverDataErrors( errors ) {
+        if ( errors ) {
+          this.$awesForms.commit('setErrors', { id: this.name, errors });
+          this.serverDataErrors = null;
+          if ( !this.disabledDialog ) {
+            this.addUnloadHandlers();
+          }
+        }
+      }
+    },
+
+    methods: {
+
+      createForm() {
+        this.$awesForms.commit( 'createForm', {
+          id: this.name,
+          url: this.url,
+          method: this.method,
+          storeData: this.storeData
+        });
+      },
+
+      send() {
+        // invoke attached @send method if present
+        if ( this.$listeners.hasOwnProperty('send') ) {
+          this.$emit('send', this.workingState);
+        }
+        // otherwise send form with serverRequest
+        else if ( ! this.loading ) {
+          this.removeUnloadHandlers();
+          this.$awesForms.commit('resetErrors', this.name);
+          this.loading = true;
+          AWES.on('core:ajax', this.onRequestProcess );
+          AWES.ajax( this.workingState, this.url, this.method )
+              .then( data => { this.serverData = data; })
+              .catch( data => { this.serverDataErrors = data; })
+              .finally( () => {
+                  this.loading = false;
+                  this.showLoader = false;
+                  AWES.off('core:ajax', this.onRequestProcess );
+              });
+        }
+      },
+      
+      onRequestProcess(e) { 
+        this.showLoader = e.detail;
+      },
+
+      addUnloadHandlers() {
+        UNLOAD_EVENTS.forEach( event => {
+          window.addEventListener(event.type, this[event.handler], false);
+        });
+      },
+      
+      removeUnloadHandlers() {
+        UNLOAD_EVENTS.forEach( event => {
+          window.removeEventListener(event.type, this[event.handler]);
+        });
+      },
+
+      checkCloseAllowed() {
+        if ( this.disabledDialog ) return true
+        if ( this.isEdited ) {
+          const answer = confirm(this.$lang.FORMS_CONFIRM);
+          return answer
+        } else {
+          return true
+        }
+      },
+
+      popStateHandler() {
+        this.removeUnloadHandlers();
+        if ( this.checkCloseAllowed() ) {
+          if ( this.modal ) this.close();
+        } else {
+          const modal = this.modal ? this.modal.hash : '';
+          const url = location.href + modal;
+          history.pushState( {modal}, document.title, url );
+          this.addUnloadHandlers();
+        }
+      },
+      
+      windowUnloadHandler( $event ) {
+        if ( this.disabledDialog || ! this.isEdited ) return true
+        $event.returnValue = this.$lang.FORMS_CONFIRM;
+        return this.$lang.FORMS_CONFIRM
+      },
+
+      close() {
+        if ( this.checkCloseAllowed() ) {
+          this.removeUnloadHandlers();
+          AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose);
+          AWES.emit(`modal::${this.modal.name}.close`);
+        }
+      },
+      
+      preventModalClose(e) {
+        e.detail.preventClose();
+        this.close();
+      }
+    },
+
+
+    created() {
+      this.$root.$on('forms:submit', name => {
+        if ( this.name === name ) this.send();
+      });
+      if ( this.modal ) {
+        this.__unwatchModalPrevent = this.$watch('isEdited', state => {
+          AWES.on(`modal::${this.modal.name}.before-close`, this.preventModalClose);
+        });
+      }
+    },
+
+
+    mounted() {
+      this.addUnloadHandlers();
+      if ( this.autoSubmit ) {
+        this._unwatchEdit = this.$watch('form.editCounter', this.send);
+      }
+    },
+
+
+    beforeDestroy() {
+      this.removeUnloadHandlers();
+      if ( typeof this.__unwatchModalPrevent === 'function' ) this.__unwatchModalPrevent();
+      this.$awesForms.commit('deleteForm', this.name);
+      if ( typeof this._unwatchEdit === 'function' ) this._unwatchEdit();
+      AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose);
+    }
+  };
+
+  function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+      if (typeof isShadowMode === 'function') {
+          createInjectorSSR = createInjector;
+          createInjector = isShadowMode;
+          isShadowMode = false;
+      }
+      // Vue.extend constructor export interop
+      const options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport;
+      // render functions
+      if (compiledTemplate && compiledTemplate.render) {
+          options.render = compiledTemplate.render;
+          options.staticRenderFns = compiledTemplate.staticRenderFns;
+          options._compiled = true;
+          // functional template
+          if (isFunctionalTemplate) {
+              options.functional = true;
+          }
+      }
+      // scopedId
+      if (scopeId) {
+          options._scopeId = scopeId;
+      }
+      let hook;
+      if (moduleIdentifier) {
+          // server build
+          hook = function (context) {
+              // 2.3 injection
+              context =
+                  context || // cached call
+                      (this.$vnode && this.$vnode.ssrContext) || // stateful
+                      (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
+              // 2.2 with runInNewContext: true
+              if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                  context = __VUE_SSR_CONTEXT__;
+              }
+              // inject component styles
+              if (injectStyle) {
+                  injectStyle.call(this, createInjectorSSR(context));
+              }
+              // register component module identifier for async chunk inference
+              if (context && context._registeredComponents) {
+                  context._registeredComponents.add(moduleIdentifier);
+              }
+          };
+          // used by ssr in case component is cached and beforeCreate
+          // never gets called
+          options._ssrRegister = hook;
+      }
+      else if (injectStyle) {
+          hook = isShadowMode
+              ? function () {
+                  injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+              }
+              : function (context) {
+                  injectStyle.call(this, createInjector(context));
+              };
+      }
+      if (hook) {
+          if (options.functional) {
+              // register for functional component in vue file
+              const originalRender = options.render;
+              options.render = function renderWithStyleInjection(h, context) {
+                  hook.call(context);
+                  return originalRender(h, context);
+              };
+          }
+          else {
+              // inject component registration as beforeCreate hook
+              const existing = options.beforeCreate;
+              options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+          }
+      }
+      return defaultExport;
+  }
+
+  /* script */
+  const __vue_script__ = script;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script.__file = "E:\\form-builder\\src\\vue\\form-builder.vue";
+
+  /* template */
+  var __vue_render__ = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "form",
+      {
+        staticClass: "form-builder",
+        class: { modal__form: _vm.modal },
+        attrs: { action: _vm.url, method: _vm.method }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "grid grid_forms" },
+          [_vm._t("default", null, { fields: _vm.workingState })],
+          2
+        ),
+        _vm._v(" "),
+        !_vm.autoSubmit
+          ? _c("div", { class: _vm.modal ? "line-btns" : null }, [
+              _c(
+                "div",
+                { class: _vm.modal ? "line-btns__wrap" : "line-btns" },
+                [
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "shortkey",
+                          rawName: "v-shortkey",
+                          value: ["ctrl", "enter"],
+                          expression: "['ctrl', 'enter']"
+                        }
+                      ],
+                      staticClass: "btn btn-send waves-effect waves-button",
+                      class: { "loading-inline": _vm.showLoader },
+                      attrs: {
+                        disabled: !_vm.isEdited,
+                        "data-loading": _vm.$lang.FORMS_LOADING,
+                        type: "submit",
+                        "data-awes": "modal_button_ok"
+                      },
+                      on: {
+                        shortkey: _vm.send,
+                        click: function($event) {
+                          $event.preventDefault();
+                          return _vm.send($event)
+                        }
+                      },
+                      nativeOn: {
+                        click: function($event) {
+                          $event.preventDefault();
+                          return _vm.send($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(_vm.sendText || _vm.$lang.FORMS_SEND) +
+                          " "
+                      ),
+                      _c("span", { staticClass: "g-res--tablet-lg_n" }, [
+                        _vm._v("(ctrl+enter)")
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.modal || _vm.cancelbtn
+                    ? _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "shortkey",
+                              rawName: "v-shortkey",
+                              value: ["esc"],
+                              expression: "['esc']"
+                            }
+                          ],
+                          staticClass: "btn waves-effect waves-button",
+                          class: { btn_transparent: _vm.cancelbtn },
+                          attrs: { type: "button" },
+                          on: {
+                            shortkey: _vm.close,
+                            click: function($event) {
+                              $event.preventDefault();
+                              _vm.modal ? _vm.close() : _vm.$emit("cancel");
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(_vm.cancelText || _vm.$lang.FORMS_CANCEL) +
+                              "\n        "
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._t("buttons-after")
+                ],
+                2
+              )
+            ])
+          : _vm._e()
+      ]
+    )
+  };
+  var __vue_staticRenderFns__ = [];
+  __vue_render__._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__ = undefined;
+    /* scoped */
+    const __vue_scope_id__ = undefined;
+    /* module identifier */
+    const __vue_module_identifier__ = undefined;
+    /* functional template */
+    const __vue_is_functional_template__ = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var formBuilder = normalizeComponent(
+      { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+      __vue_inject_styles__,
+      __vue_script__,
+      __vue_scope_id__,
+      __vue_is_functional_template__,
+      __vue_module_identifier__,
+      undefined,
+      undefined
+    );
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+
+  var script$1 = {
+
+    name: 'error-wrap',
+
+    inject: {
+
+      isModal: {
+        from: 'isModal',
+        default: false
+      }
+    },
+
+    props: {
+
+      open: {
+        type: Boolean,
+        default: false
+      },
+
+      placement: {
+        type: String,
+        default: 'top'
+      },
+
+      error: {
+        type: Array
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$1 = script$1;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$1.__file = "E:\\form-builder\\src\\vue\\fb-error-wrap.vue";
+
+  /* template */
+  var __vue_render__$1 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "v-popover",
+      {
+        staticClass: "display-block",
+        attrs: {
+          placement: _vm.placement,
+          open: _vm.open,
+          "popover-class": ["theme-error", { tooltip_modal: _vm.isModal }]
+        }
+      },
+      [
+        _vm._t("default"),
+        _vm._v(" "),
+        _vm.open
+          ? _c(
+              "span",
+              {
+                staticClass: "tooltip__text",
+                attrs: { slot: "popover" },
+                on: {
+                  click: function($event) {
+                    _vm.$emit("clickTooltip");
+                  }
+                },
+                slot: "popover"
+              },
+              [
+                !!_vm.error
+                  ? _c(
+                      "span",
+                      { staticClass: "errors__list" },
+                      _vm._l(_vm.error, function(err, i) {
+                        return _c("span", { key: i }, [_vm._v(_vm._s(err))])
+                      }),
+                      0
+                    )
+                  : _vm._e()
+              ]
+            )
+          : _vm._e()
+      ],
+      2
+    )
+  };
+  var __vue_staticRenderFns__$1 = [];
+  __vue_render__$1._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$1 = undefined;
+    /* scoped */
+    const __vue_scope_id__$1 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$1 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$1 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbErrorWrap = normalizeComponent(
+      { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+      __vue_inject_styles__$1,
+      __vue_script__$1,
+      __vue_scope_id__$1,
+      __vue_is_functional_template__$1,
+      __vue_module_identifier__$1,
+      undefined,
+      undefined
+    );
+
+  var fieldMixin = {
+
+    props: {
+
+      name: {
+        type: String,
+        required: true
+      },
+
+      id: Number,
+
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+
+      cell: {
+        type: [String, Number],
+        validator( cell ) {
+          return [ '2', '3' ].includes( cell.toString() );
+        }
+      }
+    },
+
+
+    inject: {
+      formId: {
+        from: 'formId',
+        default: false
+      },
+      isModal: {
+        from: 'isModal',
+        default: false
+      },
+      multiblock: {
+        from: 'multiblock',
+        default: false
+      }
+    },
+
+
+    data() {
+      return {
+        tooltip: false,
+        hasError: false
+      }
+    },
+
+
+    computed: {
+
+      realName() {
+        return this.multiblock ? `${this.multiblock}.${this.id}.${this.name}` : this.name
+      },
+
+      computedValue() {
+        return this.$awesForms.getters.fieldValue(this.formId, this.realName);
+      },
+
+      formLoading() {
+        return this.$awesForms.getters.loading(this.formId);
+      },
+
+      inActive() {
+        return !!(this.inFocus || this.value);
+      },
+
+      isDisabled() {
+        return this.formLoading || this.disabled || this.isMultiblockDisabled;
+      },
+
+      isMultiblockDisabled() {
+        return this.multiblock ?
+               this.$awesForms.getters.multiblockDisabled(this.formId, this.multiblock) :
+               false
+      },
+
+      cellClass() {
+        return (this.cell) ? 'grid__cell_' + this.cell : '';
+      },
+
+      error() {
+        return this.$awesForms.getters.fieldError(this.formId, this.realName);
+      },
+
+      firstErrorField() {
+        return this.$awesForms.getters.firstErrorField(this.formId);
+      },
+
+      shake() {
+        return !this.formLoading && this.tooltip;
+      }
+    },
+
+
+    watch: {
+
+      error: {
+        handler: function( errors ) {
+          if ( errors ) {
+            this.tooltip = true;
+            this.hasError = true;
+            if ( this.$refs.element ) {
+              this.$refs.element.addEventListener('input', this.resetError, false);
+            }
+            if ( typeof this.setFocus === 'function' ) {
+              this.$nextTick( this.checkFocus );
+            }
+          } else {
+            this.tooltip = false;
+            this.hasError = false;
+            this.resetInputWatcher();
+          }
+        },
+        immediate: true
+      }
+    },
+
+
+    methods: {
+
+      createStoreInstance() {
+        this.$awesForms.commit('setField', {
+          id: this.formId,
+          fieldName: this.realName,
+          value: this.value,
+          initial: true
+        });
+      },
+
+      initField() {
+        if ( this.computedValue !== undefined ) {
+          this.value = this.computedValue;
+        }
+        this.createStoreInstance();
+        this.__unwatchValue = this.$watch('value', this.valueHandler);
+        if ( this.multiblock ) {
+          this.__unwatchId= this.$watch('id', this.idHandler);
+        }
+      },
+
+      idHandler(newVal, oldVal) {
+        const oldName = `${this.multiblock}.${oldVal}.${this.name}`;
+        const oldError = this.$awesForms.getters.fieldError(this.formId, oldName);
+        if ( oldError ) {
+          this.$awesForms.commit('renameError', {
+            id: this.formId,
+            oldName,
+            newName: this.realName,
+            message: oldError
+          });
+        }
+      },
+
+      valueHandler( newVal ) {
+        this.$awesForms.commit('setField', {
+          id: this.formId,
+          fieldName: this.realName,
+          value: newVal
+        });
+      },
+
+      clickTooltip() {
+        this.tooltip = false;
+        if ( typeof this.setFocus === 'function' ) this.setFocus();
+      },
+
+      resetError() {
+        this.tooltip = false;
+        this.$awesForms.commit('resetError', { id: this.formId, fieldName: this.realName });
+        this.resetInputWatcher();
+      },
+
+      resetInputWatcher() {
+        if ( this.$refs.element ) {
+          this.$refs.element.removeEventListener('input', this.resetError);
+        }
+      },
+
+      resetValue( formId ) {
+        if ( this.formId !== formId ) return
+        this.value = undefined;
+      },
+
+      checkFocus() {
+        if ( this.firstErrorField  === this.realName ) {
+          setTimeout( this.setFocus, 0 );
+          this.$awesForms.commit('resetFirstErrorField', this.formId);
+        }
+      }
+    },
+
+
+    created() {
+      this.initField();
+      this.$root.$on('forms:reset', this.resetValue);
+    },
+
+
+    beforeDestroy() {
+      if ( this.multiblock ) {
+        this.resetError();
+        this.$awesForms.commit('unsetRealField', { id: this.formId, fieldName: this.realName });
+      }
+      this.__unwatchValue();
+      if ( typeof this.__unwatchId === 'function' ) this.__unwatchId();
+      this.resetInputWatcher();
+      this.$root.$off('forms:reset', this.resetValue);
+    }
+  };
+
+  /**
+   * Fires event on element
+   * @param {string} type - required
+   * @param {HTMLElement} element - required
+   * @param {Object} - additional objects
+   *
+   * @fires element#type bubbles:true, cancelable:true
+   *
+   */
+
+  function triggerEvent(type, element, options) {
+
+    function addEventOptions( event ) {
+      if ( ! options || Object.keys(options).length === 0 ) return event;
+      for( let option in options ) {
+        event[option] = options[option];
+      }
+      return event
+    }
+
+    if (document.createEvent) {
+      const event = new Event(type, { bubbles:true, cancelable:true });
+      element.dispatchEvent( addEventOptions(event) );
+    } else {
+      const event = document.createEventObject();
+      element.fireEvent('on' + type, addEventOptions(event) );
+    }
+  }
+
+  var focusMixin = {
+
+    props: {
+
+      enterSkip: {
+        type: Boolean,
+        default: false
+      },
+
+      focus: {
+        type: Boolean,
+        default: false
+      }
+    },
+
+
+    data() {
+      return {
+        inFocus: this.focus
+      }
+    },
+
+
+    computed: {
+
+      isFocusable() {
+        return ! this.enterSkip && ! this.disabled && this.formId
+      }
+    },
+
+
+    methods: {
+
+      focusNext( $event ) {
+        try {
+          const form = $event.target.closest('form');
+          const focusableFields = form.querySelectorAll('.is-focusable');
+          const nextIndex = Array.from(focusableFields).findIndex( el => el === $event.target ) + 1;
+          if ( nextIndex < focusableFields.length ) {
+            focusableFields[nextIndex].focus();
+          } else {
+            $event.target.blur(); // write data to vuex
+            const submitBtn = form.querySelector('[type="submit"]');
+            this.$nextTick( () => {
+              submitBtn.click();
+              this.initWawesEffect(submitBtn);
+            });
+          }
+        } catch (e) {
+          console.warn('Error while setting focus');
+          console.error(e);
+        }
+      },
+
+      setFocus(state) {
+        try {
+          let useMethod = (state !== false) ? 'focus' : 'blur';
+          this.$refs.element[useMethod]();
+        } catch (e) {
+          console.warn('Error while setting focus');
+          console.error(e);
+        }
+      },
+
+      initWawesEffect( el ) {
+
+        let box = { top: 0, left: 0 };
+
+        if (typeof el.getBoundingClientRect === 'function') {
+          box = el.getBoundingClientRect();
+        }
+
+        const options = {
+          pageY: box.top + window.pageYOffset - document.documentElement.clientTop + el.clientHeight / 2,
+          pageX: box.left + window.pageXOffset - document.documentElement.clientLeft + el.clientWidth / 2
+        };
+
+        triggerEvent('mousedown', el, options);
+        setTimeout(triggerEvent, 250, 'mouseup', el);
+      }
+    },
+
+
+    mounted() {
+      this.setFocus(this.focus);
+    }
+  };
+
+  //
+
+  let _inputsId = 0;
+
+  var script$2 = {
+
+      name: "fb-input",
+
+      inheritAttrs: false,
+
+      mixins: [ fieldMixin, focusMixin ],
+
+      props: {
+        label: {
+          type: String,
+          default: ''
+        },
+        spellcheck: {
+          type: Boolean,
+          default: false
+        }
+      },
+
+      data() {
+        return {
+          value: '',
+          inputType: this.$attrs.type || 'text',
+          autoFilled: false
+        }
+      },
+      
+      computed: {
+        
+        inputId() {
+          return 'input-' + _inputsId++
+        }
+      },
+
+      methods: {
+
+          togglePassword() {
+              this.setFocus();
+              if ( this.inputType === 'password' ) {
+                  this.inputType = 'text';
+              } else {
+                  this.inputType = 'password';
+              }
+          },
+          
+          autoFillHack( $event ) {
+            switch ( $event.animationName ) {
+              case 'autoFillStart' :
+                this.autoFilled = true;
+                break
+              case 'autoFillEnd' :
+                this.autoFilled = false;
+                break
+            }
+          }
+      }
+    };
+
+  /* script */
+  const __vue_script__$2 = script$2;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$2.__file = "E:\\form-builder\\src\\vue\\fb-input.vue";
+
+  /* template */
+  var __vue_render__$2 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      {
+        staticClass: "fb__input grid__cell",
+        class: [
+          {
+            input_active: _vm.inActive || _vm.autoFilled,
+            input_error: _vm.hasError,
+            "animated shake": _vm.shake,
+            disabled: _vm.isDisabled
+          },
+          _vm.cellClass
+        ]
+      },
+      [
+        _c(
+          "div",
+          { class: ["input", { input_disabled: _vm.isDisabled }] },
+          [
+            _c(
+              "fb-error-wrap",
+              {
+                attrs: { open: _vm.tooltip, error: _vm.error },
+                on: { clickTooltip: _vm.clickTooltip }
+              },
+              [
+                _c(
+                  "label",
+                  {
+                    staticClass: "input__label input__label_field",
+                    attrs: { for: "#" + _vm.inputId }
+                  },
+                  [_vm._v(_vm._s(_vm.label))]
+                ),
+                _vm._v(" "),
+                _vm.inputType === "checkbox"
+                  ? _c(
+                      "input",
+                      _vm._b(
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.value,
+                              expression: "value"
+                            }
+                          ],
+                          ref: "element",
+                          class: [
+                            "input__field",
+                            { "is-focusable": _vm.isFocusable },
+                            { "in-focus": _vm.inFocus },
+                            {
+                              input__field_password:
+                                _vm.$attrs.type === "password"
+                            }
+                          ],
+                          attrs: {
+                            id: _vm.inputId,
+                            "data-awes": _vm.$options.name + "." + _vm.name,
+                            disabled: _vm.isDisabled,
+                            spellcheck: _vm.spellcheck,
+                            type: "checkbox"
+                          },
+                          domProps: {
+                            checked: Array.isArray(_vm.value)
+                              ? _vm._i(_vm.value, null) > -1
+                              : _vm.value
+                          },
+                          on: {
+                            focus: function($event) {
+                              _vm.inFocus = true;
+                            },
+                            blur: function($event) {
+                              _vm.inFocus = false;
+                            },
+                            keydown: function($event) {
+                              if (
+                                !("button" in $event) &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              $event.preventDefault();
+                              return _vm.focusNext($event)
+                            },
+                            animationstart: _vm.autoFillHack,
+                            change: function($event) {
+                              var $$a = _vm.value,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false;
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v);
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.value = $$a.concat([$$v]));
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.value = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)));
+                                }
+                              } else {
+                                _vm.value = $$c;
+                              }
+                            }
+                          }
+                        },
+                        "input",
+                        _vm.$attrs,
+                        false
+                      )
+                    )
+                  : _vm.inputType === "radio"
+                    ? _c(
+                        "input",
+                        _vm._b(
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.value,
+                                expression: "value"
+                              }
+                            ],
+                            ref: "element",
+                            class: [
+                              "input__field",
+                              { "is-focusable": _vm.isFocusable },
+                              { "in-focus": _vm.inFocus },
+                              {
+                                input__field_password:
+                                  _vm.$attrs.type === "password"
+                              }
+                            ],
+                            attrs: {
+                              id: _vm.inputId,
+                              "data-awes": _vm.$options.name + "." + _vm.name,
+                              disabled: _vm.isDisabled,
+                              spellcheck: _vm.spellcheck,
+                              type: "radio"
+                            },
+                            domProps: { checked: _vm._q(_vm.value, null) },
+                            on: {
+                              focus: function($event) {
+                                _vm.inFocus = true;
+                              },
+                              blur: function($event) {
+                                _vm.inFocus = false;
+                              },
+                              keydown: function($event) {
+                                if (
+                                  !("button" in $event) &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                $event.preventDefault();
+                                return _vm.focusNext($event)
+                              },
+                              animationstart: _vm.autoFillHack,
+                              change: function($event) {
+                                _vm.value = null;
+                              }
+                            }
+                          },
+                          "input",
+                          _vm.$attrs,
+                          false
+                        )
+                      )
+                    : _c(
+                        "input",
+                        _vm._b(
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.value,
+                                expression: "value"
+                              }
+                            ],
+                            ref: "element",
+                            class: [
+                              "input__field",
+                              { "is-focusable": _vm.isFocusable },
+                              { "in-focus": _vm.inFocus },
+                              {
+                                input__field_password:
+                                  _vm.$attrs.type === "password"
+                              }
+                            ],
+                            attrs: {
+                              id: _vm.inputId,
+                              "data-awes": _vm.$options.name + "." + _vm.name,
+                              disabled: _vm.isDisabled,
+                              spellcheck: _vm.spellcheck,
+                              type: _vm.inputType
+                            },
+                            domProps: { value: _vm.value },
+                            on: {
+                              focus: function($event) {
+                                _vm.inFocus = true;
+                              },
+                              blur: function($event) {
+                                _vm.inFocus = false;
+                              },
+                              keydown: function($event) {
+                                if (
+                                  !("button" in $event) &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                $event.preventDefault();
+                                return _vm.focusNext($event)
+                              },
+                              animationstart: _vm.autoFillHack,
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.value = $event.target.value;
+                              }
+                            }
+                          },
+                          "input",
+                          _vm.$attrs,
+                          false
+                        )
+                      ),
+                _vm._v(" "),
+                _vm.$attrs.type === "password"
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "input__eye",
+                        attrs: {
+                          type: "button",
+                          "aria-label": _vm.$lang.SHOW_PASSWORD
+                        },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault();
+                            return _vm.togglePassword($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", {
+                          class: [
+                            "icon",
+                            _vm.inputType === "password"
+                              ? "icon-eye"
+                              : "icon-eye2"
+                          ]
+                        })
+                      ]
+                    )
+                  : _vm._e()
+              ]
+            )
+          ],
+          1
+        )
+      ]
+    )
+  };
+  var __vue_staticRenderFns__$2 = [];
+  __vue_render__$2._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$2 = undefined;
+    /* scoped */
+    const __vue_scope_id__$2 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$2 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$2 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbInput = normalizeComponent(
+      { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+      __vue_inject_styles__$2,
+      __vue_script__$2,
+      __vue_scope_id__$2,
+      __vue_is_functional_template__$2,
+      __vue_module_identifier__$2,
+      undefined,
+      undefined
+    );
+
+  //
+
+  let _uniqId = 0;
+
+  var script$3 = {
+
+    name: 'fb-multi-block',
+
+    mixins: [ fieldMixin ],
+
+
+    props: {
+
+      label: String,
+    },
+
+
+    provide() {
+      return {
+        multiblock: this.multiblock ? this.realName : this.name
+      }
+    },
+
+
+    data() {
+      return {
+        value: [{}],
+        uniqIds: []
+      }
+    },
+
+
+    computed: {
+
+      hasClose() {
+        return this.value.length > 1
+      },
+      
+      errors() {
+        return this.$awesForms.getters.formErrorsOrFalse(this.formId)
+      }
+    },
+
+
+    watch: {
+
+      disabled: {
+        handler: function( value ) {
+          this.$awesForms.commit('toggleMultiblockState', {
+            id: this.formId,
+            multiblock: this.realName,
+            value
+          });
+        },
+        immediate: true
+      }
+    },
+
+
+    methods: {
+
+      initField() {
+        if ( this.computedValue !== undefined &&
+             this.computedValue.length ) {
+          this.value = this.computedValue;
+          for ( let i in this.computedValue ) this.uniqIds.push( _uniqId++ );
+        } else {
+          this.uniqIds.push( _uniqId++ );
+        }
+        this.createStoreInstance();
+        this.__unwatchValue = this.$watch('value', this.valueHandler);
+      },
+
+      addField() {
+        if ( this.isDisabled ) return
+        this.value.push({});
+        this.uniqIds.push( _uniqId++ );
+        this.updateTooltips();
+      },
+
+      removeField( id ) {
+        if ( this.isDisabled ) return
+        this.$delete(this.value, id);
+        this.uniqIds.splice(id, 1);
+        this.updateTooltips();
+      },
+
+      resetValue() {
+        this.value = [{}];
+      },
+
+      updateTooltips() {
+        if ( ! this.errors ) return
+        this.$nextTick( () => {
+          triggerEvent('scroll', window);
+        });
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$3 = script$3;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$3.__file = "E:\\form-builder\\src\\vue\\fb-multi-block.vue";
+
+  /* template */
+  var __vue_render__$3 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      {
+        class: ["grid__wrap multi-bl", { "multi-bl_disabled": this.isDisabled }]
+      },
+      [
+        _vm._l(_vm.value, function(item, id) {
+          return _c(
+            "div",
+            {
+              key: "slot-" + _vm.uniqIds[id],
+              class: ["grid__wrap", { "multi-bl__has-close": _vm.hasClose }]
+            },
+            [
+              _vm._t("default", null, { id: id }),
+              _vm._v(" "),
+              _vm.hasClose
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "multi-bl__clear",
+                      attrs: { "aria-label": "delete" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault();
+                          _vm.removeField(id);
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "icon icon-cross" })]
+                  )
+                : _vm._e()
+            ],
+            2
+          )
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "multi-bl__add",
+            on: {
+              click: function($event) {
+                $event.preventDefault();
+                return _vm.addField($event)
+              }
+            }
+          },
+          [
+            _vm._v(
+              "\n    " +
+                _vm._s(_vm.label || _vm.$lang.FORMS_MULTIBLOCK_ADD) +
+                "\n  "
+            )
+          ]
+        )
+      ],
+      2
+    )
+  };
+  var __vue_staticRenderFns__$3 = [];
+  __vue_render__$3._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$3 = undefined;
+    /* scoped */
+    const __vue_scope_id__$3 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$3 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$3 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbMultiBlock = normalizeComponent(
+      { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
+      __vue_inject_styles__$3,
+      __vue_script__$3,
+      __vue_scope_id__$3,
+      __vue_is_functional_template__$3,
+      __vue_module_identifier__$3,
+      undefined,
+      undefined
+    );
+
+  //
+
+  var script$4 = {
+
+    name: 'fb-checkbox',
+
+    inheritAttrs: false,
+
+    mixins: [ fieldMixin, focusMixin ],
+
+
+    props: {
+
+      label: {
+        type: String,
+        required: true
+      },
+
+      padding: {
+        type: Boolean, 
+        default: true
+      },
+
+      theme: String,
+    },
+
+
+    data() {
+      return {
+        value: false
+      }
+    },
+
+
+    computed: {
+
+      themeClass() {
+        return this.theme ? `checkbox_${this.theme}` : null
+      },
+      
+      isSwitcher() {
+        return this.theme === 's2'
+      }
+    },
+
+    methods: {
+      
+      enableSwitcher() {
+        this.__hammer = new Hammer.Manager( this.$refs.switcher, {
+            recognizers: [
+                [ Hammer.Swipe, {
+                    threshold: 5,
+                    velocity: .1,
+                    direction: Hammer.DIRECTION_HORIZONTAL
+                }]
+            ]
+        });
+        this.__hammer.on('swipeleft', () => { this.value = false; });
+        this.__hammer.on('swiperight', () => { this.value = true; });
+      }
+    },
+
+    mounted() {
+      if ( this.isSwitcher ) this.enableSwitcher();
+    },
+    
+    beforeDestroy() {
+      if ( this.isSwitcher ) {
+        this.__hammer.destroy();
+        delete this.__hammer;
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$4 = script$4;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$4.__file = "E:\\form-builder\\src\\vue\\fb-checkbox.vue";
+
+  /* template */
+  var __vue_render__$4 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      {
+        staticClass: "grid__cell",
+        class: [
+          { checkbox_error: _vm.hasError },
+          { checkbox_active: _vm.inActive },
+          { grid__cell_padding: _vm.padding },
+          _vm.cellClass
+        ]
+      },
+      [
+        _c(
+          "label",
+          {
+            class: [
+              "checkbox",
+              _vm.themeClass,
+              { checkbox_disabled: _vm.isDisabled }
+            ],
+            attrs: { "data-awes": _vm.$options.name + "." + _vm.name }
+          },
+          [
+            _c(
+              "fb-error-wrap",
+              {
+                attrs: { open: _vm.tooltip, error: _vm.error },
+                on: { clickTooltip: _vm.clickTooltip }
+              },
+              [
+                _c(
+                  "input",
+                  _vm._b(
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.value,
+                          expression: "value"
+                        }
+                      ],
+                      ref: "element",
+                      class: {
+                        "is-focusable": _vm.isFocusable,
+                        "in-focus": _vm.inFocus
+                      },
+                      attrs: { type: "checkbox", disabled: _vm.isDisabled },
+                      domProps: {
+                        checked: Array.isArray(_vm.value)
+                          ? _vm._i(_vm.value, null) > -1
+                          : _vm.value
+                      },
+                      on: {
+                        focus: function($event) {
+                          _vm.inFocus = true;
+                        },
+                        blur: function($event) {
+                          _vm.inFocus = false;
+                        },
+                        keydown: function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          $event.preventDefault();
+                          return _vm.focusNext($event)
+                        },
+                        change: function($event) {
+                          var $$a = _vm.value,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false;
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v);
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.value = $$a.concat([$$v]));
+                            } else {
+                              $$i > -1 &&
+                                (_vm.value = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)));
+                            }
+                          } else {
+                            _vm.value = $$c;
+                          }
+                        }
+                      }
+                    },
+                    "input",
+                    _vm.$attrs,
+                    false
+                  )
+                ),
+                _vm._v(" "),
+                _c("span", { staticClass: "checkbox__text" }, [
+                  _c("i", { ref: "switcher", staticClass: "icon icon-checkbox" }),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.label))])
+                ])
+              ]
+            )
+          ],
+          1
+        )
+      ]
+    )
+  };
+  var __vue_staticRenderFns__$4 = [];
+  __vue_render__$4._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$4 = undefined;
+    /* scoped */
+    const __vue_scope_id__$4 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$4 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$4 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbCheckbox = normalizeComponent(
+      { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
+      __vue_inject_styles__$4,
+      __vue_script__$4,
+      __vue_scope_id__$4,
+      __vue_is_functional_template__$4,
+      __vue_module_identifier__$4,
+      undefined,
+      undefined
+    );
+
+  //
+  // const Multiselect = window.VueMultiselect.default;
+
+  var script$5 = {
+
+    name: "fb-select",
+
+    inheritAttrs: false,
+
+    mixins: [ fieldMixin ],
+
+    // components: { Multiselect },
+
+    props: {
+
+      label: String,
+
+      selectOptions: {
+        type: Array,
+        default: () => []
+      },
+
+      multiple: {
+        type: Boolean,
+        default: true
+      },
+
+      placeholderText: String
+    },
+
+
+    data() {
+      return {
+        selected: [],
+        isOpened: false
+      }
+    },
+
+
+    computed: {
+
+      value: {
+
+        get() {
+          return this.multiple ?
+                 this.selected.map( item => item.value) :
+                 this.selected.value;
+        },
+
+        set( value ) {
+          if ( this.multiple ) {
+            this.selected = this.selectOptions.filter( item => {
+              return value.includes(item.value);
+            });
+          } else {
+            this.selected = this.selectOptions.find( item => {
+              return value === item.value;
+            });
+          }
+        }
+      },
+
+      hasValue() {
+        return !! ( this.multiple ? this.value.length : this.value );
+      },
+
+      inActive() {
+        return this.isOpened || this.hasValue;
+      }
+    },
+
+    methods: {
+
+      resetValue( formId ) {
+        if ( this.formId !== formId ) return
+        this.value = [];
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$5 = script$5;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$5.__file = "E:\\form-builder\\src\\vue\\fb-select.vue";
+
+  /* template */
+  var __vue_render__$5 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      {
+        staticClass: "mselect grid__cell",
+        class: [
+          { mselect_active: _vm.inActive },
+          { mselect_opened: _vm.isOpened },
+          _vm.cellClass
+        ]
+      },
+      [
+        _c("span", { staticClass: "mselect__label" }, [
+          _vm._v(_vm._s(_vm.label || _vm.$lang.FORMS_SELECT_LABEL))
+        ]),
+        _vm._v(" "),
+        _c("multiselect", {
+          staticClass: "input__field",
+          attrs: {
+            "show-labels": false,
+            multiple: _vm.multiple,
+            placeholder:
+              _vm.placeholderText || _vm.$lang.FORMS_SELECT_PLACEHOLDER,
+            options: _vm.selectOptions,
+            label: "name",
+            "track-by": "value",
+            "hide-selected": true
+          },
+          on: {
+            open: function($event) {
+              _vm.isOpened = true;
+            },
+            close: function($event) {
+              _vm.isOpened = false;
+            }
+          },
+          model: {
+            value: _vm.selected,
+            callback: function($$v) {
+              _vm.selected = $$v;
+            },
+            expression: "selected"
+          }
+        })
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$5 = [];
+  __vue_render__$5._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$5 = undefined;
+    /* scoped */
+    const __vue_scope_id__$5 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$5 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$5 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbSelect = normalizeComponent(
+      { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
+      __vue_inject_styles__$5,
+      __vue_script__$5,
+      __vue_scope_id__$5,
+      __vue_is_functional_template__$5,
+      __vue_module_identifier__$5,
+      undefined,
+      undefined
+    );
+
+  var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+  function createCommonjsModule(fn, module) {
+  	return module = { exports: {} }, fn(module, module.exports), module.exports;
+  }
+
+  var autosize = createCommonjsModule(function (module, exports) {
+  /*!
+  	autosize 4.0.2
+  	license: MIT
+  	http://www.jacklmoore.com/autosize
+  */
+  (function (global, factory) {
+  	{
+  		factory(module, exports);
+  	}
+  })(commonjsGlobal, function (module, exports) {
+
+  	var map = typeof Map === "function" ? new Map() : function () {
+  		var keys = [];
+  		var values = [];
+
+  		return {
+  			has: function has(key) {
+  				return keys.indexOf(key) > -1;
+  			},
+  			get: function get(key) {
+  				return values[keys.indexOf(key)];
+  			},
+  			set: function set(key, value) {
+  				if (keys.indexOf(key) === -1) {
+  					keys.push(key);
+  					values.push(value);
+  				}
+  			},
+  			delete: function _delete(key) {
+  				var index = keys.indexOf(key);
+  				if (index > -1) {
+  					keys.splice(index, 1);
+  					values.splice(index, 1);
+  				}
+  			}
+  		};
+  	}();
+
+  	var createEvent = function createEvent(name) {
+  		return new Event(name, { bubbles: true });
+  	};
+  	try {
+  		new Event('test');
+  	} catch (e) {
+  		// IE does not support `new Event()`
+  		createEvent = function createEvent(name) {
+  			var evt = document.createEvent('Event');
+  			evt.initEvent(name, true, false);
+  			return evt;
+  		};
+  	}
+
+  	function assign(ta) {
+  		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || map.has(ta)) return;
+
+  		var heightOffset = null;
+  		var clientWidth = null;
+  		var cachedHeight = null;
+
+  		function init() {
+  			var style = window.getComputedStyle(ta, null);
+
+  			if (style.resize === 'vertical') {
+  				ta.style.resize = 'none';
+  			} else if (style.resize === 'both') {
+  				ta.style.resize = 'horizontal';
+  			}
+
+  			if (style.boxSizing === 'content-box') {
+  				heightOffset = -(parseFloat(style.paddingTop) + parseFloat(style.paddingBottom));
+  			} else {
+  				heightOffset = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+  			}
+  			// Fix when a textarea is not on document body and heightOffset is Not a Number
+  			if (isNaN(heightOffset)) {
+  				heightOffset = 0;
+  			}
+
+  			update();
+  		}
+
+  		function changeOverflow(value) {
+  			{
+  				// Chrome/Safari-specific fix:
+  				// When the textarea y-overflow is hidden, Chrome/Safari do not reflow the text to account for the space
+  				// made available by removing the scrollbar. The following forces the necessary text reflow.
+  				var width = ta.style.width;
+  				ta.style.width = '0px';
+  				// Force reflow:
+  				/* jshint ignore:start */
+  				ta.offsetWidth;
+  				/* jshint ignore:end */
+  				ta.style.width = width;
+  			}
+
+  			ta.style.overflowY = value;
+  		}
+
+  		function getParentOverflows(el) {
+  			var arr = [];
+
+  			while (el && el.parentNode && el.parentNode instanceof Element) {
+  				if (el.parentNode.scrollTop) {
+  					arr.push({
+  						node: el.parentNode,
+  						scrollTop: el.parentNode.scrollTop
+  					});
+  				}
+  				el = el.parentNode;
+  			}
+
+  			return arr;
+  		}
+
+  		function resize() {
+  			if (ta.scrollHeight === 0) {
+  				// If the scrollHeight is 0, then the element probably has display:none or is detached from the DOM.
+  				return;
+  			}
+
+  			var overflows = getParentOverflows(ta);
+  			var docTop = document.documentElement && document.documentElement.scrollTop; // Needed for Mobile IE (ticket #240)
+
+  			ta.style.height = '';
+  			ta.style.height = ta.scrollHeight + heightOffset + 'px';
+
+  			// used to check if an update is actually necessary on window.resize
+  			clientWidth = ta.clientWidth;
+
+  			// prevents scroll-position jumping
+  			overflows.forEach(function (el) {
+  				el.node.scrollTop = el.scrollTop;
+  			});
+
+  			if (docTop) {
+  				document.documentElement.scrollTop = docTop;
+  			}
+  		}
+
+  		function update() {
+  			resize();
+
+  			var styleHeight = Math.round(parseFloat(ta.style.height));
+  			var computed = window.getComputedStyle(ta, null);
+
+  			// Using offsetHeight as a replacement for computed.height in IE, because IE does not account use of border-box
+  			var actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(computed.height)) : ta.offsetHeight;
+
+  			// The actual height not matching the style height (set via the resize method) indicates that 
+  			// the max-height has been exceeded, in which case the overflow should be allowed.
+  			if (actualHeight < styleHeight) {
+  				if (computed.overflowY === 'hidden') {
+  					changeOverflow('scroll');
+  					resize();
+  					actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(window.getComputedStyle(ta, null).height)) : ta.offsetHeight;
+  				}
+  			} else {
+  				// Normally keep overflow set to hidden, to avoid flash of scrollbar as the textarea expands.
+  				if (computed.overflowY !== 'hidden') {
+  					changeOverflow('hidden');
+  					resize();
+  					actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(window.getComputedStyle(ta, null).height)) : ta.offsetHeight;
+  				}
+  			}
+
+  			if (cachedHeight !== actualHeight) {
+  				cachedHeight = actualHeight;
+  				var evt = createEvent('autosize:resized');
+  				try {
+  					ta.dispatchEvent(evt);
+  				} catch (err) {
+  					// Firefox will throw an error on dispatchEvent for a detached element
+  					// https://bugzilla.mozilla.org/show_bug.cgi?id=889376
+  				}
+  			}
+  		}
+
+  		var pageResize = function pageResize() {
+  			if (ta.clientWidth !== clientWidth) {
+  				update();
+  			}
+  		};
+
+  		var destroy = function (style) {
+  			window.removeEventListener('resize', pageResize, false);
+  			ta.removeEventListener('input', update, false);
+  			ta.removeEventListener('keyup', update, false);
+  			ta.removeEventListener('autosize:destroy', destroy, false);
+  			ta.removeEventListener('autosize:update', update, false);
+
+  			Object.keys(style).forEach(function (key) {
+  				ta.style[key] = style[key];
+  			});
+
+  			map.delete(ta);
+  		}.bind(ta, {
+  			height: ta.style.height,
+  			resize: ta.style.resize,
+  			overflowY: ta.style.overflowY,
+  			overflowX: ta.style.overflowX,
+  			wordWrap: ta.style.wordWrap
+  		});
+
+  		ta.addEventListener('autosize:destroy', destroy, false);
+
+  		// IE9 does not fire onpropertychange or oninput for deletions,
+  		// so binding to onkeyup to catch most of those events.
+  		// There is no way that I know of to detect something like 'cut' in IE9.
+  		if ('onpropertychange' in ta && 'oninput' in ta) {
+  			ta.addEventListener('keyup', update, false);
+  		}
+
+  		window.addEventListener('resize', pageResize, false);
+  		ta.addEventListener('input', update, false);
+  		ta.addEventListener('autosize:update', update, false);
+  		ta.style.overflowX = 'hidden';
+  		ta.style.wordWrap = 'break-word';
+
+  		map.set(ta, {
+  			destroy: destroy,
+  			update: update
+  		});
+
+  		init();
+  	}
+
+  	function destroy(ta) {
+  		var methods = map.get(ta);
+  		if (methods) {
+  			methods.destroy();
+  		}
+  	}
+
+  	function update(ta) {
+  		var methods = map.get(ta);
+  		if (methods) {
+  			methods.update();
+  		}
+  	}
+
+  	var autosize = null;
+
+  	// Do nothing in Node.js environment and IE8 (or lower)
+  	if (typeof window === 'undefined' || typeof window.getComputedStyle !== 'function') {
+  		autosize = function autosize(el) {
+  			return el;
+  		};
+  		autosize.destroy = function (el) {
+  			return el;
+  		};
+  		autosize.update = function (el) {
+  			return el;
+  		};
+  	} else {
+  		autosize = function autosize(el, options) {
+  			if (el) {
+  				Array.prototype.forEach.call(el.length ? el : [el], function (x) {
+  					return assign(x, options);
+  				});
+  			}
+  			return el;
+  		};
+  		autosize.destroy = function (el) {
+  			if (el) {
+  				Array.prototype.forEach.call(el.length ? el : [el], destroy);
+  			}
+  			return el;
+  		};
+  		autosize.update = function (el) {
+  			if (el) {
+  				Array.prototype.forEach.call(el.length ? el : [el], update);
+  			}
+  			return el;
+  		};
+  	}
+
+  	exports.default = autosize;
+  	module.exports = exports['default'];
+  });
+  });
+
+  //
+
+  let unwatcher;
+
+  var script$6 = {
+
+    name: "fb-textarea",
+
+    inheritAttrs: false,
+
+    mixins: [ fieldMixin, focusMixin ],
+
+
+    props: {
+
+      label: {
+        type: String,
+        default: ''
+      },
+
+      fixsize: {
+        type: Boolean,
+        default: false
+      }
+    },
+
+
+    data() {
+      return {
+        value: '',
+      }
+    },
+
+
+    methods: {
+
+      setAutoResize() {
+        if ( ! this.fixsize ) {
+          autosize( this.$refs.element );
+          unwatcher = this.$watch('value', this.updateAutoResize);
+        }
+      },
+
+      updateAutoResize() {
+        this.$nextTick( () => {
+          autosize.update(this.$refs.element);
+        });
+      }
+    },
+
+
+    mounted() {
+      this.setAutoResize();
+    },
+
+    beforeDestroy() {
+      if ( typeof unwatcher === 'function' ) unwatcher();
+    }
+
+  };
+
+  /* script */
+  const __vue_script__$6 = script$6;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$6.__file = "E:\\form-builder\\src\\vue\\fb-textarea.vue";
+
+  /* template */
+  var __vue_render__$6 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      {
+        staticClass: "fb__input grid__cell",
+        class: [
+          {
+            input_active: _vm.inActive,
+            input_error: _vm.hasError,
+            "animated shake": _vm.shake,
+            disabled: _vm.isDisabled
+          },
+          _vm.cellClass
+        ]
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "input", class: { input_disabled: _vm.isDisabled } },
+          [
+            _c(
+              "fb-error-wrap",
+              {
+                attrs: { open: _vm.tooltip, error: _vm.error },
+                on: { clickTooltip: _vm.clickTooltip }
+              },
+              [
+                _c("span", { staticClass: "input__label" }, [
+                  _vm._v(_vm._s(_vm.label))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "textarea",
+                  _vm._b(
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.value,
+                          expression: "value"
+                        }
+                      ],
+                      ref: "element",
+                      class: [
+                        "input__textarea",
+                        { "is-focusable": _vm.isFocusable },
+                        { "in-focus": _vm.inFocus }
+                      ],
+                      attrs: { disabled: _vm.isDisabled },
+                      domProps: { value: _vm.value },
+                      on: {
+                        focus: function($event) {
+                          _vm.inFocus = true;
+                        },
+                        blur: function($event) {
+                          _vm.inFocus = false;
+                        },
+                        keydown: function($event) {
+                          if (
+                            !("button" in $event) &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          $event.preventDefault();
+                          return _vm.focusNext($event)
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.value = $event.target.value;
+                        }
+                      }
+                    },
+                    "textarea",
+                    _vm.$attrs,
+                    false
+                  )
+                )
+              ]
+            )
+          ],
+          1
+        )
+      ]
+    )
+  };
+  var __vue_staticRenderFns__$6 = [];
+  __vue_render__$6._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$6 = undefined;
+    /* scoped */
+    const __vue_scope_id__$6 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$6 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$6 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbTextarea = normalizeComponent(
+      { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
+      __vue_inject_styles__$6,
+      __vue_script__$6,
+      __vue_scope_id__$6,
+      __vue_is_functional_template__$6,
+      __vue_module_identifier__$6,
+      undefined,
+      undefined
+    );
+
+  //
+
+  var script$7 = {
+
+      name: "fb-code",
+
+      mixins: [fieldMixin, focusMixin],
+
+      props: {
+
+          length: {
+              type: Number,
+              default: 6
+          },
+
+          autoSubmit: {
+              type: Boolean,
+              default: true
+          }
+      },
+
+
+      data() {
+          return {
+              inputValue: [],
+              inFocus: []
+          }
+      },
+
+
+      computed: {
+
+          value: {
+              get() {
+                  return this.inputValue.join('');
+              },
+              set(val) {
+                  val = val.trim().replace(/\D/g, '').substr(0, this.length);
+                  this.inputValue = val.split('');
+              }
+          },
+
+          hasCaptchaError() {
+              return this.$awesForms.getters['hasCaptchaError'](this.formId)
+          }
+      },
+
+
+      watch: {
+
+          error(errors) {
+              if (errors && errors.length) {
+                  this.value = '';
+                  this.$refs.fields.forEach(field => {
+                      field.addEventListener('input', this.resetError, false);
+                  });
+                  this.$nextTick(() => {
+                      this.setFocus();
+                  });
+              } else {
+                  this.$refs.fields.forEach(field => {
+                      field.removeEventListener('input', this.resetError);
+                  });
+              }
+          },
+
+          hasCaptchaError(hasError) {
+              if (!hasError) {
+                  this.autoSubmitForm(this.value);
+              }
+          }
+      },
+
+
+      methods: {
+
+          setFocus(index = 0) {
+              if (typeof index === 'boolean' && index === true) {
+                  this.$refs.fields[0].focus();
+                  return
+              } else if (typeof index !== 'number') return
+
+              if (index >= this.length) {
+                  index = this.length - 1;
+              }
+              const inputElement = this.$refs.fields[index];
+              setTimeout(() => {
+                  inputElement.focus();
+                  inputElement.setSelectionRange(0, inputElement.value.length);
+              }, 10);
+          },
+
+          onInput($event, index) {
+              const parsed = $event.target.value.replace(/\D/g, '');
+              $event.target.value = parsed; // immedate update to prevent blinking
+              this.$set(this.inputValue, index, parsed);
+              if (!this.isEmpty(index) && !(index === this.length - 1)) {
+                  this.setFocus(index + 1);
+              }
+          },
+
+          onBackspace($event, index) {
+              this.setFocus(index - 1);
+          },
+
+          onLeft($event, index) {
+              this.setFocus(index - 1);
+          },
+
+          onRight($event, index) {
+              this.setFocus(index + 1);
+          },
+
+          onPaste($event) {
+              if (this.error && this.error.length) this.resetError();
+              this.value = $event.clipboardData.getData('text');
+          },
+
+          isEmpty(index) {
+              return this.inputValue[index] === '' ||
+                  typeof this.inputValue[index] === typeof undefined
+          },
+
+          autoSubmitForm(value) {
+              if (this.hasCaptchaError) return
+              if (value.length === this.length) {
+                  this.$root.$emit('forms:submit', this.formId);
+              }
+          }
+      },
+
+      created() {
+          for (let index = 0; index < this.length; index++) {
+              this.inFocus.push(index === 0 && this.focus ? true : false);
+              this.inputValue.push('');
+          }
+
+          if (this.autoSubmit) {
+              this.__unwatchFormSubmit = this.$watch('value', this.autoSubmitForm);
+          }
+      },
+
+      beforeDestroy() {
+          this.$refs.fields.forEach(field => {
+              field.removeEventListener('input', this.resetError);
+          });
+          if (this.__unwatchFormSubmit) this.__unwatchFormSubmit();
+      }
+  };
+
+  /* script */
+  const __vue_script__$7 = script$7;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$7.__file = "E:\\form-builder\\src\\vue\\fb-code.vue";
+
+  /* template */
+  var __vue_render__$7 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c("div", { class: ["keycode", { "animated shake": _vm.shake }] }, [
+      _c(
+        "div",
+        {
+          staticClass: "keycode__block",
+          class: { input_disabled: _vm.isDisabled }
+        },
+        [
+          _c(
+            "fb-error-wrap",
+            {
+              attrs: { open: _vm.tooltip, error: _vm.error },
+              on: { clickTooltip: _vm.clickTooltip }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "keycode__wrap", attrs: { id: "keywrap" } },
+                _vm._l(_vm.length, function(i) {
+                  return _c("div", { staticClass: "keycode__ffield" }, [
+                    _c("input", {
+                      ref: "fields",
+                      refInFor: true,
+                      class: [
+                        "keycode__field",
+                        {
+                          "is-focusable": _vm.isFocusable,
+                          "in-focus": _vm.inFocus[i - 1]
+                        }
+                      ],
+                      attrs: {
+                        type: "tel",
+                        inputmode: "numeric",
+                        pattern: "[0-9]*",
+                        maxlength: "1",
+                        disabled: _vm.isDisabled
+                      },
+                      domProps: { value: _vm.inputValue[i - 1] },
+                      on: {
+                        focus: function($event) {
+                          _vm.inFocus[i - 1] = true;
+                        },
+                        blur: function($event) {
+                          _vm.inFocus[i - 1] = false;
+                        },
+                        keydown: [
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            $event.preventDefault();
+                            return _vm.focusNext($event)
+                          },
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "backspace",
+                                undefined,
+                                $event.key,
+                                undefined
+                              )
+                            ) {
+                              return null
+                            }
+                            i > 1 ? _vm.onBackspace($event, i - 1) : null;
+                          },
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k($event.keyCode, "left", 37, $event.key, [
+                                "Left",
+                                "ArrowLeft"
+                              ])
+                            ) {
+                              return null
+                            }
+                            if ("button" in $event && $event.button !== 0) {
+                              return null
+                            }
+                            i > 1 ? _vm.onLeft($event, i - 1) : null;
+                          },
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k($event.keyCode, "right", 39, $event.key, [
+                                "Right",
+                                "ArrowRight"
+                              ])
+                            ) {
+                              return null
+                            }
+                            if ("button" in $event && $event.button !== 2) {
+                              return null
+                            }
+                            i < _vm.length ? _vm.onRight($event, i - 1) : null;
+                          }
+                        ],
+                        input: function($event) {
+                          _vm.onInput($event, i - 1);
+                        },
+                        paste: function($event) {
+                          $event.preventDefault();
+                          return _vm.onPaste($event)
+                        }
+                      }
+                    })
+                  ])
+                }),
+                0
+              )
+            ]
+          )
+        ],
+        1
+      )
+    ])
+  };
+  var __vue_staticRenderFns__$7 = [];
+  __vue_render__$7._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$7 = undefined;
+    /* scoped */
+    const __vue_scope_id__$7 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$7 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$7 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbCode = normalizeComponent(
+      { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
+      __vue_inject_styles__$7,
+      __vue_script__$7,
+      __vue_scope_id__$7,
+      __vue_is_functional_template__$7,
+      __vue_module_identifier__$7,
+      undefined,
+      undefined
+    );
+
+  var _config = {
+      companySlug: {
+          domain: 'awescrm.de',
+          length: 32,
+          ulrifyOptions: {
+              spaces: '-',
+              toLower: true,
+              trim: true,
+              addEToUmlauts: true,
+              nonPrintable: '',
+              failureOutput: ''
+          }
+      }
+  };
+
+  //
+
+  var script$8 = {
+
+      name: 'fb-company-slug',
+
+      extends: fbInput,
+
+
+      props: {
+
+          domain: String,
+
+          input: {
+              type: String,
+              required: true
+          },
+
+          maxLength: Number,
+      },
+
+
+      data() {
+          return {
+              watchInput: true
+          }
+      },
+
+
+      computed: {
+
+          fromName() {
+              return this.multiblock ? `${this.multiblock}.${this.id}.${this.input}` : this.input
+          },
+
+          fromValue() {
+              return this.$awesForms.getters['fieldValue'](this.formId, this.fromName);
+          }
+      },
+
+
+      watch: {
+
+          fromValue( val ) {
+              if ( ! this.watchInput ) return
+              this.value = this.noramlizeUrl(val); 
+          }
+      },
+
+
+      methods: {
+
+          noramlizeUrl( string ) {
+              return this._toUrl(string).substr(0, this.maxlength)
+          },
+
+          toggleWatcher( $event ) {
+              if ( $event.target.value === '' ) {
+                  this.watchInput = true;
+              } else if ( this.watchInput ) {
+                  this.watchInput = false;
+              }
+          },
+          
+          slugBlur( $event ) {
+              this.inFocus = false;
+              if ( ! this.watchInput ) {
+                  this.value = this.noramlizeUrl( $event.target.value );
+              }
+          }
+      },
+
+
+      beforeCreate() {
+          this._config = Object.assign({}, _config.companySlug, AWES._config.companySlug);
+          this._toUrl = Urlify.create(this._config.ulrifyOptions);
+      }
+  };
+
+  const isOldIE = typeof navigator !== 'undefined' &&
+      /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+  function createInjector(context) {
+      return (id, style) => addStyle(id, style);
+  }
+  const HEAD = document.head || document.getElementsByTagName('head')[0];
+  const styles = {};
+  function addStyle(id, css) {
+      const group = isOldIE ? css.media || 'default' : id;
+      const style = styles[group] || (styles[group] = { ids: new Set(), styles: [] });
+      if (!style.ids.has(id)) {
+          style.ids.add(id);
+          let code = css.source;
+          if (css.map) {
+              // https://developer.chrome.com/devtools/docs/javascript-debugging
+              // this makes source maps inside style tags work properly in Chrome
+              code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+              // http://stackoverflow.com/a/26603875
+              code +=
+                  '\n/*# sourceMappingURL=data:application/json;base64,' +
+                      btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+                      ' */';
+          }
+          if (!style.element) {
+              style.element = document.createElement('style');
+              style.element.type = 'text/css';
+              if (css.media)
+                  style.element.setAttribute('media', css.media);
+              HEAD.appendChild(style.element);
+          }
+          if ('styleSheet' in style.element) {
+              style.styles.push(code);
+              style.element.styleSheet.cssText = style.styles
+                  .filter(Boolean)
+                  .join('\n');
+          }
+          else {
+              const index = style.ids.size - 1;
+              const textNode = document.createTextNode(code);
+              const nodes = style.element.childNodes;
+              if (nodes[index])
+                  style.element.removeChild(nodes[index]);
+              if (nodes.length)
+                  style.element.insertBefore(textNode, nodes[index]);
+              else
+                  style.element.appendChild(textNode);
+          }
+      }
+  }
+
+  /* script */
+  const __vue_script__$8 = script$8;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$8.__file = "E:\\form-builder\\src\\vue\\fb-company-slug.vue";
+
+  /* template */
+  var __vue_render__$8 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      {
+        staticClass: "fb__input fb__input_slug grid__cell",
+        class: [
+          {
+            input_active: _vm.inActive,
+            input_error: _vm.hasError,
+            "animated shake": _vm.shake,
+            disabled: _vm.isDisabled
+          },
+          _vm.cellClass
+        ]
+      },
+      [
+        _c(
+          "div",
+          { class: ["input", { input_disabled: _vm.isDisabled }] },
+          [
+            _c(
+              "fb-error-wrap",
+              {
+                attrs: { open: _vm.tooltip, error: _vm.error },
+                on: { clickTooltip: _vm.clickTooltip }
+              },
+              [
+                _c("div", { staticClass: "fb__input-wrap" }, [
+                  _c("span", { staticClass: "fb__input-inner" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "input__label",
+                        attrs: { for: "#" + _vm.inputId }
+                      },
+                      [_vm._v(_vm._s(_vm.label))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "input",
+                      _vm._b(
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.value,
+                              expression: "value"
+                            }
+                          ],
+                          ref: "element",
+                          class: [
+                            "input__field",
+                            { "is-focusable": _vm.isFocusable },
+                            { "in-focus": _vm.inFocus }
+                          ],
+                          attrs: {
+                            id: _vm.inputId,
+                            "data-awes": _vm.$options.name + "." + _vm.name,
+                            maxlength: _vm.maxLength || _vm._config.length,
+                            type: "text",
+                            disabled: _vm.isDisabled
+                          },
+                          domProps: { value: _vm.value },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.value = $event.target.value;
+                              },
+                              _vm.toggleWatcher
+                            ],
+                            focus: function($event) {
+                              _vm.inFocus = true;
+                            },
+                            blur: _vm.slugBlur,
+                            keydown: function($event) {
+                              if (
+                                !("button" in $event) &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              $event.preventDefault();
+                              return _vm.focusNext($event)
+                            }
+                          }
+                        },
+                        "input",
+                        _vm.$attrs,
+                        false
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "fb__input-domain" }, [
+                    _vm._v("." + _vm._s(_vm.domain || _vm._config.domain))
+                  ])
+                ])
+              ]
+            )
+          ],
+          1
+        )
+      ]
+    )
+  };
+  var __vue_staticRenderFns__$8 = [];
+  __vue_render__$8._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$8 = function (inject) {
+      if (!inject) return
+      inject("data-v-828d92fa_0", { source: ".fb__input_slug .input__field {\n  text-align: right;\n  padding-right: 5px;\n}\n.fb__input_slug .fb__input-wrap {\n  display: flex;\n}\n.fb__input_slug .fb__input-inner {\n  flex-grow: 1;\n  display: block;\n  position: relative;\n}\n.fb__input_slug .fb__input-domain {\n  color: #808080;\n  width: auto;\n  display: inline-flex;\n  align-items: center;\n  font-size: 16px;\n  padding: 12px 0 0 5px;\n}\n", map: {"version":3,"sources":["E:\\form-builder/E:\\form-builder/E:\\form-builder\\src\\vue\\fb-company-slug.vue","fb-company-slug.vue"],"names":[],"mappings":"AA6HA;EACA,iBAAA;EACA,kBAAA;AC5HA;AD+HA;EACA,aAAA;AC7HA;AD+HA;EACA,YAAA;EACA,cAAA;EACA,kBAAA;AC7HA;AD+HA;EACA,cAAA;EACA,WAAA;EACA,oBAAA;EACA,mBAAA;EACA,eAAA;EACA,qBAAA;AC7HA","file":"fb-company-slug.vue","sourcesContent":[null,".fb__input_slug .input__field {\n  text-align: right;\n  padding-right: 5px;\n}\n.fb__input_slug .fb__input-wrap {\n  display: flex;\n}\n.fb__input_slug .fb__input-inner {\n  flex-grow: 1;\n  display: block;\n  position: relative;\n}\n.fb__input_slug .fb__input-domain {\n  color: #808080;\n  width: auto;\n  display: inline-flex;\n  align-items: center;\n  font-size: 16px;\n  padding: 12px 0 0 5px;\n}\n"]}, media: undefined });
+
+    };
+    /* scoped */
+    const __vue_scope_id__$8 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$8 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$8 = false;
+    /* style inject SSR */
+    
+
+    
+    var fbCompanySlug = normalizeComponent(
+      { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
+      __vue_inject_styles__$8,
+      __vue_script__$8,
+      __vue_scope_id__$8,
+      __vue_is_functional_template__$8,
+      __vue_module_identifier__$8,
+      createInjector,
+      undefined
+    );
+
+  //
+
+  var script$9 = {
+
+    name: "fb-auto-captcha",
+
+    mixins: [ fieldMixin ],
+
+
+    props: {
+
+      show: {
+        type: Boolean,
+        default: false
+      },
+
+      name: {
+        default: 'g-recaptcha-response'
+      }
+    },
+
+
+    data() {
+      return {
+        value: null,
+        sitekey: AWES_CONFIG.reCaptchaSiteKey,
+        serverError: false,
+        reset: false
+      }
+    },
+
+
+    computed: {
+
+      realName() {
+        return  'g-recaptcha-response'
+      },
+
+      isShow() {
+        return (this.show || this.serverError );
+      },
+
+      theme() {
+        try {
+          let theme = this.$store.state.theme;
+          return theme && theme.theme_dark === 1 ? 'dark' : 'light'
+        } catch (e) {
+          return 'light'
+        }
+      }
+    },
+
+
+    watch: {
+
+      error( errors ) {
+        if ( errors && errors.length ) {
+          this.serverError = true;
+        }
+      },
+
+      formLoading( isLoading ) {
+        if ( ! isLoading && this.isShow ) this.$nextTick( () => {
+          this.$refs.recaptcha.reset();
+        });
+      },
+
+      theme() {
+        if ( this.isShow ) {
+          this.reset = true;
+          this.$nextTick( () => { this.reset = false; });
+        }
+      }
+    },
+
+
+    methods: {
+
+      onVerify( response ) {
+        this.value = response;
+        this.resetError();
+      },
+
+      manageCaptchaScript(action) {
+        switch (action) {
+            case 'add':
+                if ( ! document.getElementById('g-captcha-script') ) {
+                    const el = document.createElement('script');
+                    el.setAttribute('id', 'g-captcha-script');
+                    el.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');
+                    document.head.appendChild(el);
+                }
+                break
+            case 'remove':
+                document.getElementById('g-captcha-script').remove();
+                break
+        }
+      }
+    },
+
+
+    created() {
+      if ( ! this.$isServer ) this.manageCaptchaScript('add');
+    },
+
+    beforeDestroy() {
+      this.manageCaptchaScript('remove');
+    }
+  };
+
+  /* script */
+  const __vue_script__$9 = script$9;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$9.__file = "E:\\form-builder\\src\\vue\\fb-auto-captcha.vue";
+
+  /* template */
+  var __vue_render__$9 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _vm.isShow && !_vm.reset
+      ? _c(
+          "div",
+          { class: ["grid__cell", _vm.cellClass] },
+          [
+            _c(
+              "fb-error-wrap",
+              {
+                attrs: { open: _vm.tooltip, error: _vm.error },
+                on: { clickTooltip: _vm.clickTooltip }
+              },
+              [
+                _c("vue-recaptcha", {
+                  ref: "recaptcha",
+                  staticClass: "re-captcha",
+                  attrs: { sitekey: _vm.sitekey, theme: _vm.theme },
+                  on: {
+                    verify: _vm.onVerify,
+                    expired: function($event) {
+                      _vm.value = null;
+                    }
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      : _vm._e()
+  };
+  var __vue_staticRenderFns__$9 = [];
+  __vue_render__$9._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$9 = undefined;
+    /* scoped */
+    const __vue_scope_id__$9 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$9 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$9 = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbAutoCaptcha = normalizeComponent(
+      { render: __vue_render__$9, staticRenderFns: __vue_staticRenderFns__$9 },
+      __vue_inject_styles__$9,
+      __vue_script__$9,
+      __vue_scope_id__$9,
+      __vue_is_functional_template__$9,
+      __vue_module_identifier__$9,
+      undefined,
+      undefined
+    );
+
+  //
+
+  var script$a = {
+
+      name: 'fb-radio-group',
+
+      mixins: [ fieldMixin, focusMixin ],
+
+
+      props: {
+
+          box: {
+              type: Boolean,
+              default: false
+          },
+
+          items: Array,
+      },
+
+
+      data() {
+          return {
+              value: null,
+              inFocus: []
+          }
+      },
+
+
+      methods: {
+
+          checkActive( item ) {
+              return item.value ? this.value === item.value : this.value === item.toString();
+          },
+
+          setFocus( payload = true ) {
+              if ( typeof payload === 'number' ) {
+                  this.$refs.elements[payload].focus();
+              } else if ( payload === true ) {
+                  this.$refs.elements[0].focus();
+              }
+          },
+      },
+      
+      created() {
+          for ( let index = 0; index < this.items.length; index++ ) {
+              this.inFocus.push( index === 0 && this.focus ? true : false );
+          }
+      }
+  };
+
+  /* script */
+  const __vue_script__$a = script$a;
+  // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+  script$a.__file = "E:\\form-builder\\src\\vue\\fb-radio-group.vue";
+
+  /* template */
+  var __vue_render__$a = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _vm.items && _vm.items.length
+      ? _c(
+          "div",
+          {
+            staticClass: "grid__cell",
+            class: [{ "animated shake": _vm.shake }, _vm.cellClass]
+          },
+          [
+            _c(
+              "fb-error-wrap",
+              {
+                attrs: { open: _vm.tooltip, error: _vm.error },
+                on: { clickTooltip: _vm.clickTooltip }
+              },
+              [
+                _c(
+                  "span",
+                  { class: ["display-block", { "fc-radio": _vm.box }] },
+                  _vm._l(_vm.items, function(item, i) {
+                    return _c(
+                      "label",
+                      {
+                        key: i,
+                        class: [
+                          {
+                            "fc-radio__box": _vm.box,
+                            "is-checked": _vm.checkActive(item)
+                          }
+                        ]
+                      },
+                      [
+                        _c(
+                          "input",
+                          _vm._b(
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.value,
+                                  expression: "value"
+                                }
+                              ],
+                              ref: "fields",
+                              refInFor: true,
+                              class: [
+                                "fc-radio__field",
+                                { "is-focusable": _vm.isFocusable },
+                                { "in-focus": _vm.inFocus }
+                              ],
+                              attrs: {
+                                type: "radio",
+                                "data-awes": _vm.$options.name + "." + _vm.name,
+                                disabled: _vm.isDisabled
+                              },
+                              domProps: {
+                                value: item.value ? item.value : item.toString(),
+                                checked: _vm._q(
+                                  _vm.value,
+                                  item.value ? item.value : item.toString()
+                                )
+                              },
+                              on: {
+                                focus: function($event) {
+                                  _vm.$set(_vm.inFocus, i, true);
+                                },
+                                blur: function($event) {
+                                  _vm.$set(_vm.inFocus, i, false);
+                                },
+                                keydown: function($event) {
+                                  if (
+                                    !("button" in $event) &&
+                                    _vm._k(
+                                      $event.keyCode,
+                                      "enter",
+                                      13,
+                                      $event.key,
+                                      "Enter"
+                                    )
+                                  ) {
+                                    return null
+                                  }
+                                  $event.preventDefault();
+                                  return _vm.focusNext($event)
+                                },
+                                change: function($event) {
+                                  _vm.value = item.value
+                                    ? item.value
+                                    : item.toString();
+                                }
+                              }
+                            },
+                            "input",
+                            _vm.$attrs,
+                            false
+                          )
+                        ),
+                        _vm._v(" "),
+                        _vm._t(
+                          "default",
+                          [
+                            _c("span", { staticClass: "fc-radio__text" }, [
+                              _vm._v(
+                                _vm._s(item.name ? item.name : item.toString())
+                              )
+                            ])
+                          ],
+                          {
+                            item: item,
+                            checked: _vm.checkActive(item),
+                            focused: _vm.inFocus[i]
+                          }
+                        )
+                      ],
+                      2
+                    )
+                  }),
+                  0
+                )
+              ]
+            )
+          ],
+          1
+        )
+      : _vm._e()
+  };
+  var __vue_staticRenderFns__$a = [];
+  __vue_render__$a._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$a = undefined;
+    /* scoped */
+    const __vue_scope_id__$a = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$a = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$a = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+
+    
+    var fbRadioGroup = normalizeComponent(
+      { render: __vue_render__$a, staticRenderFns: __vue_staticRenderFns__$a },
+      __vue_inject_styles__$a,
+      __vue_script__$a,
+      __vue_scope_id__$a,
+      __vue_is_functional_template__$a,
+      __vue_module_identifier__$a,
+      undefined,
+      undefined
+    );
+
+  // importing components
+
+  function install(Vue) {
+
+      if ( this.installed ) return
+      this.installed = true;
+
+      Vue.component('form-builder', formBuilder);
+      Vue.component('fb-error-wrap', fbErrorWrap);
+      Vue.component('fb-input', fbInput);
+      Vue.component('fb-multi-block', fbMultiBlock);
+      Vue.component('fb-checkbox', fbCheckbox);
+      Vue.component('fb-select', fbSelect);
+      Vue.component('fb-textarea', fbTextarea);
+      Vue.component('fb-code', fbCode);
+      Vue.component('fb-company-slug', fbCompanySlug);
+      Vue.component('fb-auto-captcha', fbAutoCaptcha);
+      Vue.component('fb-radio-group', fbRadioGroup);
+  }
+
+  var plugin = {
+
+      installed: false,
+
+      install
+  };
+
+  var lang = {
+      FORMS_SEND: 'Send',
+      FORMS_CANCEL: 'Cancel',
+      FORMS_LOADING: 'Loading...',
+      FORMS_CONFIRM: 'Are you shure? All not submitted data will be erased...',
+      FORMS_MULTIBLOCK_ADD: 'add',
+      FORMS_SELECT_LABEL: 'Select a value',
+      FORMS_SELECT_PLACEHOLDER: 'Pick a value'
+  };
+
+  function reactiveUpdate( state, formId, fieldName, value ) {
+
+    let form = state.forms.find( form => form.id == formId );
+    const index = state.forms.findIndex( form => form.id == formId );
+
+    value === null ? _.unset( form, fieldName ) : _.set( form, fieldName, value );
+
+    Vue.set( state.forms, index, form ); // reactive update
+  }
+
+  const FORM_SCHEMA = ({ id, url, method, storeData }) => {
+    return {
+      id,
+      url,
+      storeData,
+      initialState: {
+        _method: method
+      },
+      realFields: [],
+      workingState: {},
+      loading: false,
+      isEdited: false,
+      editCounter: 0,
+      errors: {},
+      firstErrorField: null,
+      multiblockState: {}
+    }
+  };
+
+
+  const state = {
+    forms: []
+  };
+
+
+  const getters = {
+
+    form: ( state ) => formId => {
+      return state.forms.find( form => form.id == formId )
+    },
+    
+    formErrorsOrFalse: ( state, getters ) => formId => {
+      const errors = getters.form(formId).errors;
+      return Object.keys(errors).length ? errors : false
+    },
+
+    isEdited: ( state, getters ) => formId => {
+      return getters.form(formId).isEdited
+    },
+
+    fieldValue: ( state, getters ) => ( formId, fieldName ) => {
+      return _.get( getters.form(formId).workingState, fieldName )
+    },
+
+    fieldError: ( state, getters ) => ( formId, fieldName ) => {
+      return _.get( getters.form(formId).errors, fieldName )
+    },
+
+    firstErrorField: ( state, getters ) => formId => {
+      return getters.form(formId).firstErrorField
+    },
+
+    workingState: ( state, getters ) => formId => {
+      const form = getters.form( formId );
+      return form.workingState;
+    },
+
+    loading: ( state, getters ) => formId => {
+      return getters.form(formId).loading
+    },
+
+    multiblockDisabled: ( state, getters ) => ( formId, multiblock ) => {
+      return _.get( getters.form(formId).multiblockState, multiblock )
+    },
+   
+    hasCaptchaError: ( state, getters ) => formId => {
+      return getters.form(formId).errors.hasOwnProperty('g-recaptcha-response') ? true : false
+    }
+  };
+
+
+  const mutations = {
+
+    createForm( state, payload ) {
+      if ( this.getters['form'](payload.id) ) {
+        throw new Error(`Form with ID ${payload.id} already exists`)
+      }
+      state.forms.push( FORM_SCHEMA(payload) );
+    },
+
+    deleteForm( state, id ) {
+      const formIndex = state.forms.findIndex( form => form.id === id);
+      if ( formIndex !== -1 ) {
+        Vue.delete( state.forms, formIndex);
+      } else {
+        console.warn('No form to delete with id: ' + id );
+      }
+    },
+
+    setDefaultData( state, { id, fields }) {
+      const form = this.getters['form'](id);
+      form.initialState = _.merge( form.initialState,  _.cloneDeep( fields ) );
+      form.workingState = _.cloneDeep( form.initialState );
+    },
+
+    resetFormEdited( state, id ) {
+      const form = this.getters['form'](id);
+      form.isEdited = false;
+    },
+
+    setErrors( state, { id, errors } ) {
+      const form = this.getters['form'](id);
+      form.firstErrorField = Object.keys(errors)[0];
+      form.errors = errors;
+    },
+
+    resetError( state, { id, fieldName }) {
+      const form = this.getters['form'](id);
+      if ( form ) {
+        delete form.errors[fieldName];
+        reactiveUpdate( state, id, `errors`, form.errors );
+      }
+    },
+
+    resetErrors( state, id ) {
+      this.getters['form'](id).errors = {};
+    },
+
+    renameError( state, { id, oldName, newName, message }) {
+      const form = this.getters['form'](id);
+      Vue.set( form.errors, newName, message );
+      Vue.delete( form.errors, oldName );
+    },
+
+    setField( state, { id, fieldName, value, initial }) {
+      reactiveUpdate( state, id, `workingState.${fieldName}`, value );
+      const form = this.getters['form'](id);
+      if ( initial ) form.realFields.push(fieldName);
+      if ( initial !== true ) {
+        form.editCounter += 1;
+        form.isEdited = true;
+      }
+    },
+
+    unsetRealField( state, { id, fieldName }) {
+      const form = this.getters['form'](id);
+      if ( ! form ) return
+      let index = form.realFields.indexOf(fieldName);
+      Vue.delete(form.realFields, index);
+    },
+
+    toggleFormLoading( state, {id, isLoading }) {
+      const form = this.getters['form'](id);
+      form.loading = isLoading;
+    },
+
+    toggleMultiblockState( state, {id, multiblock, value} ) {
+      const form = this.getters['form'](id);
+      reactiveUpdate( state, id, `multiblockState.${multiblock}`, value );
+    },
+
+    resetFirstErrorField( state, id ) {
+      const form = this.getters['form'](id);
+      form.firstErrorField = null;
+    }
+  };
+
+
+  var storeModule = {
+    state,
+    getters,
+    mutations
+  };
+
+  const awesPlugin = {
+
+      modules: {
+          'vue': {
+              src: 'https://unpkg.com/vue@2.5.21/dist/vue.min.js',
+              cb() {
+                  // Vue.config.ignoredElements.push('form-builder', /^fb-/)
+                  Vue.use(plugin);
+              }
+          },
+          'lodash': 'https://unpkg.com/lodash@4.17.11/lodash.min.js',
+          'vuex': {
+              src: 'https://unpkg.com/vuex@2.5.0/dist/vuex.min.js',
+              deps: ['vue'],
+              cb() {
+                  Vue.prototype.$awesForms = new Vuex.Store(storeModule);
+              }
+          },
+          'vue-shortkey': {
+              src: 'https://unpkg.com/vue-shortkey@3',
+              deps: ['vue'],
+              cb() { Vue.use(VueShortkey); }
+          },
+          'v-tooltip': {
+              src: 'https://unpkg.com/v-tooltip@2.0.0-rc.33/dist/v-tooltip.min.js',
+              deps: ['vue'],
+              cb() {
+                  VTooltip.default.options.popover = Object.assign(VTooltip.default.options.popover, {
+                      defaultPlacement: 'right',
+                      defaultAutoHide: false,
+                      defaultTrigger: 'manual',
+                      defaultPopperOptions: {
+                          modifiers: {
+                              flip: {
+                                  behavior: ['right', 'top']
+                              }
+                          }
+
+                      }
+                  });
+              }
+          },
+          'vue-multiselect': {
+              src: ['https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.js',
+                    'https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css'],
+              deps: ['vue'],
+              cb() { 
+                  Vue.component('multiselect', window.VueMultiselect.default);
+              }
+          },
+          'vue-recaptcha': {
+              src: 'https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js',
+              deps: ['vue'],
+              cb() {
+                  Vue.component('vue-recaptcha', window.VueRecaptcha);
+              }
+          },
+          'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js',
+          'hammerjs': 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js'
+      },
+
+      install() {
+          AWES.lang = lang;
+      }
+  };
+
+  if (window && ('AWES' in window)) {
+      AWES.use(awesPlugin);
+  } else {
+      window.__awes_plugins_stack__ = window.__awes_plugins_stack__ || [];
+      window.__awes_plugins_stack__.push(awesPlugin);
+  }
+
+}());
