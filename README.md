@@ -1,19 +1,12 @@
-# AWES-forms module
+# AWES form-builder
 
 [![Build Status](https://www.awc.wtf/packages/awes-forms/status.svg)](https://www.awes.io/) 
 [![Downloads](https://www.awc.wtf/packages/awes-forms/downloads.svg)](https://www.awes.io/) 
 [![Last version](https://www.awc.wtf/packages/awes-forms/version.svg)](https://www.awes.io/)
 
-Includes components
+[Documentation](http://gitlab.awescode.com/awes-io/form-builder/blob/dev/docs/index.md)
 
-**form-builder**
+## NPM scripts
 
-**fb-input**
-
-**fb-checkbox**
-
-**fb-multi-block**
-
-**fb-select**
-
-**fb-textarea**
+Development mode `npm run watch` or simply `npm start`
+Production build `npm run build`
