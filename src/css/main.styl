@@ -1,0 +1,48 @@
+// form-builder styles must be here
+#awes-app
+    *
+        box-sizing border-box
+
+.grid__cell
+    width 100%
+
+.keycode
+    &__wrap
+        display flex
+        margin-left -5px
+        margin-right -5px
+    &__ffield
+        padding-left 5px
+        padding-right 5px
+    &__field
+        width 100%
+
+.input
+    &__label
+        display block
+    &__field, &__textarea
+        border 1px solid
+        width 100%
+
+.multi-bl
+    &__has-close
+        max-width: calc(100% - 40px)
+        width 100%
+        position relative
+    &__clear
+        position absolute
+        right -40px
+        top 24px
+        display block
+        width 34px
+        padding 0
+        border 1px solid
+        min-height 20px
+
+.v-popover.display-block>span
+    display block !important
+
+.icon-cross
+    font-style normal
+    &:before
+        content "x"

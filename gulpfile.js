@@ -2,6 +2,10 @@ const gulp = require('gulp')
 const clean = require('gulp-clean')
 const plumber = require('gulp-plumber')
 const noop = require('gulp-noop')
+const stylus = require('gulp-stylus')
+const postcss = require('gulp-postcss')
+const nib = require('nib')
+const sourcemaps = require('gulp-sourcemaps')
 const browserSync = require('browser-sync').create()
 const rollup = require('gulp-rollup')
 
@@ -22,6 +26,7 @@ if ( isDev ) {
       server: ['./examples', './dist']
     })
 
+    gulp.watch('./src/css/**/*.styl', gulp.series('build:styles'))
     gulp.watch(['./src/js/**/*.js', './src/vue/**/*.vue', 'src/vue/**/*.js'], gulp.series('build:js', 'reload'))
     gulp.watch('./examples/**/*.html', gulp.series('reload'))
   })
@@ -47,13 +52,18 @@ gulp.task('build:js', function(){
 
 
 /*
- * HTML
+ * Styles
  */
 
-gulp.task('build:html', function(){
-  return gulp.src('./src/*.html')
+gulp.task('build:styles', function(){
+  return gulp.src('./src/css/main.styl')
     .pipe( plumber() )
-    .pipe( gulp.dest('./dist') )
+    .pipe( isDev ? sourcemaps.init() : noop() )
+    .pipe( stylus({ use: nib(), 'include css': true, import: ['nib'], compress: false }) )
+    .pipe( isDev ? noop() : postcss() )
+    .pipe( isDev ? sourcemaps.write() : noop() )
+    .pipe( gulp.dest('./dist/css') )
+    .pipe( isDev ? browserSync.stream() : noop() )
 })
 
 
@@ -66,7 +76,7 @@ gulp.task('clean', function(){
     .pipe( clean() )
 })
 
-gulp.task('build', gulp.series('build:js', 'build:html') )
+gulp.task('build', gulp.series('build:js', 'build:styles') )
 
 // start
 defaultTask = ['clean', 'build']
