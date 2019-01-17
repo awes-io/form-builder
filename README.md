@@ -9,4 +9,7 @@
 ## NPM scripts
 
 Development mode `npm run watch` or simply `npm start`
+
+Development mode for IE `npm run watch:legacy`
+
 Production build `npm run build`
