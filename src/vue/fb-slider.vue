@@ -17,9 +17,6 @@
 
         <span class="input__range-value">{{ value }} / {{ max }}</span>
 
-        <!-- <span class="input__range-fake">
-            <span class="input__range-fake-track"
-                  :style="{left: `${(value/max*100).toFixed(1)}%`}"></span> -->
             <input v-bind="$attrs"
                    :id="inputId"
                    :class="['input__range', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
@@ -31,7 +28,6 @@
                    @blur="inFocus = false"
                    @keydown.enter.prevent="focusNext"
                    ref="element">
-        <!-- </span> -->
 
       </fb-error-wrap>
     </div>
