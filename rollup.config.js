@@ -21,7 +21,7 @@ module.exports = {
         }
     },
     plugins: [
-        vuePlugin(),
+        vuePlugin({ css: false }),
         commonJsPlugin({
             include: 'node_modules/**'
         }),
@@ -36,7 +36,9 @@ module.exports = {
 if ( ! isModern ) {
     module.exports.plugins.push( 
         babelPlugin({
-            exclude: 'node_modules/**'
+            exclude: 'node_modules/**',
+            runtimeHelpers: true,
+            extensions: ['.js', '.vue']
         })
     )
 }

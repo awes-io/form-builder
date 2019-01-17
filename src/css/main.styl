@@ -1,4 +1,9 @@
-// form-builder styles must be here
+flex-version = flex
+support-for-ie = false
+vendor-prefixes = official
+
+@import './range'
+
 #awes-app
     *
         box-sizing border-box
@@ -38,6 +43,29 @@
         padding 0
         border 1px solid
         min-height 20px
+/
+.fb__input_slug
+
+    .input__field
+        text-align right
+        padding-right 5px
+
+    .fb__input
+        &-wrap
+            display: flex
+
+        &-inner
+            flex-grow 1
+            display block
+            position relative
+
+        &-domain
+            color gray // replace
+            width auto
+            display inline-flex
+            align-items center
+            font-size 16px
+            padding 12px 0 0 5px
 
 .v-popover.display-block>span
     display block !important
