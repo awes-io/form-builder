@@ -10,6 +10,7 @@ import fbCode from '../vue/fb-code.vue'
 import fbCompanySlug from '../vue/fb-company-slug.vue'
 import fbAutoCaptcha from '../vue/fb-auto-captcha.vue'
 import fbRadioGroup from '../vue/fb-radio-group.vue'
+import fbSlider from '../vue/fb-slider.vue'
 
 export function install(Vue) {
 
@@ -27,6 +28,7 @@ export function install(Vue) {
     Vue.component('fb-company-slug', fbCompanySlug)
     Vue.component('fb-auto-captcha', fbAutoCaptcha)
     Vue.component('fb-radio-group', fbRadioGroup)
+    Vue.component('fb-slider', fbSlider)
 }
 
 export default {

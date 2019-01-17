@@ -15,7 +15,24 @@
 
         <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
 
-        <input v-bind="$attrs"
+        <!-- duplicating just because of mask :( -->
+        <input v-if="mask"
+               v-bind="$attrs"
+               :id="inputId"
+               :class="['input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
+               :data-awes="$options.name + '.' + name"
+               :type="inputType"
+               :disabled="isDisabled"
+               v-mask="mask"
+               v-model="value"
+               @focus="inFocus = true"
+               @blur="inFocus = false"
+               @keydown.enter.prevent="focusNext"
+               @animationstart="autoFillHack"
+               :spellcheck="spellcheck"
+               ref="element">
+        <input v-else
+               v-bind="$attrs"
                :id="inputId"
                :class="['input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
                :data-awes="$options.name + '.' + name"
@@ -65,7 +82,8 @@
         spellcheck: {
           type: Boolean,
           default: false
-        }
+        },
+        mask: String
       },
 
       data() {

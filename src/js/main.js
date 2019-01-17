@@ -8,7 +8,6 @@ const awesPlugin = {
         'vue': {
             src: 'https://unpkg.com/vue@2.5.21/dist/vue.min.js',
             cb() {
-                // Vue.config.ignoredElements.push('form-builder', /^fb-/)
                 Vue.use(plugin)
             }
         },
@@ -58,6 +57,10 @@ const awesPlugin = {
             cb() {
                 Vue.component('vue-recaptcha', window.VueRecaptcha)
             }
+        },
+        'vue-the-mask': {
+            src: 'https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js',
+            deps: ['vue']
         },
         'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js',
         'hammerjs': 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js'

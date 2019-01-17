@@ -119,28 +119,3 @@
         }
     }
 </script>
-
-<style lang="stylus">
-.fb__input_slug
-    
-    .input__field
-        text-align right
-        padding-right 5px
-
-    .fb__input
-        &-wrap
-            display: flex
-
-        &-inner
-            flex-grow 1
-            display block
-            position relative
-            
-        &-domain
-            color gray // replace
-            width auto
-            display inline-flex
-            align-items center
-            font-size 16px
-            padding 12px 0 0 5px
-</style>
