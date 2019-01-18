@@ -12,8 +12,8 @@
         :open="tooltip"
         :error="error"
         @clickTooltip="clickTooltip">
-        <div class="inpit__range-wrap">
-          <div class="inpit__range-left">
+        <div class="input__range-wrap">
+          <div class="input__range-left">
             <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
             <span class="input__range-value">{{ value }} / {{ max }}</span>
           </div>
