@@ -12,23 +12,24 @@
         :open="tooltip"
         :error="error"
         @clickTooltip="clickTooltip">
-
-        <div class="inpit__range-left">
-          <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
-          <span class="input__range-value">{{ value }} / {{ max }}</span>
-        </div>
-        <div class="input__range-right">
-          <input v-bind="$attrs"
-                  :id="inputId"
-                  :class="['input__range', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
-                  :data-awes="$options.name + '.' + name"
-                  type="range"
-                  :disabled="isDisabled"
-                  v-model="value"
-                  @focus="inFocus = true"
-                  @blur="inFocus = false"
-                  @keydown.enter.prevent="focusNext"
-                  ref="element">
+        <div class="inpit__range-wrap">
+          <div class="inpit__range-left">
+            <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
+            <span class="input__range-value">{{ value }} / {{ max }}</span>
+          </div>
+          <div class="input__range-right">
+            <input v-bind="$attrs"
+                    :id="inputId"
+                    :class="['input__range', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
+                    :data-awes="$options.name + '.' + name"
+                    type="range"
+                    :disabled="isDisabled"
+                    v-model="value"
+                    @focus="inFocus = true"
+                    @blur="inFocus = false"
+                    @keydown.enter.prevent="focusNext"
+                    ref="element">
+          </div>
         </div>
 
       </fb-error-wrap>
