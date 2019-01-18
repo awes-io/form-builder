@@ -5,7 +5,7 @@
                  'animated shake': shake, 
                  'disabled': isDisabled },
                   cellClass]" > 
-        <div :class="['input', { 'input_disabled': isDisabled }]">
+        <div :class="['input', 'input_phone', { 'input_disabled': isDisabled }]">
             <span class="input__label">Phone</span> 
             <vue-tel-input v-model="value" ref="tel" @onBlur="inFocus = false"></vue-tel-input>
         </div>
@@ -56,8 +56,7 @@ export default {
             this.nativeTelInput.addEventListener('focus', () => {
                 this.inFocus = true
             })
-            
-            this.nativeTelInput.classList.add('input_phone')
+
             this.setFocusableClass()
             this.setFocusClass()
         },
