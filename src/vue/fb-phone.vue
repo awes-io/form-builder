@@ -5,21 +5,25 @@
                  'animated shake': shake, 
                  'disabled': isDisabled },
                   cellClass]" > 
-        <div :class="['input input_phone', { 'input_disabled': isDisabled }]">
+        <div :class="['input', 'input_phone', { 'input_disabled': isDisabled }]">
             <span class="input__label">Phone</span> 
-            <vue-tel-input @onInput="onInput" v-model="value.input"></vue-tel-input>
+            <vue-tel-input v-model="value" ref="tel" @onBlur="inFocus = false"></vue-tel-input>
         </div>
     </div>
 </template>
 
 <script>
 import fieldMixin from './mixins/fb-field.js';
+import focusMixin from './mixins/fb-focus.js';
+
+const ERR_COUNTER_MAX = 20
+let errCounter = ERR_COUNTER_MAX
 
 export default {
 
     name: 'fb-phone',
 
-    mixins: [ fieldMixin ],
+    mixins: [ fieldMixin, focusMixin ],
 
     components: {
         VueTelInput: resolve => {
@@ -36,23 +40,84 @@ export default {
 
     data() {
         return {
-            value: {
-                input: '',
-                formatted: ''
-            }
+            nativeTelInput: false,
+            value: ''
         }
     },
 
 
     methods: {
+        
+        setFocusWatcher() {
+            if ( ! this.$refs.tel ) return
 
-        onInput({ number, isValid, country }) {
-            if ( isValid ) {
-                this.value.formatted = number
+            this.nativeTelInput = this.$refs.tel.$refs.input
+
+            this.nativeTelInput.addEventListener('focus', () => {
+                this.inFocus = true
+            })
+
+            this.setFocusableClass()
+            this.setFocusClass()
+        },
+        
+        setFocusClass() {
+            this.nativeTelInput.classList[ this.inFocus ? 'add' : 'remove' ]('in-focus')
+            errCounter = ERR_COUNTER_MAX
+        },
+        
+        setFocusableClass() {
+            this.nativeTelInput.classList[ this.isFocusable ? 'add' : 'remove' ]('is-focusable')
+            errCounter = ERR_COUNTER_MAX
+        },
+
+        setFocus(state) {
+          try {
+            let useMethod = (state !== false) ? 'focus' : 'blur';
+            this.nativeTelInput[useMethod]()
+          } catch (e) {
+            if ( errCounter ) {
+                errCounter--
+                setTimeout( () => { this.setFocus(state) }, 1000 )
             }
-            // method from field mixin
-            this.valueHandler(this.value)
+          }
         }
+    },
+
+
+    watch: {
+
+        inFocus() {
+            try {
+                this.setFocusClass()
+            } catch(e) {
+                if ( errCounter ) {
+                    errCounter--
+                    setTimeout( this.setFocusClass, 1000 )
+                }
+            }
+        },
+
+        isFocusable() {
+            try {
+                this.setFocusableClass()
+            } catch(e) {
+                if ( errCounter ) {
+                    errCounter--
+                    setTimeout( this.setFocusableClass, 1000 )
+                }
+            }
+        }
+    },
+
+
+    mounted() {
+        this.setFocusWatcher()
+    },
+    
+    
+    updated() {
+        if ( ! this.nativeTelInput ) this.setFocusWatcher()
     }
 }
 </script>

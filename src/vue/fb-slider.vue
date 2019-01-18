@@ -6,7 +6,7 @@
                  'disabled': isDisabled },
                 cellClass]" >
 
-    <div :class="['input', { 'input_disabled': isDisabled }]">
+    <div :class="['input', 'input_range', { 'input_disabled': isDisabled }]">
 
       <fb-error-wrap
         :open="tooltip"
