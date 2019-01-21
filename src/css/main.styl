@@ -2,8 +2,6 @@ flex-version = flex
 support-for-ie = false
 vendor-prefixes = official
 
-@import './range'
-
 #awes-app
     *
         box-sizing border-box
@@ -43,7 +41,7 @@ vendor-prefixes = official
         padding 0
         border 1px solid
         min-height 20px
-/
+
 .fb__input_slug
 
     .input__field
@@ -66,6 +64,15 @@ vendor-prefixes = official
             align-items center
             font-size 16px
             padding 12px 0 0 5px
+
+.input__range
+    width: 100%
+    &-wrap
+        display flex
+    &-right
+        width: 100%
+        display: flex
+        align-items: center
 
 .v-popover.display-block>span
     display block !important
