@@ -15,7 +15,7 @@
         <div class="input__range-wrap">
           <div class="input__range-left">
             <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
-            <span class="input__range-value">{{ percent }}</span>
+            <span class="input__range-value">{{ percent }} %</span>
           </div>
           <div class="input__range-right">
             <input v-bind="$attrs"
