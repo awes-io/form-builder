@@ -7,7 +7,7 @@
                   cellClass]" > 
         <div :class="['input', 'input_phone', { 'input_disabled': isDisabled }]">
             <span class="input__label">Phone</span> 
-            <vue-tel-input v-model="value" ref="tel" @onBlur="inFocus = false"></vue-tel-input>
+            <vue-tel-input v-model="value" ref="tel" @onBlur="inFocus = false" @onInput="checkFocus"></vue-tel-input>
         </div>
     </div>
 </template>
@@ -81,6 +81,10 @@ export default {
                 setTimeout( () => { this.setFocus(state) }, 1000 )
             }
           }
+        },
+
+        checkFocus() {
+            if ( ! this.inFocus ) this.setFocus()
         }
     },
 
