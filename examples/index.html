@@ -35,10 +35,10 @@
         margin-bottom: 5px;
       }
     </style>
-  
+
     <div id="awes-app">
       <div style="max-width: 500px">
-        <form-builder url="http://httpbin.org/post">
+        <form-builder url="http://httpbin.org/post" disabled-dialog>
           <div class="demo-title">Input example</div>
           <fb-input name="input" label="label"></fb-input>
 
@@ -77,8 +77,8 @@
           <div class="grid__title">Auto captcha</div>
           <fb-auto-captcha show></fb-auto-captcha>
           
-          <div class="grid__title">Slider (styled example for test)</div>
-          <fb-slider name="range"></fb-slider>
+          <div class="grid__title">Slider</div>
+          <fb-slider name="range" label="Range"></fb-slider>
           
           <div class="grid__title">Telephone</div>
           <fb-phone name="phone"></fb-phone>

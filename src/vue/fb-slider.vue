@@ -15,12 +15,13 @@
         <div class="input__range-wrap">
           <div class="input__range-left">
             <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
-            <span class="input__range-value">{{ value }} / {{ max }}</span>
+            <span class="input__range-value">{{ percent }}</span>
           </div>
           <div class="input__range-right">
             <input v-bind="$attrs"
                     :id="inputId"
                     :class="['input__range', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
+                    :style="'--percent: ' + percent + '%'"
                     :data-awes="$options.name + '.' + name"
                     type="range"
                     :disabled="isDisabled"
@@ -45,7 +46,7 @@
 
   export default {
 
-      name: "fb-input",
+      name: "fb-slider",
 
       inheritAttrs: false,
 
@@ -78,6 +79,10 @@
         
         inputId() {
           return 'slider-' + _sliderId++
+        },
+
+        percent() {
+            return Math.round( Number(this.value) / Number(this.max) * 100 )
         }
       }
     }
