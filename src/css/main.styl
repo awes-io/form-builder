@@ -42,16 +42,10 @@ vendor-prefixes = official
         border 1px solid
         min-height 20px
 
-.fb__input_slug
-
-    .input__field
-        text-align right
-        padding-right 5px
-
-    .fb__input
+.fb
+    &__input
         &-wrap
             display: flex
-
         &-inner
             flex-grow 1
             display block
@@ -64,6 +58,12 @@ vendor-prefixes = official
             align-items center
             font-size 16px
             padding 12px 0 0 5px
+        &_slug
+            .input__field
+                text-align right
+                padding-right 5px
+
+
 
 .input__range
     width: 100%
