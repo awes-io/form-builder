@@ -12,6 +12,7 @@ const FORM_SCHEMA = ({ id, url, method, storeData }) => {
     workingState: {},
     loading: false,
     isEdited: false,
+    isBlocked: false,
     editCounter: 0,
     errors: {},
     firstErrorField: null,
@@ -38,6 +39,10 @@ const getters = {
 
   isEdited: ( state, getters ) => formId => {
     return getters.form(formId).isEdited
+  },
+
+  isBlocked: ( state, getters ) => formId => {
+    return getters.form(formId).isBlocked
   },
 
   fieldValue: ( state, getters ) => ( formId, fieldName ) => {
@@ -144,6 +149,11 @@ const mutations = {
   toggleFormLoading( state, {id, isLoading }) {
     const form = this.getters['form'](id);
     form.loading = isLoading
+  },
+
+  toggleFormBlocked( state, {id, isBlocked }) {
+    const form = this.getters['form'](id);
+    form.isBlocked = isBlocked
   },
 
   toggleMultiblockState( state, {id, multiblock, value} ) {
