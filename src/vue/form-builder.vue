@@ -16,7 +16,7 @@
             <button
               class="btn btn-send waves-effect waves-button"
               :class="{ 'loading-inline': showLoader }"
-              :disabled="!isEdited"
+              :disabled="!isEdited || isBlocked"
               :data-loading="$lang.FORMS_LOADING"
               type="submit"
               data-awes="modal_button_ok"
@@ -147,6 +147,10 @@
       isEdited() {
         return this.$awesForms.getters['isEdited'](this.name)
       },
+      
+      isBlocked() {
+        return this.$awesForms.getters['isBlocked'](this.name)
+      },
 
       workingState() {
         return this.$awesForms.getters['workingState'](this.name)
@@ -228,12 +232,13 @@
       },
 
       send() {
+        if ( this.loading || this.isBlocked ) return
         // invoke attached @send method if present
         if ( this.$listeners.hasOwnProperty('send') ) {
           this.$emit('send', this.workingState)
         }
         // otherwise send form with serverRequest
-        else if ( ! this.loading ) {
+        else {
           this.removeUnloadHandlers()
           this.$awesForms.commit('resetErrors', this.name);
           this.loading = true;

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AwesCode Forms package test</title>
+    <style>
+      .demo-title {
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-size: 25px;
+      }
+    </style>
+    <script>
+      AWES_CONFIG = {
+        key: '680a7d07f89b94e7fc83be657a2daa27'
+      }
+    </script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/js-core/v0.x.x/js/main.js"></script>
+</head>
+
+<body>
+    <div id="awes-app">
+      <div style="max-width: 500px">
+        <form-builder url="http://httpbin.org/post" disabled-dialog>
+          <div class="demo-title">File uploader</div>
+          <fb-uploader name="files" url="http://httpbin.org/post" format="mp4, docx" size="15"></fb-uploader>
+        </form-builder>
+      </div>
+    </div>
+</body>
+
+</html>
