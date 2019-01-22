@@ -62,16 +62,6 @@ const awesPlugin = {
             src: 'https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js',
             deps: ['vue']
         },
-        // 'vue-tel-input': {
-        //     src: [
-        //         'https://unpkg.com/vue-tel-input@2.0.13/dist/vue-tel-input.js',
-        //         'https://unpkg.com/vue-tel-input@2.0.13/dist/vue-tel-input.css'
-        //     ],
-        //     deps: ['vue'],
-        //     cb() {
-        //         Vue.use(VueTelInput.default)
-        //     }
-        // },
         'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js',
         'hammerjs': 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js'
     },

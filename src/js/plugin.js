@@ -12,6 +12,7 @@ import fbAutoCaptcha from '../vue/fb-auto-captcha.vue'
 import fbRadioGroup from '../vue/fb-radio-group.vue'
 import fbSlider from '../vue/fb-slider.vue'
 import fbPhone from '../vue/fb-phone.vue'
+import fbUploader from '../vue/fb-uploader.vue'
 
 export function install(Vue) {
 
@@ -31,6 +32,15 @@ export function install(Vue) {
     Vue.component('fb-radio-group', fbRadioGroup)
     Vue.component('fb-slider', fbSlider)
     Vue.component('fb-phone', fbPhone)
+    Vue.component('fb-uploader', resolve => {
+        AWES.utils.loadModule(
+            'vue-simple-uploader',
+            'https://unpkg.com/vue-simple-uploader@0.5.6/dist/vue-uploader.js',
+            () => {
+                resolve(fbUploader)
+            }
+        )
+    })
 }
 
 export default {
