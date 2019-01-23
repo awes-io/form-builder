@@ -69,7 +69,7 @@
                                             <td colspan="6" class="fb-uploader__list-progress">
                                                 <progress 
                                                     class="fb-uploader__progress" 
-                                                    max="100" 
+                                                    max="1" 
                                                     :value="file.progress()">
                                                 </progress>
                                             </td>
