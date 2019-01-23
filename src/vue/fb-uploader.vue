@@ -43,7 +43,7 @@
                                                     placement="top"
                                                     trigger="hover focus"
                                                 >
-                                                    <abbr>{{ getName(file.name) }}</abbr>
+                                                    <span class="fb-uploader__list-ftitle">{{ getName(file.name) }}</span>
                                                     <span slot="popover">
                                                     {{ getName(file.name) }}
                                                     </span>
