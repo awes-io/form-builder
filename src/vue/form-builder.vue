@@ -245,8 +245,14 @@
           this.loading = true;
           AWES.on('core:ajax', this.onRequestProcess )
           AWES.ajax( this.workingState, this.url, this.method )
-              .then( data => { this.serverData = data })
-              .catch( data => { this.serverDataErrors = data })
+              .then( res => { 
+                  if ( res.success && res.data ) {
+                    this.serverData = res.data
+                  }
+                  if ( ! res.success && res.data ) {
+                    this.serverDataErrors = res.data
+                  }
+              })
               .finally( () => {
                   this.loading = false;
                   this.showLoader = false;

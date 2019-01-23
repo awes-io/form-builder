@@ -2,6 +2,7 @@
     <div class="grid__cell grid__cell_uploader">
         <uploader
             class="fb-uploader"
+            :class="{'input_disabled': isDisabled}"
             :options="uploaderOptions"
             @file-added="checkFile"
             @file-progress="setProgress"
@@ -44,16 +45,7 @@
                                         <tr :key="file.id">
                                             <td class="fb-uploader__list-number">{{ i + 1 }}</td>
                                             <td class="fb-uploader__list-name">
-                                                <v-popover
-                                                    popover-class="fb-uploader__tooltip"
-                                                    placement="top"
-                                                    trigger="hover focus"
-                                                >
-                                                    <span class="fb-uploader__list-ftitle">{{ getName(file.name) }}</span>
-                                                    <span slot="popover">
-                                                    {{ getName(file.name) }}
-                                                    </span>
-                                                </v-popover>
+                                                <span class="fb-uploader__list-ftitle">{{ getName(file.name) }}</span>
                                             </td>
                                             <td class="fb-uploader__list-type">{{ getExtension(file.name) }}</td>
                                             <td class="fb-uploader__list-size">{{ file.size | bytesToMb }}</td>
