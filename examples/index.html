@@ -47,7 +47,9 @@
 
           <div class="demo-title">Multi-block example</div>
           <fb-multi-block name="multi">
-            <fb-input name="input" label="multi-block"></fb-input>
+            <template slot-scope="mb">
+                <fb-input name="input" label="multi-block" :id="mb.id"></fb-input>
+            </template>
           </fb-multi-block>
 
           <div  class="demo-title">Checkbox example</div>

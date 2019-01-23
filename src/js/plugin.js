@@ -13,6 +13,8 @@ import fbRadioGroup from '../vue/fb-radio-group.vue'
 import fbSlider from '../vue/fb-slider.vue'
 import fbPhone from '../vue/fb-phone.vue'
 import fbUploader from '../vue/fb-uploader.vue'
+import fbEditor from '../vue/fb-editor.vue'
+import { loadEditor } from '../js/utils/codeEditors.js'
 
 export function install(Vue) {
 
@@ -36,10 +38,11 @@ export function install(Vue) {
         AWES.utils.loadModule(
             'vue-simple-uploader',
             'https://unpkg.com/vue-simple-uploader@0.5.6/dist/vue-uploader.js',
-            () => {
-                resolve(fbUploader)
-            }
+            () => { resolve(fbUploader) }
         )
+    })
+    Vue.component('fb-editor', resolve => {
+        loadEditor().then( () => { resolve(fbEditor) })
     })
 }
 

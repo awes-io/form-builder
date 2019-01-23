@@ -10,5 +10,7 @@ export default {
     FORMS_UPLOAD_ADD: 'Add file',
     FORMS_UPLOAD_FORMAT: 'File formats only',
     FORMS_UPLOAD_SIZE: 'Size of files no more then',
-    FORMS_UPLOAD_REMOVE: 'Remove file'
+    FORMS_UPLOAD_REMOVE: 'Remove file',
+    FORMS_EDITOR_VISUAL: 'Visual',
+    FORMS_EDITOR_CODE: 'Code'
 }
