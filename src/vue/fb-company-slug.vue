@@ -84,7 +84,7 @@
         watch: {
 
             fromValue( val ) {
-                if ( ! this.watchInput ) return
+                if ( ! this.watchInput || ! val ) return
                 this.value = this.noramlizeUrl(val) 
             }
         },

@@ -1,5 +1,9 @@
 <template>
-  <div class="mselect grid__cell" :class="[{ 'mselect_active': inActive }, { 'mselect_opened': isOpened }, cellClass]">
+  <div
+    class="mselect grid__cell"
+    :class="[{ 'mselect_active': inActive },
+             { 'mselect_opened': isOpened },
+             { 'input_disabled': disabled }, cellClass]">
     <span class="mselect__label">{{ label || $lang.FORMS_SELECT_LABEL }}</span>
     <multiselect
       :show-labels="false"
@@ -10,6 +14,7 @@
       label="name"
       track-by="value"
       :hide-selected="true"
+      :disabled="isDisabled"
       class="input__field"
       @open="isOpened = true"
       @close="isOpened = false"/>
@@ -18,17 +23,27 @@
 
 <script>
   import fieldMixin from './mixins/fb-field.js';
-  // const Multiselect = window.VueMultiselect.default;
 
   export default {
 
     name: "fb-select",
 
-    inheritAttrs: false,
+    // inheritAttrs: false,
 
     mixins: [ fieldMixin ],
 
-    // components: { Multiselect },
+    components: { 
+        Multiselect: resolve => {
+            AWES.utils.loadModules({
+                'vue-multiselect': {
+                    src: ['https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.js',
+                          'https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css'],
+                    deps: ['vue'],
+                    cb() { resolve(window.VueMultiselect.default) }
+                },
+            })
+        }
+    },
 
     props: {
 

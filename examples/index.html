@@ -38,12 +38,12 @@
 
     <div id="awes-app">
       <div style="max-width: 500px">
-        <form-builder url="http://httpbin.org/post" disabled-dialog>
+        <form-builder url="/no-such-url" disabled-dialog>
           <div class="demo-title">Input example</div>
           <fb-input name="input" label="label"></fb-input>
 
           <div class="demo-title">Masked input example: 3 letters - 3 digits</div>
-          <fb-input name="input" label="Masked input" mask="AAA-###"></fb-input>
+          <fb-input name="minput" label="Masked input" mask="AAA-###"></fb-input>
 
           <div class="demo-title">Multi-block example</div>
           <fb-multi-block name="multi">
@@ -58,9 +58,6 @@
           <div  class="demo-title">Switcher example</div>
           <fb-checkbox name="check" label="checkbox" theme="s2"></fb-checkbox>
 
-          <div class="demo-title">Uploader example</div>
-          <fb-uploader name="files" url="http://httpbin.org/post" format="mp4, docx" size="15"></fb-uploader>
-          
           <div  class="demo-title">Radio-group example</div>
           <fb-radio-group name="radio" label="radio" :items="[{name:'one', value: 1}, {name:'two', value: 2}, {name:'three', value: 3}]"></fb-radio-group>
 

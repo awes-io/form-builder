@@ -7,7 +7,13 @@
                   cellClass]" > 
         <div :class="['input', 'input_phone', { 'input_disabled': isDisabled }]">
             <span class="input__label">Phone</span> 
-            <vue-tel-input v-model="value" ref="tel" @onBlur="inFocus = false" @onInput="checkFocus"></vue-tel-input>
+            <vue-tel-input
+                v-model="value"
+                :disabled="isDisabled"
+                @onBlur="inFocus = false"
+                @onInput="checkFocus"
+                ref="tel"
+            ></vue-tel-input>
         </div>
     </div>
 </template>
