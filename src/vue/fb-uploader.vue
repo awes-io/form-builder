@@ -31,44 +31,46 @@
             <uploader-list>
                 <template slot-scope="props">
                     <slot name="list" :file-list="props.fileList" :remove-file="removeFile">
-                        <table class="fb-uploader__list" >
-                            <tbody>
-                                <tr v-for="(file, i) in props.fileList" :key="file.id">
-                                    <td class="fb-uploader__list-number">{{ i + 1 }}</td>
-                                    <td class="fb-uploader__list-name">
-                                        <v-popover
-                                            popover-class="fb-uploader__tooltip"
-                                            placement="top"
-                                            trigger="hover focus"
-                                        >
-                                            <abbr>{{ getName(file.name) }}</abbr>
-                                            <span slot="popover">
-                                            {{ getName(file.name) }}
-                                            </span>
-                                        </v-popover>
-                                    </td>
-                                    <td class="fb-uploader__list-type">{{ getExtension(file.name) }}</td>
-                                    <td class="fb-uploader__list-size">{{ file.size | bytesToMb }}</td>
-                                    <td class="fb-uploader__list-progress">
-                                        <template v-if="file.isComplete()">
-                                            {{ file._lastProgressCallback | timestampToDate }}
-                                        </template>
-                                        <progress 
-                                            v-else
-                                            class="fb-uploader__progress"
-                                            :value="file.progress()">
-                                        </progress>
-                                    </td>
-                                    <td class="fb-uploader__list-delete">
-                                        <button
-                                            class="fb-uploader__delete"
-                                            :title="$lang.FORMS_UPLOAD_DELETE"
-                                            :aria-label="$lang.FORMS_UPLOAD_DELETE"
-                                            @click.prevent="removeFile(file, i)" >&times;</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div v-if="props.fileList.length > 0" class="fb-uploader__cwrap">
+                            <table class="fb-uploader__list" >
+                                <tbody>
+                                    <tr v-for="(file, i) in props.fileList" :key="file.id">
+                                        <td class="fb-uploader__list-number">{{ i + 1 }}</td>
+                                        <td class="fb-uploader__list-name">
+                                            <v-popover
+                                                popover-class="fb-uploader__tooltip"
+                                                placement="top"
+                                                trigger="hover focus"
+                                            >
+                                                <abbr>{{ getName(file.name) }}</abbr>
+                                                <span slot="popover">
+                                                {{ getName(file.name) }}
+                                                </span>
+                                            </v-popover>
+                                        </td>
+                                        <td class="fb-uploader__list-type">{{ getExtension(file.name) }}</td>
+                                        <td class="fb-uploader__list-size">{{ file.size | bytesToMb }}</td>
+                                        <td class="fb-uploader__list-progress">
+                                            <template v-if="file.isComplete()">
+                                                {{ file._lastProgressCallback | timestampToDate }}
+                                            </template>
+                                            <progress 
+                                                v-else
+                                                class="fb-uploader__progress"
+                                                :value="file.progress()">
+                                            </progress>
+                                        </td>
+                                        <td class="fb-uploader__list-delete">
+                                            <button
+                                                class="fb-uploader__delete"
+                                                :title="$lang.FORMS_UPLOAD_DELETE"
+                                                :aria-label="$lang.FORMS_UPLOAD_DELETE"
+                                                @click.prevent="removeFile(file, i)" >&times;</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </slot>
                 </template>
             </uploader-list><!-- / files list -->
