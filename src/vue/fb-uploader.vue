@@ -1,5 +1,5 @@
 <template>
-    <div class="fb__uploader grid__cell">
+    <div class="grid__cell grid__cell_uploader">
         <uploader
             class="fb-uploader"
             :options="uploaderOptions"
@@ -12,10 +12,10 @@
 
             <!-- dropzone -->
             <uploader-drop>
-                <p class="fb-uploader__message">{{ $lang.FORMS_UPLOAD_DROP }} 
-                    <uploader-btn class="fb-uploader__btn">
-                        {{ $lang.FORMS_UPLOAD_ADD }}
-                    </uploader-btn>
+                <p class="fb-uploader__message">
+                    {{ $lang.FORMS_UPLOAD_DROP }} 
+                    <span class="fb-uploader__fakebtn">{{ $lang.FORMS_UPLOAD_ADD }}</span>
+                    <uploader-btn class="fb-uploader__btn"><span>{{ $lang.FORMS_UPLOAD_ADD }}</span></uploader-btn>
                 </p>
                 <p v-if="format || size">
                     <i class="fb-uploader__formats" v-if="format">
