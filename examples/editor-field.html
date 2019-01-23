@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AwesCode Forms editor test</title>
+    <script>
+      AWES_CONFIG = {
+        key: '680a7d07f89b94e7fc83be657a2daa27'
+      }
+    </script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/js-core/v0.x.x/js/main.js"></script>
+</head>
+
+<body>
+    <div id="awes-app">
+        <form-builder url="http://httpbin.org/post" disabled-dialog :default="{editor:'<h1>Hello !</h1> <p>This is saved data</p>'}">
+            <fb-editor name="editor"></fb-editor>
+        </form-builder>
+    </div>
+</body>
+
+</html>

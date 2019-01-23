@@ -4,6 +4,7 @@
             class="fb-uploader"
             :options="uploaderOptions"
             @file-added="checkFile"
+            @file-progress="setProgress"
             @file-success="addFileNameToForm"
             @upload-start="toggleFormBlock(true)"
             @complete="toggleFormBlock(false)"
@@ -30,12 +31,17 @@
             <!-- files list -->
             <uploader-list>
                 <template slot-scope="props">
-                    <slot name="list" :file-list="props.fileList" :remove-file="removeFile">
-                        <div v-if="props.fileList.length > 0" class="fb-uploader__cwrap">
-                            <table class="fb-uploader__list" >
+                    <slot
+                        name="list"
+                        :file-list="props.fileList"
+                        :remove-file="removeFile"
+                    >
+                        <div v-if="props.fileList.length"
+                             class="fb-uploader__cwrap">
+                            <table class="fb-uploader__list">
                                 <tbody>
-                                    <template v-for="(file, i) in props.fileList" :key="file.id">
-                                        <tr>
+                                    <template v-for="(file, i) in props.fileList">
+                                        <tr :key="file.id">
                                             <td class="fb-uploader__list-number">{{ i + 1 }}</td>
                                             <td class="fb-uploader__list-name">
                                                 <v-popover
@@ -65,12 +71,16 @@
                                                     @click.prevent="removeFile(file, i)" >&times;</button>
                                             </td>
                                         </tr>
-                                        <tr v-if="!file.isComplete()" class="fb-uploader__list-pgwrap">
+                                        <tr
+                                            v-if="!file.isComplete()"
+                                            :key="file.id + 'loader'"
+                                            class="fb-uploader__list-pgwrap"
+                                        >
                                             <td colspan="6" class="fb-uploader__list-progress">
                                                 <progress 
                                                     class="fb-uploader__progress" 
                                                     max="1" 
-                                                    :value="file.progress()">
+                                                    :value="filesProgress[file.uniqueIdentifier]">
                                                 </progress>
                                             </td>
                                         </tr>
@@ -116,7 +126,8 @@ export default {
 
     data() {
         return {
-            value: []
+            value: [],
+            filesProgress: {}
         }
     },
 
@@ -140,8 +151,7 @@ export default {
         uploaderOptions() {
             return {
                 target: this.url,
-                testChunks: false,
-                
+                testChunks: false
             }
         },
 
@@ -176,6 +186,10 @@ export default {
             }
         },
 
+        setProgress(file) {
+            this.$set(this.filesProgress, file.uniqueIdentifier, file.progress())
+        },
+
         getExtension(fileName) {
             return fileName.split('.').pop()
         },
@@ -200,6 +214,7 @@ export default {
         },
 
         addFileNameToForm(rootFile, file, message, chunk) {
+            delete this.filesProgress[file.uniqueIdentifier]
             try {
                 let response = JSON.parse(message)
                 let fileName = _.get(response, 'meta.img', file.relativePath)
@@ -214,6 +229,7 @@ export default {
                 this.value.splice(index, 1)
             }
             file.cancel()
+            delete this.filesProgress[file.uniqueIdentifier]
         }
     }
 }

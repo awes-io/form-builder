@@ -232,6 +232,7 @@
       },
 
       send() {
+        AWES.emit('form-builder:before-send')
         if ( this.loading || this.isBlocked ) return
         // invoke attached @send method if present
         if ( this.$listeners.hasOwnProperty('send') ) {
