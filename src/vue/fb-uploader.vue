@@ -16,7 +16,7 @@
                     {{ $lang.FORMS_UPLOAD_ADD }}
                 </uploader-btn>
             </p>
-            <p v-if="foramt || size">
+            <p v-if="format || size">
                 <i class="fb-uploader__formats" v-if="format">
                     {{ $lang.FORMS_UPLOAD_FORMAT }} {{ formatString }}.
                 </i>
