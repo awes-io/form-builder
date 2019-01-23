@@ -43,14 +43,6 @@ const awesPlugin = {
                 })
             }
         },
-        'vue-multiselect': {
-            src: ['https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.js',
-                  'https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css'],
-            deps: ['vue'],
-            cb() { 
-                Vue.component('multiselect', window.VueMultiselect.default)
-            }
-        },
         'vue-recaptcha': {
             src: 'https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js',
             deps: ['vue'],
