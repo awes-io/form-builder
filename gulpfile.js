@@ -26,8 +26,8 @@ if ( isDev ) {
       server: ['./examples', './dist']
     })
 
-    gulp.watch('./src/css/**/*.styl', gulp.series('build:styles'))
-    gulp.watch(['./src/js/**/*.js', './src/vue/**/*.vue', 'src/vue/**/*.js'], gulp.series('build:js', 'reload'))
+    gulp.watch('./resources/css/**/*.styl', gulp.series('build:styles'))
+    gulp.watch(['./resources/js/**/*.js', './resources/vue/**/*.vue', 'src/vue/**/*.js'], gulp.series('build:js', 'reload'))
     gulp.watch('./examples/**/*.html', gulp.series('reload'))
   })
 
@@ -44,7 +44,7 @@ rollupConfig.allowRealFiles = true // solves gulp-rollup hipotetical file system
 rollupConfig.rollup = require('rollup')
 
 gulp.task('build:js', function(){
-  return gulp.src('./src/js/main.js')
+  return gulp.src('./resources/js/main.js')
     .pipe( plumber() )
     .pipe( rollup(rollupConfig) )
     .pipe( gulp.dest('./dist/js') )
@@ -56,7 +56,7 @@ gulp.task('build:js', function(){
  */
 
 gulp.task('build:styles', function(){
-  return gulp.src('./src/css/main.styl')
+  return gulp.src('./resources/css/main.styl')
     .pipe( plumber() )
     .pipe( isDev ? sourcemaps.init() : noop() )
     .pipe( stylus({ use: nib(), 'include css': true, import: ['nib'], compress: false }) )
