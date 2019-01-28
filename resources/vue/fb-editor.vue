@@ -32,7 +32,7 @@
 
 <script>
 import fieldMixin from './mixins/fb-field.js';
-import { 
+import {
     defaultOptions,
     defaultCodeOptions,
     loadCodeEditor
@@ -91,11 +91,18 @@ export default {
 
         initEditor() {
             defaultOptions.selector = '#' + this.editorId
-            const options = Object.assign({}, this.options, defaultOptions)
+            let options = _.get(AWES._config, 'formBuilder.fbEditor', {})
+            Object.assign(options, this.options, defaultOptions)
             tinymce.init(options)
-            tinymce.get(this.editorId).on('Change', _.debounce(this.save, 1000))
+            const editor = tinymce.get(this.editorId)
+            editor.on('Change', _.debounce(this.save, 1000))
+            if ( typeof AWES._theme !== undefined ) {
+                editor.once('Init', () => {
+                    this._switchThemeAttribute({detail: AWES._theme})
+                })
+            }
         },
-        
+
         initCodeEditor() {
             this.codeEditorInited = true
             codeEditor = CodeMirror.fromTextArea( this.$refs.code, defaultCodeOptions)
@@ -104,7 +111,6 @@ export default {
         },
 
         save() {
-            console.log('save');
             this.mode === 'visual' ? this._saveVisual() : this._saveCode()
         },
 
@@ -113,12 +119,21 @@ export default {
         },
 
         _saveCode() {
-            this.value = codeEditor.doc.getValue()
+            if ( codeEditor ) this.value = codeEditor.doc.getValue()
         },
 
         _setCodeValue() {
             codeEditor.doc.setValue( this.value )
             setTimeout( () => { codeEditor.refresh() }, 1)
+        },
+
+        _switchThemeAttribute($event) {
+            const doc = tinymce.get(this.editorId).getDoc()
+            if ( $event.detail === 1 ) {
+                doc.documentElement.setAttribute('data-dark', true)
+            } else {
+                doc.documentElement.removeAttribute('data-dark')
+            }
         }
     },
 
@@ -126,11 +141,17 @@ export default {
     mounted() {
         AWES.on('form-builder:before-send', this.save)
         this.$nextTick( this.initEditor )
+        if ( typeof AWES._theme !== undefined ) {
+            AWES.on('theme.change', this._switchThemeAttribute)
+        }
     },
 
 
     beforeDestroy() {
         AWES.off('form-builder:before-send', this.save)
+        if ( typeof AWES._theme !== undefined ) {
+            AWES.off('theme.change', this._switchThemeAttribute)
+        }
     }
 }
 </script>

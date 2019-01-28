@@ -11,3 +11,5 @@ Includes components
 **fb-select**
 
 **fb-textarea**
+
+[fb-editor](./fb-editor.md)
