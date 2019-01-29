@@ -15,7 +15,7 @@
             <!-- dropzone -->
             <uploader-drop>
                 <p class="fb-uploader__message">
-                    {{ $lang.FORMS_UPLOAD_DROP }} 
+                    {{ $lang.FORMS_UPLOAD_DROP }}
                     <span class="fb-uploader__fakebtn">{{ $lang.FORMS_UPLOAD_ADD }}</span>
                     <uploader-btn class="fb-uploader__btn"><span>{{ $lang.FORMS_UPLOAD_ADD }}</span></uploader-btn>
                 </p>
@@ -53,7 +53,7 @@
                                                 <template v-if="file.isComplete()">
                                                     {{ file._lastProgressCallback | timestampToDate }}
                                                 </template>
-                                                
+
                                             </td>
                                             <td class="fb-uploader__list-delete">
                                                 <button
@@ -69,9 +69,9 @@
                                             class="fb-uploader__list-pgwrap"
                                         >
                                             <td colspan="6" class="fb-uploader__list-progress">
-                                                <progress 
-                                                    class="fb-uploader__progress" 
-                                                    max="1" 
+                                                <progress
+                                                    class="fb-uploader__progress"
+                                                    max="1"
                                                     :value="filesProgress[file.uniqueIdentifier]">
                                                 </progress>
                                             </td>
@@ -152,7 +152,7 @@ export default {
                    this.format :
                    this.format.split(',').map( extension => extension.trim() )
         },
-        
+
         formatString() {
             return this.format && Array.isArray(this.format) ?
                    this.format.concat(', ') :
@@ -170,12 +170,19 @@ export default {
         checkFile(file) {
             if ( this.format && ! this._extensionMatch(file) ) {
                 file.ignored = true
-                console.warn('fb-uploader: ' + file.name + ' format missmatch');
+                this.showError(this.$lang.FORMS_UPLOADER_EXTENSION_ERROR.replace('%s', file.name));
             }
             if ( this.size && file.size > this.maxSizeBytes ) {
                 file.ignored = true
-                console.warn('fb-uploader: ' + file.name + ' is too big');
+                this.showError(this.$lang.FORMS_UPLOADER_SIZE_ERROR.replace('%s', file.name));
             }
+        },
+
+        showError(message) {
+            AWES.notify({
+                status: 'error',
+                message
+            })
         },
 
         setProgress(file) {
@@ -185,7 +192,7 @@ export default {
         getExtension(fileName) {
             return fileName.split('.').pop()
         },
-        
+
         getName(fileName) {
             let name = fileName.split('.')
             name.pop()
@@ -215,7 +222,7 @@ export default {
                 console.log(e);
             }
         },
-        
+
         removeFile(file, index) {
             if ( file.isComplete() ) {
                 this.value.splice(index, 1)
