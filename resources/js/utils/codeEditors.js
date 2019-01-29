@@ -1,4 +1,4 @@
-/*
+/**
  * Load Tiny MCE modules
  *
  * @returns Promise
@@ -10,18 +10,17 @@ export function loadEditor() {
         'tiny-mce-plugins': {
             deps: ['tiny-mce'],
             src: [
-                'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.2/plugins/lists/plugin.min.js',
-                // 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.2/plugins/code/plugin.min.js'
+                'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.2/plugins/lists/plugin.min.js'
             ],
         }
     })
 }
 
 
-/*
+/**
  * Tiny MCE config
  * https://www.tiny.cloud/docs/configure/integration-and-setup/
- */ 
+ */
 export const defaultOptions = {
     branding: false,
     statusbar: false,
@@ -46,7 +45,7 @@ export const defaultOptions = {
 }
 
 
-/*
+/**
  * Load CodeMirror modules
  *
  * @returns Promise
@@ -57,7 +56,6 @@ export function loadCodeEditor() {
         'codemirror': {
         src: [
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/theme/3024-day.min.css',
             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.43.0/codemirror.css'
         ]
         },
@@ -77,7 +75,7 @@ export function loadCodeEditor() {
 }
 
 
-/*
+/**
  * Codemirror config
  * https://codemirror.net/doc/manual.html
  */
