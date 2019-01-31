@@ -1,0 +1,53 @@
+{
+    "name": "awes-io/form-builder",
+    "description": ":description",
+    "type": "library",
+    "license": "GPL-3.0-only",
+	"authors": [
+		{
+			"name": "Awescode GmbH",
+			"email": "info@awescode.de",
+			"homepage": "https://www.awescode.de",
+			"role": "Owner"
+		},
+        {
+            "name": "theAlex",
+            "email": "info@thealex.ru",
+            "homepage": "https://thealex.ru"
+        }
+	],
+	"support": {
+		"email": "support@awescode.de"
+	},
+	"homepage": "https://github.com/awesio/formbuilder",
+	"keywords": ["Laravel", "FormBuilder"],
+    "require": {
+        "illuminate/support": "~5"
+    },
+    "require-dev": {
+		"phpunit/phpunit": "~7.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3.0",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AwesIO\\FormBuilder\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AwesIO\\FormBuilder\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AwesIO\\FormBuilder\\FormBuilderServiceProvider"
+            ]
+        }
+    }
+}
