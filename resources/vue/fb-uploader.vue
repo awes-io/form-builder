@@ -216,7 +216,7 @@ export default {
             delete this.filesProgress[file.uniqueIdentifier]
             try {
                 let response = JSON.parse(message)
-                let fileName = _.get(response, 'meta.img', file.relativePath)
+                let fileName = _.get(response, 'meta.path', file.relativePath)
                 this.value.push(fileName)
             } catch(e) {
                 console.log(e);

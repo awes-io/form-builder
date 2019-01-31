@@ -1,13 +1,19 @@
-/node_modules
+vendor
+composer.lock
+/tests/report
 
-#IDEs
+##IDEs
 /.idea
 /.vscode
 .phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php
 
-#package managers
+#JS sections
+
+/node_modules
+
+##package managers
 npm-debug.log
 yarn-error.log
 package-lock.json

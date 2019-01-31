@@ -2,11 +2,11 @@
     <div class="fb__input grid__cell"
       :class="[{ 'input_active': inActive,
                  'input_error': hasError,
-                 'animated shake': shake, 
+                 'animated shake': shake,
                  'disabled': isDisabled },
-                  cellClass]" > 
+                  cellClass]" >
         <div :class="['input', 'input_phone', { 'input_disabled': isDisabled }]">
-            <span class="input__label">Phone</span> 
+            <span class="input__label">{{ label }}</span>
             <vue-tel-input
                 v-model="value"
                 :disabled="isDisabled"
@@ -44,6 +44,11 @@ export default {
     },
 
 
+    props: {
+        label: String
+    },
+
+
     data() {
         return {
             nativeTelInput: false,
@@ -53,7 +58,7 @@ export default {
 
 
     methods: {
-        
+
         setFocusWatcher() {
             if ( ! this.$refs.tel ) return
 
@@ -66,12 +71,12 @@ export default {
             this.setFocusableClass()
             this.setFocusClass()
         },
-        
+
         setFocusClass() {
             this.nativeTelInput.classList[ this.inFocus ? 'add' : 'remove' ]('in-focus')
             errCounter = ERR_COUNTER_MAX
         },
-        
+
         setFocusableClass() {
             this.nativeTelInput.classList[ this.isFocusable ? 'add' : 'remove' ]('is-focusable')
             errCounter = ERR_COUNTER_MAX
@@ -124,8 +129,8 @@ export default {
     mounted() {
         this.setFocusWatcher()
     },
-    
-    
+
+
     updated() {
         if ( ! this.nativeTelInput ) this.setFocusWatcher()
     }
