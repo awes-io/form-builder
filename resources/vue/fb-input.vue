@@ -1,56 +1,50 @@
 <template>
-  <div class="fb__input grid__cell"
-      :class="[{ 'input_active': inActive || autoFilled,
-                 'input_error': hasError,
-                 'animated shake': shake,
-                 'disabled': isDisabled },
-                cellClass]" >
+  <div class="grid__cell" :class="[cellClass]" >
 
-    <div :class="['input', { 'input_disabled': isDisabled }]">
+    <div :class="['fb-input', { 'fb-input_disabled': isDisabled, 'fb-input_active': inActive || autoFilled, 'fb-input_error': hasError, 'animated shake': shake }]">
 
       <fb-error-wrap
         :open="tooltip"
         :error="error"
         @clickTooltip="clickTooltip">
 
-        <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
+        <label class="fb-input__label fb-input__label_field" :for="'#' + inputId">{{ label }}</label>
 
-        <!-- duplicating just because of mask :( -->
         <input v-if="mask"
-               v-bind="$attrs"
-               :id="inputId"
-               :class="['input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
-               :data-awes="$options.name + '.' + name"
-               :type="inputType"
-               :disabled="isDisabled"
-               v-mask="mask"
-               v-model="value"
-               @focus="inFocus = true"
-               @blur="inFocus = false"
-               @keydown.enter.prevent="focusNext"
-               @animationstart="autoFillHack"
-               :spellcheck="spellcheck"
-               ref="element">
+              v-bind="$attrs"
+              :id="inputId"
+              :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}]"
+              :data-awes="$options.name + '.' + name"
+              :type="inputType"
+              :disabled="isDisabled"
+              v-mask="mask"
+              v-model="value"
+              @focus="inFocus = true"
+              @blur="inFocus = false"
+              @keydown.enter.prevent="focusNext"
+              @animationstart="autoFillHack"
+              :spellcheck="spellcheck"
+              ref="element">
         <input v-else
-               v-bind="$attrs"
-               :id="inputId"
-               :class="['input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
-               :data-awes="$options.name + '.' + name"
-               :type="inputType"
-               :disabled="isDisabled"
-               v-model="value"
-               @focus="inFocus = true"
-               @blur="inFocus = false"
-               @keydown.enter.prevent="focusNext"
-               @animationstart="autoFillHack"
-               :spellcheck="spellcheck"
-               ref="element">
+              v-bind="$attrs"
+              :id="inputId"
+              :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}]"
+              :data-awes="$options.name + '.' + name"
+              :type="inputType"
+              :disabled="isDisabled"
+              v-model="value"
+              @focus="inFocus = true"
+              @blur="inFocus = false"
+              @keydown.enter.prevent="focusNext"
+              @animationstart="autoFillHack"
+              :spellcheck="spellcheck"
+              ref="element">
 
         <button
           v-if="$attrs.type === 'password'"
           type="button"
           :aria-label="$lang.SHOW_PASSWORD"
-          class="input__eye"
+          class="fb-input__eye"
           @click.prevent="togglePassword">
           <i :class="['icon', inputType === 'password' ? 'icon-eye' : 'icon-eye2']"></i>
         </button>

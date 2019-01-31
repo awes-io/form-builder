@@ -1,12 +1,7 @@
 <template>
-    <div class="fb__input grid__cell"
-      :class="[{ 'input_active': inActive,
-                 'input_error': hasError,
-                 'animated shake': shake,
-                 'disabled': isDisabled },
-                  cellClass]" >
-        <div :class="['input', 'input_phone', { 'input_disabled': isDisabled }]">
-            <span class="input__label">{{ label }}</span>
+    <div class="grid__cell" :class="[cellClass]" >
+        <div :class="['fb-phone', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': inActive, 'fb-phone_error': hasError, }]">
+            <span class="fb-phone__label">{{ label }}</span>
             <vue-tel-input
                 v-model="value"
                 :disabled="isDisabled"
@@ -83,15 +78,15 @@ export default {
         },
 
         setFocus(state) {
-          try {
-            let useMethod = (state !== false) ? 'focus' : 'blur';
-            this.nativeTelInput[useMethod]()
-          } catch (e) {
-            if ( errCounter ) {
-                errCounter--
-                setTimeout( () => { this.setFocus(state) }, 1000 )
+            try {
+                let useMethod = (state !== false) ? 'focus' : 'blur';
+                this.nativeTelInput[useMethod]()
+            } catch (e) {
+                if ( errCounter ) {
+                    errCounter--
+                    setTimeout( () => { this.setFocus(state) }, 1000 )
+                }
             }
-          }
         },
 
         checkFocus() {

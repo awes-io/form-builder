@@ -1,45 +1,42 @@
 <template>
-    <div 
-        v-if="items && items.length"
-        class="grid__cell"
-        :class="[{'animated shake': shake }, cellClass]"
-    >
+    <div v-if="items && items.length" class="grid__cell" :class="[cellClass]">
         
-        <fb-error-wrap
-            :open="tooltip"
-            :error="error"
-            @clickTooltip="clickTooltip"
-        >
-            <span :class="['display-block', {'fc-radio': box}]">
-                <label
-                    v-for="(item, i) in items"
-                    :key="i"
-                    :class="[{
-                        'fc-radio__box': box,
-                        'is-checked': checkActive(item)
-                    }]"
-                >
-                
-                    <input
-                        v-bind="$attrs"
-                        type="radio"
-                        :class="['fc-radio__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
-                        :data-awes="$options.name + '.' + name"
-                        :disabled="isDisabled"
-                        v-model="value"
-                        :value="item.value ? item.value : item.toString()"
-                        @focus="$set(inFocus, i, true)"
-                        @blur="$set(inFocus, i, false)"
-                        @keydown.enter.prevent="focusNext"
-                        ref="fields">
-                
-                    <slot :item="item" :checked="checkActive(item)" :focused="inFocus[i]">
-                        <span class="fc-radio__text">{{ item.name ? item.name : item.toString() }}</span>
-                    </slot>
-                
-                </label>
-            </span>
-        </fb-error-wrap>
+        <div class="fc-radio" :class="[{'animated shake': shake, 'fc-radio_disabled': isDisabled }]">
+            <fb-error-wrap
+                :open="tooltip"
+                :error="error"
+                @clickTooltip="clickTooltip"
+            >
+                <div class="fc-radio__wrap">
+
+                    <label
+                        v-for="(item, i) in items"
+                        :key="i"
+                        :class="['fc-radio__box', {'is-checked': checkActive(item)}]"
+                    >
+                    
+                        <input
+                            v-bind="$attrs"
+                            type="radio"
+                            :class="['fc-radio__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
+                            :data-awes="$options.name + '.' + name"
+                            :disabled="isDisabled"
+                            v-model="value"
+                            :value="item.value ? item.value : item.toString()"
+                            @focus="$set(inFocus, i, true)"
+                            @blur="$set(inFocus, i, false)"
+                            @keydown.enter.prevent="focusNext"
+                            ref="fields">
+                    
+                        <slot :item="item" :checked="checkActive(item)" :focused="inFocus[i]">
+                            <span class="fc-radio__text">{{ item.name ? item.name : item.toString() }}</span>
+                        </slot>
+                    
+                    </label>
+                </div>
+            </fb-error-wrap>
+        </div>
+        
     </div>
 </template>
 
@@ -55,15 +52,8 @@ export default {
 
 
     props: {
-
-        box: {
-            type: Boolean,
-            default: false
-        },
-
-        items: Array,
+        items: Array
     },
-
 
     data() {
         return {

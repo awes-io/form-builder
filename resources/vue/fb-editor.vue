@@ -1,7 +1,6 @@
 <template>
     <div class="grid__cell" :class="cellClass">
-        <div class="fb-editor"
-             :class="{'input_disabled': isDisabled}">
+        <div class="fb-editor" :class="[{'fb-editor_disabled': isDisabled}]">
             <div class="fb-editor__modes">
                 <button
                     :class="['fb-editor__modes-button', {'is-active': mode === 'visual'}]"
@@ -20,10 +19,10 @@
             </div>
             <div class="fb-editor__tabs">
                 <div class="fb-editor__tab" :key="'visual'" v-show="mode === 'visual'">
-                    <textarea class="fb-editor__tiny" :id="editorId">{{ value }}</textarea>
+                    <textarea class="fb-editor__tiny" :id="editorId" :disabled="isDisabled">{{ value }}</textarea>
                 </div>
                 <div class="fb-editor__tab" :key="'code'" v-show="mode === 'code'" >
-                    <textarea class="fb-editor__codemirror" :id="codeEditorId" ref="code">{{ value }}</textarea>
+                    <textarea class="fb-editor__codemirror" :id="codeEditorId" ref="code" :disabled="isDisabled">{{ value }}</textarea>
                 </div>
             </div>
         </div>

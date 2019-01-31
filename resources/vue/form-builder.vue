@@ -1,7 +1,7 @@
 <template>
     <form
       class="form-builder"
-      :class="{'modal__form': modal}"
+      :class="{'modal_form': modal}"
       :action="url"
       :method="method">
 
@@ -9,8 +9,8 @@
         <slot :fields="workingState" />
       </div>
 
-      <div v-if="! autoSubmit"
-           :class="modal ? 'line-btns' : null">
+      <div v-if="! autoSubmit" 
+            :class="modal ? 'line-btns' : null">
         <div :class="modal ? 'line-btns__wrap' : 'line-btns'">
 
             <button
@@ -60,7 +60,6 @@
 
     name: "form-builder",
 
-
     props: {
 
       cancelbtn: {
@@ -94,7 +93,7 @@
         default: 'post',
         validator( method ) {
           return method === undefined ||
-                 ['get', 'put', 'post', 'delete', 'patch'].includes( method.toLowerCase() )
+                ['get', 'put', 'post', 'delete', 'patch'].includes( method.toLowerCase() )
         }
       },
 

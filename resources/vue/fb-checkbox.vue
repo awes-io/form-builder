@@ -1,35 +1,32 @@
 <template>
-  <div class="grid__cell"
-       :class="[{'checkbox_error': hasError},
-                {'checkbox_active': inActive},
-                {'grid__cell_padding': padding},
-                cellClass]">
+  <div class="grid__cell" :class="[{'grid__cell_padding': padding}, cellClass]">
 
-    <label :class="['checkbox', themeClass, {'checkbox_disabled': isDisabled}]" :data-awes="$options.name + '.' + name">
+    <div :class="['fb-checkbox', {'fb-checkbox_error': hasError}, {'fb-checkbox_active': inActive}, themeClass, {'fb-checkbox_disabled': isDisabled}]">
+      <label class="fb-checkbox__label" :data-awes="$options.name + '.' + name">
+        <fb-error-wrap
+          :open="tooltip"
+          :error="error"
+          @clickTooltip="clickTooltip">
 
-      <fb-error-wrap
-        :open="tooltip"
-        :error="error"
-        @clickTooltip="clickTooltip">
+          <input
+            type="checkbox"
+            v-bind="$attrs"
+            :class="{'is-focusable': isFocusable, 'in-focus': inFocus}"
+            :disabled="isDisabled"
+            v-model="value"
+            @focus="inFocus = true"
+            @blur="inFocus = false"
+            @keydown.enter.prevent="focusNext"
+            ref="element">
 
-        <input
-          type="checkbox"
-          v-bind="$attrs"
-          :class="{'is-focusable': isFocusable, 'in-focus': inFocus}"
-          :disabled="isDisabled"
-          v-model="value"
-          @focus="inFocus = true"
-          @blur="inFocus = false"
-          @keydown.enter.prevent="focusNext"
-          ref="element">
+          <span class="fb-checkbox__text">
+            <i class="icon icon-checkbox" ref="switcher"></i>
+            <span>{{ label }}</span>
+          </span>
 
-        <span class="checkbox__text">
-          <i class="icon icon-checkbox" ref="switcher"></i>
-          <span>{{ label }}</span>
-        </span>
-
-      </fb-error-wrap>
-    </label>
+        </fb-error-wrap>
+      </label>
+    </div>
   </div>
 </template>
 
