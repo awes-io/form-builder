@@ -23,7 +23,6 @@
           v-model="value"
           @focus="inFocus = true"
           @blur="inFocus = false"
-          @keydown.enter.prevent="focusNext"
           ref="element"></textarea>
 
       </fb-error-wrap>
