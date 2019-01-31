@@ -1,27 +1,26 @@
 <template>
-<div :class="['keycode', {'animated shake': shake}]">
-    <div class="keycode__block" :class="{ 'input_disabled': isDisabled }">
+<div :class="['keycode', {'animated shake': shake}, { 'form-builder_disabled': isDisabled }]">
+    <div class="keycode__block">
 
         <fb-error-wrap :open="tooltip" :error="error" @clickTooltip="clickTooltip">
-
             <div class="keycode__wrap" id="keywrap">
                 <div class="keycode__ffield" v-for="i in length" :key="i">
                     <input type="tel"
-                           inputmode="numeric"
-                           pattern="[0-9]*"
-                           maxlength="1"
-                           :value="inputValue[i-1]"
-                           :class="['keycode__field', {'is-focusable': isFocusable, 'in-focus': inFocus[i-1]}]"
-                           :disabled="isDisabled"
-                           @focus="inFocus[i-1] = true"
-                           @blur="inFocus[i-1] = false"
-                           @keydown.enter.prevent="focusNext"
-                           @keydown.backspace="i > 1 ? onBackspace($event, i-1) : null"
-                           @keydown.left="i > 1 ? onLeft($event, i-1) : null"
-                           @keydown.right="i < length ? onRight($event, i-1) : null"
-                           @input="onInput($event, i-1)"
-                           @paste.prevent="onPaste"
-                           ref="fields">
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        maxlength="1"
+                        :value="inputValue[i-1]"
+                        :class="['keycode__field', {'is-focusable': isFocusable, 'in-focus': inFocus[i-1]}]"
+                        :disabled="isDisabled"
+                        @focus="inFocus[i-1] = true"
+                        @blur="inFocus[i-1] = false"
+                        @keydown.enter.prevent="focusNext"
+                        @keydown.backspace="i > 1 ? onBackspace($event, i-1) : null"
+                        @keydown.left="i > 1 ? onLeft($event, i-1) : null"
+                        @keydown.right="i < length ? onRight($event, i-1) : null"
+                        @input="onInput($event, i-1)"
+                        @paste.prevent="onPaste"
+                        ref="fields">
                 </div>
             </div>
 

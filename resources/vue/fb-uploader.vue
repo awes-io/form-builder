@@ -1,8 +1,8 @@
 <template>
-    <div class="grid__cell grid__cell_uploader">
+    <div class="grid__cell">
         <uploader
             class="fb-uploader"
-            :class="{'input_disabled': isDisabled}"
+            :class="{'form-builder_disabled': isDisabled}"
             :options="uploaderOptions"
             @file-added="checkFile"
             @file-progress="setProgress"
@@ -32,13 +32,8 @@
             <!-- files list -->
             <uploader-list>
                 <template slot-scope="props">
-                    <slot
-                        name="list"
-                        :file-list="props.fileList"
-                        :remove-file="removeFile"
-                    >
-                        <div v-if="props.fileList.length"
-                             class="fb-uploader__cwrap">
+                    <slot name="list" :file-list="props.fileList" :remove-file="removeFile">
+                        <div v-if="props.fileList.length" class="fb-uploader__cwrap">
                             <table class="fb-uploader__list">
                                 <tbody>
                                     <template v-for="(file, i) in props.fileList">

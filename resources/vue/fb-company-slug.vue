@@ -1,40 +1,28 @@
 <template>
-    <div class="fb__input fb__input_slug grid__cell"
-        :class="[{ 'input_active': inActive,
-                   'input_error': hasError,
-                   'animated shake': shake,
-                   'disabled': isDisabled },
-                  cellClass]" >
-
-      <div :class="['input', { 'input_disabled': isDisabled }]">
-
-        <fb-error-wrap
-          :open="tooltip"
-          :error="error"
-          @clickTooltip="clickTooltip">
-
-          <div class="fb__input-wrap">
-              <span class="fb__input-inner">
-                  <label class="input__label" :for="'#' + inputId">{{ label }}</label>
-                  <input v-bind="$attrs"
-                         :id="inputId"
-                         :class="['input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
-                         :data-awes="$options.name + '.' + name"
-                         :maxlength="maxLength || _config.length"
-                         type="text"
-                         :disabled="isDisabled"
-                         v-model="value"
-                         @input="toggleWatcher"
-                         @focus="inFocus = true"
-                         @blur="slugBlur"
-                         @keydown.enter.prevent="focusNext"
-                         ref="element">
-              </span>
-              <span class="fb__input-domain">.{{ domain || _config.domain }}</span>
-          </div>
-
-        </fb-error-wrap>
-      </div>
+    <div class="grid__cell" :class="[cellClass]" >
+        <div :class="['input', 'input_company', { 'form-builder_disabled': isDisabled, 'input_active': inActive, 'input_error': hasError, 'animated shake': shake, }]">
+            <fb-error-wrap :open="tooltip" :error="error" @clickTooltip="clickTooltip">
+                <div class="input__group-wrap">
+                    <span class="input__group-field">
+                        <label class="input__label" :for="'#' + inputId">{{ label }}</label>
+                        <input v-bind="$attrs"
+                            :id="inputId"
+                            :class="['input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
+                            :data-awes="$options.name + '.' + name"
+                            :maxlength="maxLength || _config.length"
+                            type="text"
+                            :disabled="isDisabled"
+                            v-model="value"
+                            @input="toggleWatcher"
+                            @focus="inFocus = true"
+                            @blur="slugBlur"
+                            @keydown.enter.prevent="focusNext"
+                            ref="element">
+                    </span>
+                    <span class="input__group-label">.{{ domain || _config.domain }}</span>
+                </div>
+            </fb-error-wrap>
+        </div>
     </div>
 </template>
 

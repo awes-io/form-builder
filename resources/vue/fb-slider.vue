@@ -1,12 +1,7 @@
 <template>
-  <div class="fb__input grid__cell"
-      :class="[{ 'input_active': inActive,
-                 'input_error': hasError,
-                 'animated shake': shake,
-                 'disabled': isDisabled },
-                cellClass]" >
+  <div class="grid__cell" :class="[cellClass]" >
 
-    <div :class="['input', 'input_range', { 'input_disabled': isDisabled }]">
+    <div :class="['input', 'input_range', { 'form-builder_disabled': isDisabled, 'input_active': inActive, 'input_error': hasError, 'animated shake': shake, }]">
 
       <fb-error-wrap
         :open="tooltip"

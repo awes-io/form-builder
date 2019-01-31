@@ -1,27 +1,27 @@
 <template>
-  <div :class="['grid__wrap multi-bl', {'multi-bl_disabled' : this.isDisabled}]">
-    <div
-      :class="['grid__wrap', {'multi-bl__has-close' : hasClose}]"
-      v-for="( item, id ) in value"
-      :key="`slot-${uniqIds[id]}`"
-    >
+  <div class="grid__wrap">
+    <div class="multi-bl" :class="[{'form-builder_disabled' : this.isDisabled}]">
+      <div :class="['grid__wrap', {'multi-bl_has-close' : hasClose}]" v-for="( item, id ) in value" :key="`slot-${uniqIds[id]}`">
 
-      <slot :id="id"></slot>
+        <slot :id="id"></slot>
 
-      <button
-        v-if="hasClose"
-        aria-label="delete"
-        class="multi-bl__clear"
-        @click.prevent="removeField(id)">
-        <i class="icon icon-cross"></i>
-      </button>
+        <button
+          v-if="hasClose"
+          aria-label="delete"
+          class="multi-bl__clear"
+          @click.prevent="removeField(id)">
+          <i class="icon icon-cross"></i>
+        </button>
+      </div>
+
+      <div class="grid__wrap">
+        <button
+          class="multi-bl__add"
+          @click.prevent="addField">
+          {{ label || $lang.FORMS_MULTIBLOCK_ADD }}
+        </button>
+      </div>
     </div>
-
-    <button
-      class="multi-bl__add"
-      @click.prevent="addField">
-      {{ label || $lang.FORMS_MULTIBLOCK_ADD }}
-    </button>
   </div>
 </template>
 

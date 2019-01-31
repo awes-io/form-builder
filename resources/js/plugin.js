@@ -14,6 +14,7 @@ import fbSlider from '../vue/fb-slider.vue'
 import fbPhone from '../vue/fb-phone.vue'
 import fbUploader from '../vue/fb-uploader.vue'
 import fbEditor from '../vue/fb-editor.vue'
+import fbGroup from '../vue/fb-group.vue'
 import { loadEditor } from '../js/utils/codeEditors.js'
 
 export function install(Vue) {
@@ -22,6 +23,7 @@ export function install(Vue) {
     this.installed = true
 
     Vue.component('form-builder', formBuilder)
+    Vue.component('fb-group', fbGroup)
     Vue.component('fb-error-wrap', fbErrorWrap)
     Vue.component('fb-input', fbInput)
     Vue.component('fb-multi-block', fbMultiBlock)
