@@ -39,6 +39,7 @@
       },
 
       name: {
+        type: String,
         default: 'g-recaptcha-response'
       }
     },

@@ -5,7 +5,7 @@
         <fb-error-wrap :open="tooltip" :error="error" @clickTooltip="clickTooltip">
 
             <div class="keycode__wrap" id="keywrap">
-                <div class="keycode__ffield" v-for="i in length">
+                <div class="keycode__ffield" v-for="i in length" :key="i">
                     <input type="tel"
                            inputmode="numeric"
                            pattern="[0-9]*"
