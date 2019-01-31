@@ -1,16 +1,16 @@
 <template>
-<div :class="['keycode', {'animated shake': shake}, { 'form-builder_disabled': isDisabled }]">
-    <div class="keycode__block">
+<div :class="['fb-keycode', {'animated shake': shake}, { 'fb-keycode_disabled': isDisabled }]">
+    <div class="fb-keycode__block">
 
         <fb-error-wrap :open="tooltip" :error="error" @clickTooltip="clickTooltip">
-            <div class="keycode__wrap" id="keywrap">
-                <div class="keycode__ffield" v-for="i in length" :key="i">
+            <div class="fb-keycode__wrap" id="keywrap">
+                <div class="fb-keycode__field-wrap" v-for="i in length" :key="i">
                     <input type="tel"
                         inputmode="numeric"
                         pattern="[0-9]*"
                         maxlength="1"
                         :value="inputValue[i-1]"
-                        :class="['keycode__field', {'is-focusable': isFocusable, 'in-focus': inFocus[i-1]}]"
+                        :class="['fb-keycode__field', {'is-focusable': isFocusable, 'in-focus': inFocus[i-1]}]"
                         :disabled="isDisabled"
                         @focus="inFocus[i-1] = true"
                         @blur="inFocus[i-1] = false"

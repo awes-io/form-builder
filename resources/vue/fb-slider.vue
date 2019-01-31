@@ -1,21 +1,21 @@
 <template>
   <div class="grid__cell" :class="[cellClass]" >
 
-    <div :class="['input', 'input_range', { 'form-builder_disabled': isDisabled, 'input_active': inActive, 'input_error': hasError, 'animated shake': shake, }]">
+    <div :class="['fb-slider', { 'fb-slider_disabled': isDisabled, 'fb-slider_active': inActive, 'fb-slider_error': hasError, 'animated shake': shake }]">
 
       <fb-error-wrap
         :open="tooltip"
         :error="error"
         @clickTooltip="clickTooltip">
-        <div class="input__range-wrap">
-          <div class="input__range-left">
-            <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
-            <span class="input__range-value">{{ percent }} %</span>
+        <div class="fb-slider__wrap">
+          <div class="fb-slider__wrap-left">
+            <label class="fb-slider__label" :for="'#' + inputId">{{ label }}</label>
+            <span class="fb-slider__value">{{ percent }} %</span>
           </div>
-          <div class="input__range-right">
+          <div class="fb-slider__wrap-right">
             <input v-bind="$attrs"
                     :id="inputId"
-                    :class="['input__range', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
+                    :class="['fb-slider__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }]"
                     :style="'--percent: ' + percent + '%'"
                     :data-awes="$options.name + '.' + name"
                     type="range"

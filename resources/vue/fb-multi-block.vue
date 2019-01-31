@@ -1,14 +1,14 @@
 <template>
   <div class="grid__wrap">
-    <div class="multi-bl" :class="[{'form-builder_disabled' : this.isDisabled}]">
-      <div :class="['grid__wrap', {'multi-bl_has-close' : hasClose}]" v-for="( item, id ) in value" :key="`slot-${uniqIds[id]}`">
+    <div class="fb-multiblock" :class="[{'fb-multiblock_disabled' : this.isDisabled}]">
+      <div :class="['grid__wrap', {'fb-multiblock_has-close' : hasClose}]" v-for="( item, id ) in value" :key="`slot-${uniqIds[id]}`">
 
         <slot :id="id"></slot>
 
         <button
           v-if="hasClose"
           aria-label="delete"
-          class="multi-bl__clear"
+          class="fb-multiblock__clear"
           @click.prevent="removeField(id)">
           <i class="icon icon-cross"></i>
         </button>
@@ -16,7 +16,7 @@
 
       <div class="grid__wrap">
         <button
-          class="multi-bl__add"
+          class="fb-multiblock__add"
           @click.prevent="addField">
           {{ label || $lang.FORMS_MULTIBLOCK_ADD }}
         </button>

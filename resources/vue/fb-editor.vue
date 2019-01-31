@@ -1,28 +1,28 @@
 <template>
     <div class="grid__cell" :class="cellClass">
-        <div class="input input_editor" :class="{'form-builder_disabled': isDisabled}">
-            <div class="input__editor-modes">
+        <div class="fb-editor" :class="[{'fb-editor_disabled': isDisabled}]">
+            <div class="fb-editor__modes">
                 <button
-                    :class="['input__modes-button', {'is-active': mode === 'visual'}]"
+                    :class="['fb-editor__modes-button', {'is-active': mode === 'visual'}]"
                     type="button"
                     @click="mode = 'visual'"
                 >
                     {{ $lang.FORMS_EDITOR_VISUAL }}
                 </button>
                 <button
-                    :class="['input__modes-button', {'is-active': mode === 'code'}]"
+                    :class="['fb-editor__modes-button', {'is-active': mode === 'code'}]"
                     type="button"
                     @click="mode = 'code'"
                 >
                     {{ $lang.FORMS_EDITOR_CODE }}
                 </button>
             </div>
-            <div class="input__editor-tabs">
-                <div class="fb-input__editor-tab" :key="'visual'" v-show="mode === 'visual'">
-                    <textarea class="input__editor-tiny" :id="editorId">{{ value }}</textarea>
+            <div class="fb-editor__tabs">
+                <div class="fb-editor__tab" :key="'visual'" v-show="mode === 'visual'">
+                    <textarea class="fb-editor__tiny" :id="editorId" :disabled="isDisabled">{{ value }}</textarea>
                 </div>
-                <div class="fb-input__editor-tab" :key="'code'" v-show="mode === 'code'" >
-                    <textarea class="input__editor-codemirror" :id="codeEditorId" ref="code">{{ value }}</textarea>
+                <div class="fb-editor__tab" :key="'code'" v-show="mode === 'code'" >
+                    <textarea class="fb-editor__codemirror" :id="codeEditorId" ref="code" :disabled="isDisabled">{{ value }}</textarea>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
     <div class="grid__cell">
         <uploader
             class="fb-uploader"
-            :class="{'form-builder_disabled': isDisabled}"
+            :class="{'fb-uploader_disabled': isDisabled}"
             :options="uploaderOptions"
             @file-added="checkFile"
             @file-progress="setProgress"

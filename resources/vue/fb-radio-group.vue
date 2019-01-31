@@ -1,7 +1,7 @@
 <template>
     <div v-if="items && items.length" class="grid__cell" :class="[cellClass]">
         
-        <div class="fc-radio" :class="[{'animated shake': shake }]">
+        <div class="fc-radio" :class="[{'animated shake': shake, 'fc-radio_disabled': isDisabled }]">
             <fb-error-wrap
                 :open="tooltip"
                 :error="error"

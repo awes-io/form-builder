@@ -1,7 +1,7 @@
 <template>
     <div class="grid__cell" :class="[cellClass]" >
-        <div :class="['input', 'input_phone', { 'form-builder_disabled': isDisabled, 'animated shake': shake, 'input_active': inActive, 'input_error': hasError, }]">
-            <span class="input__label">{{ label }}</span>
+        <div :class="['fb-phone', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': inActive, 'fb-phone_error': hasError, }]">
+            <span class="fb-phone__label">{{ label }}</span>
             <vue-tel-input
                 v-model="value"
                 :disabled="isDisabled"

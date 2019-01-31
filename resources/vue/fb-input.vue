@@ -1,19 +1,19 @@
 <template>
   <div class="grid__cell" :class="[cellClass]" >
 
-    <div :class="['input', { 'form-builder_disabled': isDisabled, 'input_active': inActive || autoFilled, 'input_error': hasError, 'animated shake': shake }]">
+    <div :class="['fb-input', { 'fb-input_disabled': isDisabled, 'fb-input_active': inActive || autoFilled, 'fb-input_error': hasError, 'animated shake': shake }]">
 
       <fb-error-wrap
         :open="tooltip"
         :error="error"
         @clickTooltip="clickTooltip">
 
-        <label class="input__label input__label_field" :for="'#' + inputId">{{ label }}</label>
+        <label class="fb-input__label fb-input__label_field" :for="'#' + inputId">{{ label }}</label>
 
         <input v-if="mask"
               v-bind="$attrs"
               :id="inputId"
-              :class="['input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
+              :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}]"
               :data-awes="$options.name + '.' + name"
               :type="inputType"
               :disabled="isDisabled"
@@ -28,7 +28,7 @@
         <input v-else
               v-bind="$attrs"
               :id="inputId"
-              :class="['input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'input__field_password': $attrs.type === 'password'}]"
+              :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}]"
               :data-awes="$options.name + '.' + name"
               :type="inputType"
               :disabled="isDisabled"
@@ -44,7 +44,7 @@
           v-if="$attrs.type === 'password'"
           type="button"
           :aria-label="$lang.SHOW_PASSWORD"
-          class="input__eye"
+          class="fb-input__eye"
           @click.prevent="togglePassword">
           <i :class="['icon', inputType === 'password' ? 'icon-eye' : 'icon-eye2']"></i>
         </button>

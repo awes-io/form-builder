@@ -1,7 +1,7 @@
 <template>
   <div class="grid__cell" :class="[cellClass]">
-      <div class="mselect" :class="[{ 'mselect_active': inActive }, { 'mselect_opened': isOpened }, { 'form-builder_disabled': disabled }]">
-        <span class="mselect__label">{{ label || $lang.FORMS_SELECT_LABEL }}</span>
+      <div class="fb-select" :class="[{ 'fb-select_active': inActive }, { 'fb-select_opened': isOpened }, { 'fb-select_disabled': disabled }]">
+        <span class="fb-select__label">{{ label || $lang.FORMS_SELECT_LABEL }}</span>
         <multiselect
           :show-labels="false"
           :multiple="multiple"
@@ -12,7 +12,7 @@
           track-by="value"
           :hide-selected="true"
           :disabled="isDisabled"
-          class="mselect__field"
+          class="fb-select__field"
           @open="isOpened = true"
           @close="isOpened = false"/>
       </div>

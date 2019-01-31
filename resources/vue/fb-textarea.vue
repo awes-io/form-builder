@@ -1,18 +1,18 @@
 <template>
   <div class="grid__cell" :class="[cellClass]" >
 
-    <div class="input input_textarea" :class="{ 'form-builder_disabled': isDisabled, 'input_active': inActive, 'input_error': hasError, 'animated shake': shake}">
+    <div class="fb-textarea" :class="{ 'fb-textarea_disabled': isDisabled, 'fb-textarea_active': inActive, 'fb-textarea_error': hasError, 'animated shake': shake}">
 
       <fb-error-wrap
         :open="tooltip"
         :error="error"
         @clickTooltip="clickTooltip">
 
-        <span class="input__label">{{ label }}</span>
+        <span class="fb-textarea__label">{{ label }}</span>
 
         <textarea
           v-bind="$attrs"
-          :class="['input__textarea', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
+          :class="['fb-textarea__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
           :disabled="isDisabled"
           v-model="value"
           @focus="inFocus = true"
@@ -38,7 +38,6 @@
     inheritAttrs: false,
 
     mixins: [ fieldMixin, focusMixin ],
-
 
     props: {
 
