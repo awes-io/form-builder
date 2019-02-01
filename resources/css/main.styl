@@ -9,25 +9,25 @@ vendor-prefixes = official
 .grid__cell
     width 100%
 
-.keycode
+.fb-keycode
     &__wrap
         display flex
         margin-left -5px
         margin-right -5px
-    &__ffield
+    &__field-wrap
         padding-left 5px
         padding-right 5px
     &__field
         width 100%
 
-.input
+.fb-input, .fb-textarea
     &__label
         display block
     &__field, &__textarea
         border 1px solid
         width 100%
 
-.multi-bl
+.fb-multiblock
     &_has-close
         max-width: calc(100% - 40px)
         width 100%
@@ -35,44 +35,12 @@ vendor-prefixes = official
     &__clear
         position absolute
         right -40px
-        top 24px
+        top 19px
         display block
         width 34px
         padding 0
         border 1px solid
         min-height 20px
-
-.fb
-    &__input
-        &-wrap
-            display: flex
-        &-inner
-            flex-grow 1
-            display block
-            position relative
-
-        &-domain
-            color gray // replace
-            width auto
-            display inline-flex
-            align-items center
-            font-size 16px
-            padding 12px 0 0 5px
-        &_slug
-            .input__field
-                text-align right
-                padding-right 5px
-
-
-
-.input__range
-    width: 100%
-    &-wrap
-        display flex
-    &-right
-        width: 100%
-        display: flex
-        align-items: center
 
 .v-popover.display-block>span
     display block !important
