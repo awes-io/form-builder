@@ -15,6 +15,7 @@ import fbPhone from '../vue/fb-phone.vue'
 import fbUploader from '../vue/fb-uploader.vue'
 import fbEditor from '../vue/fb-editor.vue'
 import fbGroup from '../vue/fb-group.vue'
+import fbSwitcher from '../vue/fb-switcher.vue'
 import { loadEditor } from '../js/utils/codeEditors.js'
 
 export function install(Vue) {
@@ -25,6 +26,7 @@ export function install(Vue) {
     Vue.component('form-builder', formBuilder)
     Vue.component('fb-group', fbGroup)
     Vue.component('fb-error-wrap', fbErrorWrap)
+    Vue.component('fb-switcher', fbSwitcher)
     Vue.component('fb-input', fbInput)
     Vue.component('fb-multi-block', fbMultiBlock)
     Vue.component('fb-checkbox', fbCheckbox)
