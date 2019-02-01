@@ -3,9 +3,9 @@
 return [
 
     'src' => [
-        'script' => 'awes-io/form-builder/v0.x.x/js/main.js',
-        'script_legacy' => 'awes-io/form-builder/v0.x.x/js/main.legacy.js',
-        'style' => 'awes-io/form-builder/v0.x.x/css/main.css'
+        'script' => 'awes-io/form-builder/v1.x.x/js/main.js',
+        'script_legacy' => 'awes-io/form-builder/v1.x.x/js/main.legacy.js',
+        'style' => 'awes-io/form-builder/v1.x.x/css/main.css'
     ],
 
     'local' => [
