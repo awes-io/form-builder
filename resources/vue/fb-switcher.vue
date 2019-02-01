@@ -21,10 +21,7 @@
                     @keydown.enter.prevent="focusNext"
                     ref="element">
 
-                <span class="fb-switcher__text">
-                    <i class="icon icon-checkbox" ref="switcher"></i>
-                    <span>{{ label }}</span>
-                </span>
+                <span class="fb-switcher__text">{{ label }}</span>
 
                 </fb-error-wrap>
             </label>
