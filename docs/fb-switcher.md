@@ -1,26 +1,26 @@
-# Компонент &lt;fb-checkbox&gt;
+# Компонент &lt;fb-switcher&gt;
 
-Может находиться только внутри &lt;form-builder&gt;
+Переключатель 0/1 на основе `input[type="range"]`. Может находиться только внутри &lt;form-builder&gt;
 
-1. [Пример использования компонента](#fbcb-example)
-2. [Свойства компонента](#fbcb-options)
+1. [Пример использования компонента](#fbsw-example)
+2. [Свойства компонента](#fbsw-options)
 
 
-## <a name="fbcb-example"></a> Пример использования компонента
+## <a name="fbsw-example"></a> Пример использования компонента
 
 ```html
 <form-builder url="/api-url">
-    <fb-checkbox name="agree" label="Agree with cookie policy"></fb-checkbox>
+    <fb-switcher name="active" label="Active"></fb-switcher>
 </form-builder>
 ```
 @vue
 <form-builder url="/api-url">
-    <fb-checkbox name="agree" label="Agree with cookie policy"></fb-checkbox>
+    <fb-switcher name="active" label="Active"></fb-switcher>
 </form-builder>
 @endvue
 
 
-## <a name="fbcb-options"></a> Свойства компонента
+## <a name="fbsw-options"></a> Свойства компонента
 
 | Название            | Тип                | По-умолчанию        | Описание                                          |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|

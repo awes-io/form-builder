@@ -9,7 +9,7 @@
         <slot :fields="workingState" />
       </div>
 
-      <div v-if="! autoSubmit" 
+      <div v-if="! autoSubmit"
             :class="modal ? 'line-btns' : null">
         <div :class="modal ? 'line-btns__wrap' : 'line-btns'">
 
@@ -24,9 +24,9 @@
               @shortkey="send"
               @click.prevent="send"
               @click.native.prevent="send">
-              {{ sendText || $lang.FORMS_SEND }} <span class="g-res--tablet-lg_n">(ctrl+enter)</span> 
+              {{ sendText || $lang.FORMS_SEND }} <span class="g-res--tablet-lg_n">(ctrl+enter)</span>
             </button>  <!-- v-waves.button -->
-            
+
             <button v-if="modal || cancelbtn"
               class="btn waves-effect waves-button"
               :class="{'btn_transparent': cancelbtn}"
@@ -36,7 +36,7 @@
               @click.prevent="modal ? close() : $emit('cancel')">
               {{ cancelText || $lang.FORMS_CANCEL }}
             </button> <!-- v-waves.button -->
-            
+
             <slot name="buttons-after"></slot>
         </div>
       </div>
@@ -80,7 +80,7 @@
       sendText: String,
 
       cancelText: String,
-      
+
       loadingText: String,
 
       default: {
@@ -125,8 +125,8 @@
         isModal: !!this.modal
       }
     },
-    
-    
+
+
     data() {
         return {
             loading: false,
@@ -146,7 +146,7 @@
       isEdited() {
         return this.$awesForms.getters['isEdited'](this.name)
       },
-      
+
       isBlocked() {
         return this.$awesForms.getters['isBlocked'](this.name)
       },
@@ -203,7 +203,7 @@
           }
           this.$awesForms.commit('resetFormEdited', this.name);
           this.serverData = null;
-          this.$emit('sended', data.data);
+          this.$emit('sended', data.data || true);
           if ( this.modal ) this.close(this.modal.name)
         }
       },
@@ -244,9 +244,9 @@
           this.loading = true;
           AWES.on('core:ajax', this.onRequestProcess )
           AWES.ajax( this.workingState, this.url, this.method )
-              .then( res => { 
-                  if ( res.success && res.data ) {
-                    this.serverData = res.data
+              .then( res => {
+                  if ( res.success ) {
+                    this.serverData = res.data || {}
                   }
                   if ( ! res.success && res.data ) {
                     this.serverDataErrors = res.data
@@ -259,8 +259,8 @@
               })
         }
       },
-      
-      onRequestProcess(e) { 
+
+      onRequestProcess(e) {
         this.showLoader = e.detail
       },
 
@@ -269,7 +269,7 @@
           window.addEventListener(event.type, this[event.handler], false)
         })
       },
-      
+
       removeUnloadHandlers() {
         UNLOAD_EVENTS.forEach( event => {
           window.removeEventListener(event.type, this[event.handler])
@@ -297,7 +297,7 @@
           this.addUnloadHandlers()
         }
       },
-      
+
       windowUnloadHandler( $event ) {
         if ( this.disabledDialog || ! this.isEdited ) return true
         $event.returnValue = this.$lang.FORMS_CONFIRM
@@ -311,7 +311,7 @@
           AWES.emit(`modal::${this.modal.name}.close`)
         }
       },
-      
+
       preventModalClose(e) {
         e.detail.preventClose()
         this.close()

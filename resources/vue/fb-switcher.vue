@@ -2,7 +2,7 @@
     <div class="grid__cell" :class="[{'grid__cell_padding': padding}, cellClass]">
 
         <div :class="['fb-switcher', {'fb-switcher_error': hasError, 'fb-switcher_active': inActive, 'fb-switcher_disabled': isDisabled}]">
-            
+
             <fb-error-wrap
                 :open="tooltip"
                 :error="error"
@@ -14,6 +14,7 @@
                         min="0"
                         max="1"
                         step="1"
+                        v-model.number="value"
                         v-bind="$attrs"
                         class="fb-switcher__field"
                         :class="{'is-focusable': isFocusable, 'in-focus': inFocus}"
@@ -21,6 +22,7 @@
                         @focus="inFocus = true"
                         @blur="inFocus = false"
                         @keydown.enter.prevent="focusNext"
+                        @mousedown="checkClick"
                         ref="element">
                 </div>
 
@@ -39,24 +41,56 @@
     export default {
 
         name: 'fb-switcher',
+
         inheritAttrs: false,
+
         mixins: [ fieldMixin, focusMixin ],
+
+
         props: {
+
             label: {
                 type: String,
                 required: true
             },
+
             padding: {
-                type: Boolean, 
+                type: Boolean,
                 default: true
             }
         },
 
+
         data() {
             return {
-                value: false
+                value: 0
+            }
+        },
+
+
+        methods: {
+
+            checkClick($event) {
+                this._clickTimestamp = new Date().getTime()
+                this._value = this.value
+                window.addEventListener('mouseup', this.mouseReleased, false)
+            },
+
+            mouseReleased() {
+                window.removeEventListener('mouseup', this.mouseReleased, false)
+                let now = new Date().getTime()
+                if ( now - this._clickTimestamp < 500 &&
+                    this._value === this.value ) {
+                    // this is a click, queue switch theme
+                    setTimeout(this.toggleValue, 0)
+                }
+                delete this._clickTimestamp
+                delete this._clickIsDark
+            },
+
+            toggleValue() {
+                this.value = this.value ? 0 : 1
             }
         }
-
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="grid__cell" :class="[{'grid__cell_padding': padding}, cellClass]">
 
-    <div :class="['fb-checkbox', {'fb-checkbox_error': hasError}, {'fb-checkbox_active': inActive}, themeClass, {'fb-checkbox_disabled': isDisabled}]">
+    <div :class="['fb-checkbox', {'fb-checkbox_error': hasError}, {'fb-checkbox_active': inActive}, {'fb-checkbox_disabled': isDisabled}]">
       <label class="fb-checkbox__label" :data-awes="$options.name + '.' + name">
         <fb-error-wrap
           :open="tooltip"
@@ -20,7 +20,7 @@
             ref="element">
 
           <span class="fb-checkbox__text">
-            <i class="icon icon-checkbox" ref="switcher"></i>
+            <i class="icon icon-checkbox"></i>
             <span>{{ label }}</span>
           </span>
 
@@ -51,57 +51,15 @@
       },
 
       padding: {
-        type: Boolean, 
+        type: Boolean,
         default: true
-      },
-
-      theme: String,
+      }
     },
 
 
     data() {
       return {
         value: false
-      }
-    },
-
-
-    computed: {
-
-      themeClass() {
-        return this.theme ? `checkbox_${this.theme}` : null
-      },
-      
-      isSwitcher() {
-        return this.theme === 's2'
-      }
-    },
-
-    methods: {
-      
-      enableSwitcher() {
-        this.__hammer = new Hammer.Manager( this.$refs.switcher, {
-            recognizers: [
-                [ Hammer.Swipe, {
-                    threshold: 5,
-                    velocity: .1,
-                    direction: Hammer.DIRECTION_HORIZONTAL
-                }]
-            ]
-        })
-        this.__hammer.on('swipeleft', () => { this.value = false })
-        this.__hammer.on('swiperight', () => { this.value = true })
-      }
-    },
-  
-    mounted() {
-      if ( this.isSwitcher ) this.enableSwitcher()
-    },
-    
-    beforeDestroy() {
-      if ( this.isSwitcher ) {
-        this.__hammer.destroy()
-        delete this.__hammer
       }
     }
   }

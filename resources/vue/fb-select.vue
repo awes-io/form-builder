@@ -14,13 +14,17 @@
           :disabled="isDisabled"
           class="fb-select__field"
           @open="isOpened = true"
-          @close="isOpened = false"/>
+          @close="isOpened = false"
+          ref="select"
+        />
       </div>
     </div>
 </template>
 
 <script>
   import fieldMixin from './mixins/fb-field.js';
+
+  let _retry = 10
 
   export default {
 
@@ -30,12 +34,12 @@
 
     mixins: [ fieldMixin ],
 
-    components: { 
+    components: {
         Multiselect: resolve => {
             AWES.utils.loadModules({
                 'vue-multiselect': {
-                    src: ['https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.js',
-                          'https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css'],
+                    src: ['https://unpkg.com/vue-multiselect@2.1.3/dist/vue-multiselect.min.js',
+                          'https://unpkg.com/vue-multiselect@2.1.3/dist/vue-multiselect.min.css'],
                     deps: ['vue'],
                     cb() { resolve(window.VueMultiselect.default) }
                 },
@@ -106,7 +110,21 @@
       resetValue( formId ) {
         if ( this.formId !== formId ) return
         this.value = []
+      },
+
+      wrapTabEvents() {
+        try {
+          this.$refs.select.$el.querySelector('.multiselect__input').classList.add('is-focusable')
+        } catch(e) {
+          _retry--
+          if (_retry) setTimeout(this.wrapTabEvents, 500)
+        }
       }
+    },
+
+
+    mounted() {
+      this.$nextTick( this.wrapTabEvents )
     }
   }
 </script>

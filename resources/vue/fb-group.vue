@@ -1,4 +1,4 @@
-<template>
+<template functional>
     <div class="grid__cell-group">
         <slot></slot>
     </div>
