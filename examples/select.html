@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Select test</title>
+    <script>
+        const AWES_CONFIG = {
+            key: '680a7d07f89b94e7fc83be657a2daa27'
+        }
+    </script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/base-js/v0.x.x/js/main.js"></script>
+</head>
+<body>
+    <div id="awes-app">
+        <div style="max-width: 500px; margin: auto">
+            <form-builder url="//httpbin.org/post" disabled-dialog>
+
+                <h2>Input group</h2>
+                <fb-group>
+                    <fb-input name="input" label="label" cell="2"></fb-input>
+                    <fb-input name="input" label="label" cell="2"></fb-input>
+                    <fb-input name="input" label="label" cell="2"></fb-input>
+                    <fb-input name="input" label="label" cell="2"></fb-input>
+                </fb-group>
+
+                <h2>Select example</h2>
+                <fb-select name="select" label="select" :select-options="[{name:'one', value: 1}, {name:'two', value: 2}]"></fb-select>
+
+                <h2>Enter skip test</h2>
+                <fb-input name="input" label="label" cell="2"></fb-input>
+            </form-builder>
+        </div>
+    </div>
+</body>
+</html>

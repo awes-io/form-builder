@@ -30,6 +30,16 @@
 
     mixins: [ fieldMixin ],
 
+    components: {
+      vueRecaptcha: resolve => {
+        return AWES.utils.loadModule(
+          'vue-recaptcha',
+          'https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js',
+          () => { resolve( window.VueRecaptcha ) }
+        )
+      }
+    },
+
 
     props: {
 

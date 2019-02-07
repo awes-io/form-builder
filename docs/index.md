@@ -15,5 +15,6 @@
 * [fb-radio-group](./fb-radio-group.md)
 * [fb-select](./fb-select.md)
 * [fb-slider](./fb-slider.md)
+* [fb-switcher](./fb-switcher.md)
 * [fb-textarea](./fb-textarea.md)
 * [fb-uploader](./fb-uploader.md)

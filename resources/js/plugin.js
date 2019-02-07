@@ -33,7 +33,13 @@ export function install(Vue) {
     Vue.component('fb-select', fbSelect)
     Vue.component('fb-textarea', fbTextarea)
     Vue.component('fb-code', fbCode)
-    Vue.component('fb-company-slug', fbCompanySlug)
+    Vue.component('fb-company-slug', resolve => {
+        AWES.utils.loadModule(
+            'urlify',
+            'https://unpkg.com/urlify@0.3.6/dist/urlify.js',
+            () => { resolve(fbCompanySlug) }
+        )
+    })
     Vue.component('fb-auto-captcha', fbAutoCaptcha)
     Vue.component('fb-radio-group', fbRadioGroup)
     Vue.component('fb-slider', fbSlider)

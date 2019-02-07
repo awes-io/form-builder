@@ -43,19 +43,10 @@ const awesPlugin = {
                 })
             }
         },
-        'vue-recaptcha': {
-            src: 'https://unpkg.com/vue-recaptcha@latest/dist/vue-recaptcha.min.js',
-            deps: ['vue'],
-            cb() {
-                Vue.component('vue-recaptcha', window.VueRecaptcha)
-            }
-        },
         'vue-the-mask': {
             src: 'https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js',
             deps: ['vue']
-        },
-        'urlify': 'https://unpkg.com/urlify@0.3.6/dist/urlify.js',
-        'hammerjs': 'https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js'
+        }
     },
 
     install() {
