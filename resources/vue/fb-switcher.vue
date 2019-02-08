@@ -1,7 +1,8 @@
 <template>
     <div class="grid__cell" :class="[{'grid__cell_padding': padding}, cellClass]">
 
-        <div :class="['fb-switcher', {'fb-switcher_error': hasError, 'fb-switcher_active': inActive, 'fb-switcher_disabled': isDisabled}]">
+        <div :class="['fb-switcher', {'fb-switcher_error': hasError, 'fb-switcher_active': value, 'fb-switcher_disabled': isDisabled}]"
+            @keyup.space="toggleValue ">
 
             <fb-error-wrap
                 :open="tooltip"
@@ -26,7 +27,7 @@
                         ref="element">
                 </div>
 
-                <span class="fb-switcher__label">{{ label }}</span>
+                <span class="fb-switcher__label" @click="toggleValue">{{ label }}</span>
 
             </fb-error-wrap>
 
@@ -85,10 +86,11 @@
                     setTimeout(this.toggleValue, 0)
                 }
                 delete this._clickTimestamp
-                delete this._clickIsDark
+                delete this._value
             },
 
             toggleValue() {
+                if ( this.isDisabled ) return
                 this.value = this.value ? 0 : 1
             }
         }
