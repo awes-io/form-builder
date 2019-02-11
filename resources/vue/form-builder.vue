@@ -24,7 +24,7 @@
               @shortkey="send"
               @click.prevent="send"
               @click.native.prevent="send">
-              {{ sendText || $lang.FORMS_SEND }} <span class="g-res--tablet-lg_n">(ctrl+enter)</span>
+              {{ sendText || $lang.FORMS_SEND }}
             </button>  <!-- v-waves.button -->
 
             <button v-if="modal || cancelbtn"
@@ -232,7 +232,7 @@
 
       send() {
         AWES.emit('form-builder:before-send')
-        if ( this.loading || this.isBlocked ) return
+        if ( this.loading || this.isBlocked || ! this.isEdited ) return
         // invoke attached @send method if present
         if ( this.$listeners.hasOwnProperty('send') ) {
           this.$emit('send', this.workingState)

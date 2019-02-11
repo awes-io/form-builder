@@ -1,5 +1,5 @@
 export default {
-    FORMS_SEND: 'Send',
+    FORMS_SEND: 'Send (ctrl+enter)',
     FORMS_CANCEL: 'Cancel',
     FORMS_LOADING: 'Loading...',
     FORMS_CONFIRM: 'Are you shure? All not submitted data will be erased...',
