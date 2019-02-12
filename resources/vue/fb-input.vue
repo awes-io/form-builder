@@ -43,6 +43,7 @@
         <button
           v-if="$attrs.type === 'password'"
           type="button"
+          tabindex="-1"
           :aria-label="$lang.SHOW_PASSWORD"
           class="fb-input__eye"
           @click.prevent="togglePassword">
@@ -57,7 +58,7 @@
 <script>
   import fieldMixin from './mixins/fb-field.js';
   import focusMixin from './mixins/fb-focus.js';
-  
+
   let _inputsId = 0
 
   export default {
@@ -87,9 +88,9 @@
           autoFilled: false
         }
       },
-      
+
       computed: {
-        
+
         inputId() {
           return 'input-' + _inputsId++
         }
@@ -105,7 +106,7 @@
                   this.inputType = 'password'
               }
           },
-          
+
           autoFillHack( $event ) {
             switch ( $event.animationName ) {
               case 'autoFillStart' :
