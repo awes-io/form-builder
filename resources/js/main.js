@@ -1,6 +1,7 @@
 import plugin from './plugin'
 import lang from './lang.js'
 import storeModule from './store-module'
+import storeShared from './store-shared'
 
 const awesPlugin = {
 
@@ -16,6 +17,7 @@ const awesPlugin = {
             src: 'https://unpkg.com/vuex@2.5.0/dist/vuex.min.js',
             deps: ['vue'],
             cb() {
+                AWES._store = AWES._store || new Vuex.Store(storeShared)
                 Vue.prototype.$awesForms = new Vuex.Store(storeModule)
             }
         },
