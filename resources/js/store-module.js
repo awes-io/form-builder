@@ -1,10 +1,9 @@
 import reactiveUpdate from './utils/reactiveFormUpdate'
 
-const FORM_SCHEMA = ({ id, url, method, storeData }) => {
+const FORM_SCHEMA = ({ id, url, method }) => {
   return {
     id,
     url,
-    storeData,
     initialState: {
       _method: method
     },
@@ -31,7 +30,7 @@ const getters = {
   form: ( state ) => formId => {
     return state.forms.find( form => form.id == formId )
   },
-  
+
   formErrorsOrFalse: ( state, getters ) => formId => {
     const errors = getters.form(formId).errors
     return Object.keys(errors).length ? errors : false
@@ -69,7 +68,7 @@ const getters = {
   multiblockDisabled: ( state, getters ) => ( formId, multiblock ) => {
     return _.get( getters.form(formId).multiblockState, multiblock )
   },
- 
+
   hasCaptchaError: ( state, getters ) => formId => {
     return getters.form(formId).errors.hasOwnProperty('g-recaptcha-response') ? true : false
   }

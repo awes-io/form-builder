@@ -156,7 +156,7 @@
       },
 
       storeFormData() {
-        return this.storeData ? this.$awesForms.state[this.storeData] : false;
+        return this.storeData ? AWES._store.state[this.storeData] : false;
       },
 
       usedFormData() {
@@ -197,7 +197,7 @@
       serverData( data ) {
         if ( data ) {
           if ( this.storeData ) {
-            this.$awesForms.commit('setData', { param: this.storeData, data: data.data });
+            AWES._store.commit('setData', { param: this.storeData, data: data.data });
           } else {
             this.$awesForms.commit('setDefaultData', { id: this.name, fields: data.data });
           }
@@ -225,8 +225,7 @@
         this.$awesForms.commit( 'createForm', {
           id: this.name,
           url: this.url,
-          method: this.method,
-          storeData: this.storeData
+          method: this.method
         })
       },
 
