@@ -5,12 +5,12 @@
         <multiselect
           :show-labels="false"
           :multiple="multiple"
+          :hide-selected="multiple"
           :placeholder="placeholderText || $lang.FORMS_SELECT_PLACEHOLDER"
           v-model="selected"
           :options="selectOptions"
           label="name"
           track-by="value"
-          :hide-selected="true"
           :disabled="isDisabled"
           class="fb-select__field"
           @open="isOpened = true"
