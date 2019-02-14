@@ -1,5 +1,7 @@
 # &lt;fb-editor&gt;
 
+![fb-editor](https://storage.googleapis.com/static.awes.io/docs/fb-editor.png)
+
 ## Конфигурация по-умолчанию
 
 Глобально опции для текстового редактора можно добавить в поле `AWES_CONFIG.formBuilder.fbEditor`.
