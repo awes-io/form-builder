@@ -2,7 +2,7 @@
 
 Компонент текстового поля. Может находиться только внутри &lt;form-builder&gt;
 
-![fb-input](https://storage.googleapis.com/static.awes.io/docs/fb-input.gif)
+![fb-input](https://storage.googleapis.com/static.awes.io/docs/fb-input.png)
 
 
 ## Пример использования компонента
