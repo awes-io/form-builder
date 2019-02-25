@@ -1,10 +1,10 @@
-# Компонент &lt;fb-radio-group&gt;
+# The &lt;fb-radio-group&gt; Component
 
-Может находиться только внутри &lt;form-builder&gt;
+Using this component, you can create a group of radio buttons. It can be located only within the &lt;form-builder&gt; component.  The example below shows several different groups of radio buttons which you can customize at your own discretion.
 
 ![fb-radio-group](https://storage.googleapis.com/static.awes.io/docs/fb-radio-group.png)
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder url="/api-url">
@@ -22,35 +22,35 @@
 @endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Идентификатор поля в объекте данных               |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **cell**            | `String`, `Number` | `undefined`         | Количество колонок в ряду. Может быть 2 или 3     |
-| **label**           | `String`           | `''`                | Текст в элементе &lt;label&gt;                    |
-| **items**           | `Array`            | `undefined`         | [Массив радио-кнопок](#fbrg-items)                |
-| **box**             | `Boolean`          | `false`             | Добавляет классы для стилизации с рамкой          |
-| **enter-skip**      | `Boolean`          | `false`             | Пропускать поле при переключении по <kbd>enter</kbd> |
-| **focus**           | `Boolean`          | `false`             | Установить фокус в это поле при загрузке страницы |
+| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
+| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
+| **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
+| **items**           | `Array`            | `undefined`         | [Array of radio buttons](#fbrg-items)             |
+| **box**             | `Boolean`          | `false`             | It adds classes for styling with a frame          |
+| **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
+| **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
 
 
-<h2 id="fbrg-items">Массив радио-кнопок</h2>
+<h2 id="fbrg-items">Array of radio buttons</h2>
 
-Массив элементов для отображения может быть в двух вариантах
+There are two options for displaying the items array:
 
 ```javascript
 const items = ['Item 1', 'Item 2', 'Item 3']
-// В таком случае получим радио-кнопки c одинаковыми `<label>` и `value`
+// In such case, we will get radio buttons with the same `<label>` and `value`
 
 const items = [
     {name: 'Item 1', value: 'val1'},
     {name: 'Item 2', value: 'val2'},
     {name: 'Item 3', value: 'val3'}
 ]
-// В таком случае текс внутри `<label>` равен `name`
-// а атрибут `value` равен `value`
+// In such case, the text within the `<label>` element is equal to `name`
+// and the `value` attribute is equal to `value`
 ```
 
 @vue
@@ -61,9 +61,9 @@ const items = [
 @endvue
 
 
-## Стилизация радио-кнопки
+## Styling of the radio button
 
-С помощью слота по-умолчанию можно стилизовать внешний вид кнопок
+Using the slot, by default, you can style the appearance of buttons. Please use the following HTML code snippet to customize your buttons:
 
 ```html
 <form-builder url="/api-url">
@@ -87,10 +87,10 @@ const items = [
 </form-builder>
 ```
 
-В слот передаются переменные:
+The following variables are passed to the slot:
 
-| Название            | Тип                | Описание                         |
+| Name                | Type               | Description                      |
 |---------------------|:------------------:|----------------------------------|
-| **item**            | `Object`           | Текущий элемент массива `items`  |
-| **checked**         | `Boolean`          | Отмечена ли данная кнопка        |
-| **focused**         | `Boolean`          | Фокус находится на данной кнопке |
+| **item**            | `Object`           | The current item of the `items` array  |
+| **checked**         | `Boolean`          | It indicates whether the button is checked  |
+| **focused**         | `Boolean`          | The focus is set on this button |
