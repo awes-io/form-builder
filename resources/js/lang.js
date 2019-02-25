@@ -6,6 +6,8 @@ export default {
     FORMS_MULTIBLOCK_ADD: '+ add',
     FORMS_SELECT_LABEL: 'Select a value',
     FORMS_SELECT_PLACEHOLDER: 'Pick a value',
+    FORMS_SELECT_AJAX_PLACEHOLDER: 'Start typing...',
+    FORMS_SELECT_EMPTY: 'Nothing found',
     FORMS_UPLOAD_DROP: 'Drag and drop file or',
     FORMS_UPLOAD_ADD: 'Add file',
     FORMS_UPLOAD_FORMAT: 'File formats only',

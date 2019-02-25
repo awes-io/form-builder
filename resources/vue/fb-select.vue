@@ -6,17 +6,22 @@
           :show-labels="false"
           :multiple="multiple"
           :hide-selected="multiple"
-          :placeholder="placeholderText || $lang.FORMS_SELECT_PLACEHOLDER"
+          :placeholder="placeholderText || defaultPlaceholder"
+          :internal-search="isAjax ? false : true"
+          :loading="isLoading"
           v-model="selected"
-          :options="selectOptions"
+          :options="usedOptions"
           label="name"
           track-by="value"
           :disabled="isDisabled"
           class="fb-select__field"
           @open="isOpened = true"
           @close="isOpened = false"
+          v-on="isAjax ? {'search-change': ajaxSearch } : null"
           ref="select"
-        />
+        >
+          <template slot="noOptions">{{ $lang.FORMS_SELECT_EMPTY }}</template>
+        </multiselect>
       </div>
     </div>
 </template>
@@ -24,7 +29,8 @@
 <script>
   import fieldMixin from './mixins/fb-field.js';
 
-  let _retry = 10
+  let _retry = 10 // times
+  const AJAX_DEBOUNCE = 1000 // ms
 
   export default {
 
@@ -52,7 +58,7 @@
       label: String,
 
       selectOptions: {
-        type: Array,
+        type: [String, Array],
         default: () => []
       },
 
@@ -68,7 +74,9 @@
     data() {
       return {
         selected: [],
-        isOpened: false
+        isOpened: false,
+        isLoading: false,
+        ajaxOptions: []
       }
     },
 
@@ -80,16 +88,16 @@
         get() {
           return this.multiple ?
                   this.selected.map( item => item.value) :
-                  this.selected.value;
+                  this.selected && this.selected.value;
         },
 
         set( value ) {
           if ( this.multiple ) {
-            this.selected = this.selectOptions.filter( item => {
+            this.selected = this.usedOptions.filter( item => {
               return value.includes(item.value);
             })
           } else {
-            this.selected = this.selectOptions.find( item => {
+            this.selected = this.usedOptions.find( item => {
               return value === item.value;
             })
           }
@@ -102,8 +110,31 @@
 
       inActive() {
         return this.isOpened || this.hasValue;
+      },
+
+      isAjax() {
+        return typeof this.selectOptions === 'string'
+      },
+
+      defaultPlaceholder() {
+        return this.$lang[this.isAjax ? 'FORMS_SELECT_AJAX_PLACEHOLDER' : 'FORMS_SELECT_PLACEHOLDER']
+      },
+
+      usedOptions() {
+        return this.isAjax ? this.ajaxOptions : this.selectOptions
       }
     },
+
+
+    watch: {
+
+      selected(newValue) {
+        if (newValue) {
+          this.$emit('change', newValue)
+        }
+      }
+    },
+
 
     methods: {
 
@@ -119,6 +150,23 @@
           _retry--
           if (_retry) setTimeout(this.wrapTabEvents, 500)
         }
+      },
+
+      ajaxSearch(search) {
+        if ( ! search ) return
+        clearTimeout(this.__search)
+        this.isLoading = true
+        this.__search = setTimeout(() => {
+          AWES.ajax({}, this.selectOptions.replace('%s', search), 'get')
+            .then( res => {
+              if ( res.success === true ) {
+                this.ajaxOptions = res.data
+              } else {
+                this.ajaxOptions = []
+              }
+              this.isLoading = false
+            })
+        }, AJAX_DEBOUNCE);
       }
     },
 
