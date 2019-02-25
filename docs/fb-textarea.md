@@ -1,13 +1,13 @@
-# Компонент &lt;fb-textarea&gt;
+# The &lt;fb-textarea&gt; Component
 
-Компонент текстовой области. При заполнении текксто автоматически увеличивает высоту.
+This is a text area component. When filling in the text area, it will automatically increase its height.
 
-Может находиться только внутри &lt;form-builder&gt;
+This component can be located only within the &lt;form-builder&gt; component. Below, you will see a text area field in different states and its display style.
 
 ![fb-textarea](https://storage.googleapis.com/static.awes.io/docs/fb-textarea.png)
 
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder url="/api-url">
@@ -21,14 +21,14 @@
 @endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Идентификатор поля в объекте данных               |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **cell**            | `String`, `Number` | `undefined`         | Количество колонок в ряду. Может быть 2 или 3     |
-| **label**           | `String`           | `''`                | Текст в элементе &lt;label&gt;                    |
-| **fixsize**         | `Boolean`          | `false`             | Отключить автоматическое изменение высоты         |
-| **enter-skip**      | `Boolean`          | `false`             | Пропускать поле при переключении по <kbd>enter</kbd> |
-| **focus**           | `Boolean`          | `false`             | Установить фокус в это поле при загрузке страницы |
+| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
+| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
+| **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
+| **fixsize**         | `Boolean`          | `false`             | Disable automatic height change                   |
+| **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
+| **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
