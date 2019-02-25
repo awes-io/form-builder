@@ -1,10 +1,10 @@
-# Компонент &lt;fb-multi-block&gt;
+# The &lt;fb-multi-block&gt; Component
 
-Может находиться только внутри &lt;form-builder&gt;
+It can be located only within the &lt;form-builder&gt; component and is visually presented as follows:
 
 ![fb-multi-block](https://storage.googleapis.com/static.awes.io/docs/fb-multi-block.gif)
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder
@@ -46,10 +46,10 @@
 @endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Идентификатор поля в объекте данных               |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **label**           | `String`           | `'add'`             | Текст в кнопке "добавить"                         |
+| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component   |
+| **label**           | `String`           | `'add'`             | Text in the “Add” button                          |
