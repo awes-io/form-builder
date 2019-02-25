@@ -1,8 +1,8 @@
-Пакет включает компоненты
+The package includes such component as
 
 [form-builder](./form-builder.md)
 
-И поля компонента &lt;form-builder&gt;
+and the following fields of the &lt;form-builder&gt; component:
 
 * [fb-auto-captcha](./fb-auto-captcha.md)
 * [fb-checkbox](./fb-checkbox.md)
