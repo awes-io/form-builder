@@ -1,11 +1,11 @@
-# Компонент &lt;fb-input&gt;
+# The &lt;fb-input&gt; Component
 
-Компонент текстового поля. Может находиться только внутри &lt;form-builder&gt;
+It is a text field component. It can be located only within the &lt;form-builder&gt; component and can be visualized as follows:
 
 ![fb-input](https://storage.googleapis.com/static.awes.io/docs/fb-input.png)
 
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder url="/api-url">
@@ -19,24 +19,24 @@
 @endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Идентификатор поля в объекте данных               |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **cell**            | `String`, `Number` | `undefined`         | Количество колонок в ряду. Может быть 2 или 3     |
-| **label**           | `String`           | `''`                | Текст в элементе &lt;label&gt;                    |
-| **mask**            | `String`           | `undefined`         | Маска для директивы `v-mask`, подробнее [тут](https://github.com/vuejs-tips/vue-the-mask#tokens) |
-| **enter-skip**      | `Boolean`          | `false`             | Пропускать поле при переключении по <kbd>enter</kbd> |
-| **focus**           | `Boolean`          | `false`             | Установить фокус в это поле при загрузке страницы |
+| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
+| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
+| **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
+| **mask**            | `String`           | `undefined`         | Mask for the `v-mask` directive. Click [here](https://github.com/vuejs-tips/vue-the-mask#tokens) for more information |
+| **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
+| **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
 
 
-## Особенности компонента
+## Component features
 
-### HTML-атрибуты текстового поля
+### HTML attributes of the text field
 
-Страндартные атрибуты, кроме `class` и `style` передаются в элемент `&lt;input&gt;`
+All standard attributes, except `class` and `style`, are passed to the `&lt;input&gt;` element, for example:
 
 ```html
 <form-builder url="/api-url">
@@ -54,13 +54,13 @@
 </form-builder>
 @endvue
 
-#### type="checkbox" и type="radio"
+#### type="checkbox" and type="radio"
 
-Не стоит использовать &lt;fb-input type="checkbox"&gt; или &lt;fb-input type="radio"&gt;. Для этих типов есть отдельные компоненты [&lt;fb-checkbox&gt;](./fb-checkbox.md) и [&lt;fb-radio&gt;](./fb-radio.md)
+Note: Don’t use &lt;fb-input type="checkbox"&gt; or &lt;fb-input type="radio"&gt;. There are individual components such as [&lt;fb-checkbox&gt;](./fb-checkbox.md) and [&lt;fb-radio&gt;](./fb-radio.md) for these types.
 
 #### type="password"
 
-Если передается `type="password"`, то в поле автоматически появляется кнопка скрыть/показать пароль
+If `type="password"` is passed, the Hide/Show Password button will automatically appear in the field.
 
 @vue
 <form-builder url="/api-url">
