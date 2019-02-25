@@ -3,9 +3,24 @@
 namespace AwesIO\FormBuilder;
 
 use AwesIO\BaseJS\AwesProvider;
+use Illuminate\Support\Collection;
 
 class FormBuilderServiceProvider extends AwesProvider
 {
+
+    public function boot()
+    {
+        parent::boot();
+
+        Collection::macro('fbSelect', function ($name = 'name') {
+            return $this->map(function ($item) use ($name) {
+                return [
+                    'name' => $item[$name],
+                    'value' => $item['id']
+                ];
+            });
+        });
+    }
 
     public function getPackageName(): string
     {

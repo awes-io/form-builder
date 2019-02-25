@@ -1,13 +1,13 @@
-# Компонент &lt;fb-company-slug&gt;
+# The &lt;fb-company-slug&gt; Component
 
-Компонент для преобразования текста в url (использует библиотеку [urlify](https://github.com/Gottox/node-urlify))
+It is a component for converting text into URL (It uses the [urlify](https://github.com/Gottox/node-urlify) library).
 
-Может находиться только внутри &lt;form-builder&gt; и требует наличие &lt;fb-input&gt; из которого преобразуется субдомен.
+It can be located only within the &lt;form-builder&gt; component and requires the &lt;fb-input&gt; component from which the subdomain will be transformed. This component visually looks like:
 
 ![fb-company-slug](https://storage.googleapis.com/static.awes.io/docs/fb-company-slug.gif)
 
 
-## <a name="fbcs-example"></a> Пример использования компонента
+## <a name="fbcs-example"></a> Example of using the component
 
 ```html
 <form-builder url="/api-url">
@@ -23,34 +23,34 @@
 @endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Идентификатор поля в объекте данных               |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **cell**            | `String`, `Number` | `undefined`         | Количество колонок в ряду. Может быть 2 или 3     |
-| **label**           | `String`           | `''`                | Текст в элементе &lt;label&gt;                    |
-| **domain**          | `String`           | `'awescrm.de'`      | Основной домен                                    |
-| **input(*)**        | `String`           | `undefined`         | Идентификатор поля, из которого строится субдомен |
-| **max-length**      | `Number`           | `32`                | Mаксимальная длина субдомена                      |
-| **enter-skip**      | `Boolean`          | `false`             | Пропускать поле при переключении по <kbd>enter</kbd> |
-| **focus**           | `Boolean`          | `false`             | Установить фокус в это поле при загрузке страницы |
+| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
+| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
+| **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
+| **domain**          | `String`           | `'awescrm.de'`      | Main domain                                       |
+| **input(*)**        | `String`           | `undefined`         | Field identifier on which the subdomain is built  |
+| **max-length**      | `Number`           | `32`                | Maximum length of the subdomain                   |
+| **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
+| **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
 
 
-## Особенности компонента
+## Component features
 
-### Конфигурация компонента
+### Component configuration
 
-Для переопределения настроек по-умолчанию необходимо переопределить их в `AWES_CONFIG`
+To override the default settings, please override them in `AWES_CONFIG`.
 
 ```javascript
-// приведены настройки по-умолчанию
+// Here are the default settings
 const AWES_CONFIG = {
     companySlug: {
         domain: 'awescrm.de',
         length: 32,
-        // настройки библиотеки urlify, подробнее тут https://github.com/Gottox/node-urlify#browser-1
+        // Settings of the urlify library, read more here https://github.com/Gottox/node-urlify#browser-1
         ulrifyOptions: {
             spaces: '-',
             toLower: true,

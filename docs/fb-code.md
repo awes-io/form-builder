@@ -1,10 +1,10 @@
-# Компонент &lt;fb-code&gt;
+# The &lt;fb-code&gt; Component
 
-Компеннет поля для ввода кода. Может находиться только внутри &lt;form-builder&gt;
+It is a component of the field for entering code. It can be located only within the &lt;form-builder&gt; component. Here is a visual presentation of this component.
 
 ![fb-code](https://storage.googleapis.com/static.awes.io/docs/fb-code.gif)
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder url="/api-url">
@@ -19,13 +19,13 @@
 @endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Идентификатор поля в объекте данных               |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **length**          | `Number`           | `6`                 | Количество цифр в коде                            |
-| **auto-submit**     | `Boolean`          | `true`              | Отправлять форму, если код введен                 |
-| **enter-skip**      | `Boolean`          | `false`             | Пропускать поле при переключении по <kbd>enter</kbd> |
-| **focus**           | `Boolean`          | `false`             | Установить фокус в это поле при загрузке страницы |
+| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
+| **length**          | `Number`           | `6`                 | Number of digits in the code                      |
+| **auto-submit**     | `Boolean`          | `true`              | Submit form if the code is entered correctly      |
+| **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
+| **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |

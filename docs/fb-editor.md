@@ -1,20 +1,22 @@
-# &lt;fb-editor&gt;
+# The &lt;fb-editor&gt; Component
+
+It is a component for writing and changing code. You paste your code in the window and can see the result and other changes in real time, as in the screenshot below. 
 
 ![fb-editor](https://storage.googleapis.com/static.awes.io/docs/fb-editor.png)
 
-## Конфигурация по-умолчанию
+## Default configuration
 
-Глобально опции для текстового редактора можно добавить в поле `AWES_CONFIG.formBuilder.fbEditor`.
+You can globally add options for the text editor in the `AWES_CONFIG.formBuilder.fbEditor` field.
 
-[Список опций](https://www.tiny.cloud/docs/configure/)
+[Option list](https://www.tiny.cloud/docs/configure/)
 
-### Пример:
+### Example:
 
 ```javascript
 const AWES_CONFIG = {
     formBuilder: {
         fbEditor: {
-            content_css: ['/path-to.css'] // добавляет <link rel="stylesheet" href="/path-to.css"/> в iframe редактора
+            content_css: ['/path-to.css'] // adds <link rel="stylesheet" href="/path-to.css"/> in the editor’s iframe
         }
     }
 }
