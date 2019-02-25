@@ -1,13 +1,13 @@
-# Компонент &lt;fb-auto-captcha&gt;
+# The &lt;fb-auto-captcha&gt; Component
 
-Компонент recaptcha. Может находиться только внутри &lt;form-builder&gt; и использует компонент [vue-recaptcha](https://github.com/DanSnow/vue-recaptcha)
+The Recaptcha component. It can be located only within the &lt;form-builder&gt; component and uses the [vue-recaptcha](https://github.com/DanSnow/vue-recaptcha) component.
 
-По-умолчанию поле скрыто, если не передано свойство `show`. Если в ответе с сервера есть ошибка для поля с идентификатором компонента, то поле показывается (отрисовывает recaptcha)
+By default, the field is hidden if the `show`property is not passed. If the server response contains an error for the field with component identifier, the field will be displayed (that is, the recaptcha will appear). In the  visual presentation below, you can watch this component in action.
 
 ![fb-auto-catptcha](https://storage.googleapis.com/static.awes.io/docs/fb-auto-captcha.gif)
 
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder url="/api-url">
@@ -21,11 +21,11 @@
 @endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name**            | `String`           | `'g-recaptcha-response'` | Идентификатор поля в объекте данных          |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **cell**            | `String`, `Number` | `undefined`         | Количество колонок в ряду. Может быть 2 или 3     |
-| **show**            | `Boolean`          | `false`             | Показать recaptcha                                |
+| **name**            | `String`           | `'g-recaptcha-response'` | Field identifier in the data object          |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component   |
+| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
+| **show**            | `Boolean`          | `false`             | Show recaptcha                                    |
