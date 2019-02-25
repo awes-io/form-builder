@@ -1,12 +1,12 @@
-# Компонент &lt;fb-uploader&gt;
+# The &lt;fb-uploader&gt; Component
 
-Компонент для загрузки файлов. Может находиться только внутри &lt;form-builder&gt;
+This component is intended for uploading files. It can be located only within the &lt;form-builder&gt; component.
 
-Загружает файлы по указанному свойству `url` и при отправке формы отсылает пути к загруженным файлам
+It uploads files according to the specified `url` property and sends paths to the uploaded files when submitting a form.  Below, you can see the process of uploading files by using the <fb-uploader> component:
 
 ![fb-uploader](https://storage.googleapis.com/static.awes.io/docs/fb-uploader.gif)
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder url="/form-url">
@@ -20,20 +20,20 @@
 @endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Идентификатор поля в объекте данных               |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **url(*)**          | `String`           | `undefined`         | Адрес для загрузки файлов                         |
-| **format**          | `String`           | `undefined`         | Допустимые расширения через запятую               |
-| **size**            | `Number`, `String` | `undefined`         | Максимальный размер файла в мегабайтах            |
+| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
+| **url(*)**          | `String`           | `undefined`         | Address for uploading files                       |
+| **format**          | `String`           | `undefined`         | Valid extensions separated by a comma             |
+| **size**            | `Number`, `String` | `undefined`         | Maximum file size in megabytes                    |
 
 
-## Особенности компонента
+## Component features
 
-Для корректной работы примера выше, после загрузки файла `test-file.txt` по адресу `/upload-files` должен приходить ответ вида
+The example above requires the response of the following type after loading the `test-file.txt` file to `/upload-files` in order to run correctly:
 
 ```json
 {
@@ -43,4 +43,4 @@
 }
 ```
 
-Этот путь и отправится в поле формы `files`
+This path will be sent to the field of the `files` form. 
