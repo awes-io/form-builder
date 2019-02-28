@@ -1,7 +1,7 @@
 export default {
     companySlug: {
         domain: 'awescrm.de',
-        length: 32,
+        maxlength: 32,
         ulrifyOptions: {
             spaces: '-',
             toLower: true,

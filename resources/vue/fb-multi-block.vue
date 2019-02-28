@@ -1,129 +1,142 @@
 <template>
-  <div class="grid__wrap">
-    <div class="fb-multiblock" :class="[{'fb-multiblock_disabled' : this.isDisabled}]">
-      <div :class="['grid__wrap', {'fb-multiblock_has-close' : hasClose}]" v-for="( item, id ) in value" :key="`slot-${uniqIds[id]}`">
+    <div class="grid__wrap">
+        <div class="fb-multiblock" :class="[{'fb-multiblock_disabled' : this.isDisabled}]">
+            <div
+                :class="['grid__wrap', {'fb-multiblock_has-close' : hasClose}]"
+                v-for="id in uniqIds"
+                :key="id"
+            >
 
-        <slot :id="id"></slot>
+                <slot :id="id"></slot>
 
-        <button
-          v-if="hasClose"
-          aria-label="delete"
-          class="fb-multiblock__clear"
-          @click.prevent="removeField(id)">
-          <i class="icon icon-cross"></i>
-        </button>
-      </div>
+                <button
+                    v-if="hasClose"
+                    aria-label="delete"
+                    class="fb-multiblock__clear"
+                    @click.prevent="removeField(id)"
+                >
+                    <i class="icon icon-cross"></i>
+                </button>
+            </div>
 
-      <div class="grid__wrap">
-        <button
-          class="fb-multiblock__add"
-          @click.prevent="addField">
-          {{ label || $lang.FORMS_MULTIBLOCK_ADD }}
-        </button>
-      </div>
+            <div class="grid__wrap">
+                <button
+                    class="fb-multiblock__add"
+                    @click.prevent="addField"
+                >
+                    {{ label || $lang.FORMS_MULTIBLOCK_ADD }}
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-  import fieldMixin from './mixins/fb-field.js';
-  import triggerEvent from '../js/utils/triggerEvent.js';
+import baseMixin from '../js/mixins/fb-base.js';
+import triggerEvent from '../js/utils/triggerEvent.js';
 
-  let _uniqId = 0
+let _uniqId = 0
 
-  export default {
+export default {
 
     name: 'fb-multi-block',
 
-    mixins: [ fieldMixin ],
+    mixins: [ baseMixin ],
 
 
     props: {
 
-      label: String,
+        label: String,
     },
 
 
     provide() {
-      return {
-        multiblock: this.multiblock ? this.realName : this.name
-      }
+        return {
+            multiblock: this.realName
+        }
     },
 
 
     data() {
-      return {
-        value: [{}],
-        uniqIds: []
-      }
+        return {
+            uniqIds: []
+        }
     },
 
 
     computed: {
 
-      hasClose() {
-        return this.value.length > 1
-      },
-      
-      errors() {
-        return this.$awesForms.getters.formErrorsOrFalse(this.formId)
-      }
+        groups() {
+            return AWES._store.getters['forms/multiblockGroupIds'](this.formId, this.name) || []
+        },
+
+        hasClose() {
+            return this.uniqIds.length > 1
+        },
+
+        errors() {
+            return AWES._store.getters['forms/errorsOrFalse'](this.formId)
+        }
     },
 
 
     watch: {
 
-      disabled: {
-        handler: function( value ) {
-          this.$awesForms.commit('toggleMultiblockState', {
-            id: this.formId,
-            multiblock: this.realName,
-            value
-          })
-        },
-        immediate: true
-      }
+        disabled: {
+            handler: function( value ) {
+                AWES._store.commit('forms/toggleMultiblockState', {
+                    formName: this.formId,
+                    multiblockName: this.realName,
+                    status: value
+                })
+            },
+            immediate: true
+        }
     },
 
 
     methods: {
 
-      initField() {
-        if ( this.computedValue !== undefined &&
-             this.computedValue.length ) {
-          this.value = this.computedValue;
-          for ( let i in this.computedValue ) this.uniqIds.push( _uniqId++ )
-        } else {
-          this.uniqIds.push( _uniqId++ )
+        initMultiblock() {
+            let numItems = this.groups.length
+            if ( numItems ) {
+                this.uniqIds = this.groups.slice()
+                _uniqId = this.groups[numItems - 1] + 1
+            } else {
+                this.uniqIds.push( _uniqId++ )
+            }
+        },
+
+        addField() {
+            if ( this.isDisabled ) return
+            this.uniqIds.push( _uniqId++ )
+            this.updateTooltips()
+        },
+
+        removeField( id ) {
+            if ( this.isDisabled ) return
+            this.uniqIds.splice(this.uniqIds.findIndex(i => i === id), 1)
+
+            // clean up all related data
+            AWES._store.commit('forms/deleteMultiblockBlock', {
+                formName: this.formId,
+                multiblockName: this.name,
+                id
+            })
+            this.updateTooltips()
+        },
+
+        updateTooltips() {
+            if ( ! this.errors ) return
+            this.$nextTick( () => {
+                triggerEvent('scroll', window)
+            })
         }
-        this.createStoreInstance();
-        this.__unwatchValue = this.$watch('value', this.valueHandler)
-      },
+    },
 
-      addField() {
-        if ( this.isDisabled ) return
-        this.value.push({})
-        this.uniqIds.push( _uniqId++ )
-        this.updateTooltips()
-      },
 
-      removeField( id ) {
-        if ( this.isDisabled ) return
-        this.$delete(this.value, id)
-        this.uniqIds.splice(id, 1)
-        this.updateTooltips()
-      },
-
-      resetValue() {
-        this.value = [{}]
-      },
-
-      updateTooltips() {
-        if ( ! this.errors ) return
-        this.$nextTick( () => {
-          triggerEvent('scroll', window)
-        })
-      }
+    created() {
+        this.initMultiblock()
     }
-  }
+}
 </script>

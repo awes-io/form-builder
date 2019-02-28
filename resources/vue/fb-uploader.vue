@@ -84,7 +84,8 @@
 </template>
 
 <script>
-import fieldMixin from './mixins/fb-field.js';
+import fieldMixin from '../js/mixins/fb-field';
+import { _get } from '../js/modules/helpers'
 
 export default {
 
@@ -113,7 +114,6 @@ export default {
 
     data() {
         return {
-            value: [],
             filesProgress: {}
         }
     },
@@ -199,20 +199,20 @@ export default {
             return this.formatArray.includes(extension)
         },
 
-        toggleFormBlock(isBlocked) {
-            this.$awesForms.commit('toggleFormBlocked', {
-                id: this.formId,
-                isBlocked
+        toggleFormBlock(status) {
+            AWES._store.commit('setLoading', {
+                formName: this.formId,
+                status
             })
-            if ( ! isBlocked ) this.$forceUpdate()
+            if ( ! status ) this.$forceUpdate()
         },
 
         addFileNameToForm(rootFile, file, message, chunk) {
             delete this.filesProgress[file.uniqueIdentifier]
             try {
                 let response = JSON.parse(message)
-                let fileName = _.get(response, 'meta.path', file.relativePath)
-                this.value.push(fileName)
+                let fileName = _get(response, 'meta.path', file.relativePath)
+                Array.isArray(this.formValue) ? this.formValue.push(fileName) : this.formValue = [fileName]
             } catch(e) {
                 console.log(e);
             }
@@ -220,7 +220,7 @@ export default {
 
         removeFile(file, index) {
             if ( file.isComplete() ) {
-                this.value.splice(index, 1)
+                this.formValue.splice(index, 1)
             }
             file.cancel()
             delete this.filesProgress[file.uniqueIdentifier]

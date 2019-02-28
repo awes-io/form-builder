@@ -1,9 +1,9 @@
 <template>
     <div v-if="items && items.length" class="grid__cell" :class="[cellClass]">
-        
+
         <div class="fc-radio" :class="[{'animated shake': shake, 'fc-radio_disabled': isDisabled }]">
             <fb-error-wrap
-                :open="tooltip"
+                :open="showTooltip"
                 :error="error"
                 @clickTooltip="clickTooltip"
             >
@@ -14,50 +14,52 @@
                         :key="i"
                         :class="['fc-radio__box', {'is-checked': checkActive(item)}]"
                     >
-                    
+
                         <input
                             v-bind="$attrs"
                             type="radio"
                             :class="['fc-radio__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
                             :data-awes="$options.name + '.' + name"
                             :disabled="isDisabled"
-                            v-model="value"
-                            :value="item.value ? item.value : item.toString()"
+                            :checked="checkActive(item)"
+                            v-on="{ input: formId ? formValueHandler : vModelHandler }"
+                            :value.prop="item.value ? item.value : item.toString()"
                             @focus="$set(inFocus, i, true)"
                             @blur="$set(inFocus, i, false)"
                             @keydown.enter.prevent="focusNext"
                             ref="fields">
-                    
+
                         <slot :item="item" :checked="checkActive(item)" :focused="inFocus[i]">
                             <span class="fc-radio__text">{{ item.name ? item.name : item.toString() }}</span>
                         </slot>
-                    
+
                     </label>
                 </div>
             </fb-error-wrap>
         </div>
-        
+
     </div>
 </template>
 
 <script>
-import fieldMixin from './mixins/fb-field.js';
-import focusMixin from './mixins/fb-focus.js';
+import fieldMixin from '../js/mixins/fb-field.js';
 
 export default {
 
     name: 'fb-radio-group',
 
-    mixins: [ fieldMixin, focusMixin ],
+    mixins: [ fieldMixin ],
 
 
     props: {
-        items: Array
+
+        items: Array,
+
+        value: String
     },
 
     data() {
         return {
-            value: null,
             inFocus: []
         }
     },
@@ -65,8 +67,20 @@ export default {
 
     methods: {
 
+        formValueHandler($event) {
+            this.formValue = $event.target.value
+        },
+
+        vModelHandler($event) {
+            this.$emit('input', $event.target.value)
+        },
+
         checkActive( item ) {
-            return item.value ? this.value === item.value : this.value === item.toString();
+            return this.getItemValue(item) === (this.formId ? this.formValue : this.value)
+        },
+
+        getItemValue( item ) {
+            return item.value ? item.value : item.toString()
         },
 
         setFocus( payload = true ) {
@@ -77,7 +91,7 @@ export default {
             }
         },
     },
-    
+
     created() {
         for ( let index = 0; index < this.items.length; index++ ) {
             this.inFocus.push( index === 0 && this.focus ? true : false )

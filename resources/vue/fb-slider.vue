@@ -1,84 +1,97 @@
 <template>
-  <div class="grid__cell" :class="[cellClass]" >
+    <div class="grid__cell" :class="[cellClass]" >
 
-    <div :class="['fb-slider', { 'fb-slider_disabled': isDisabled, 'fb-slider_active': inActive, 'fb-slider_error': hasError, 'animated shake': shake }]">
+        <div :class="['fb-slider', { 'fb-slider_disabled': isDisabled, 'fb-slider_error': hasError, 'animated shake': shake }]"> <!-- 'fb-slider_active': isActive -->
 
-      <fb-error-wrap
-        :open="tooltip"
-        :error="error"
-        @clickTooltip="clickTooltip">
-        <div class="fb-slider__wrap">
-          <div class="fb-slider__wrap-left">
-            <label class="fb-slider__label" :for="'#' + inputId">{{ label }}</label>
-            <span class="fb-slider__value">{{ percent }} %</span>
-          </div>
-          <div class="fb-slider__wrap-right">
-            <input v-bind="$attrs"
-                    :id="inputId"
-                    :class="['fb-slider__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }]"
-                    :style="'--percent: ' + percent + '%'"
-                    :data-awes="$options.name + '.' + name"
-                    type="range"
-                    :disabled="isDisabled"
-                    v-model="value"
-                    @focus="inFocus = true"
-                    @blur="inFocus = false"
-                    @keydown.enter.prevent="focusNext"
-                    ref="element">
-          </div>
+            <fb-error-wrap
+                :open="showTooltip"
+                :error="error"
+                @clickTooltip="clickTooltip"
+            >
+                <div class="fb-slider__wrap">
+                    <div class="fb-slider__wrap-left">
+                        <label class="fb-slider__label" :for="'#' + inputId">{{ label }}</label>
+                        <span class="fb-slider__value">{{ percent }} %</span>
+                    </div>
+                    <div class="fb-slider__wrap-right">
+                        <input
+                            v-bind="$attrs"
+                            :id="inputId"
+                            :class="['fb-slider__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }]"
+                            :style="'--percent: ' + percent + '%'"
+                            :data-awes="$options.name + '.' + name"
+                            type="range"
+                            :disabled="isDisabled"
+                            :value="formId ? formValue : value"
+                            v-on="{
+                                input: formId ? formValueHandler : vModelHandler,
+                            }"
+                            @focus="inFocus = true"
+                            @blur="inFocus = false"
+                            @keydown.enter.prevent="focusNext"
+                            ref="element"
+                        >
+                    </div>
+                </div>
+            </fb-error-wrap>
         </div>
-
-      </fb-error-wrap>
     </div>
-  </div>
 </template>
 
 <script>
-  import fieldMixin from './mixins/fb-field.js';
-  import focusMixin from './mixins/fb-focus.js';
-  
-  let _sliderId = 0
+import fieldMixin from '../js/mixins/fb-field.js';
 
-  export default {
+let _sliderId = 0
 
-      name: "fb-slider",
+export default {
 
-      inheritAttrs: false,
+    name: "fb-slider",
 
-      mixins: [ fieldMixin, focusMixin ],
+    inheritAttrs: false,
 
-      props: {
-        label: {
-          type: String,
-          default: ''
-        },
+    mixins: [ fieldMixin ],
+
+
+    props: {
+
         min: {
-          type: [Number,String],
-          default: 0
+            type: [Number,String],
+            default: 0
         },
+
         max: {
-          type: [Number,String],
-          default: 100
-        }
-      },
+            type: [Number,String],
+            default: 100
+        },
 
-      data() {
-        return {
-          value: 0,
-          inputType: this.$attrs.type || 'text',
-          autoFilled: false
+        value: {
+            type: [Number, String],
+            default: 0
         }
-      },
+    },
 
-      computed: {
-        
+
+    computed: {
+
         inputId() {
-          return 'slider-' + _sliderId++
+            return 'slider-' + _sliderId++
         },
 
         percent() {
-            return Math.round( Number(this.value) / Number(this.max) * 100 )
+            return Math.round( Number(this.formId ? this.formValue : this.value) / Number(this.max) * 100 )
         }
-      }
+    },
+
+
+    methods: {
+
+        formValueHandler($event) {
+            this.formValue = Number($event.target.value)
+        },
+
+        vModelHandler($event) {
+            this.$emit('input', Number($event.target.value))
+        }
     }
+}
 </script>
