@@ -31,6 +31,7 @@ export default {
 
         formValueHandler($event) {
             if ( ! this.error ) {
+                clearTimeout(this.__debounce)
                 this.__debounce = setTimeout(() => {
                     this.formValue = $event.target.value
                 }, Number(this.debounce))

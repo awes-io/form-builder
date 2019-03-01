@@ -75,6 +75,7 @@ export default {
 
         formValueHandler(value) {
             if ( ! this.error ) {
+                clearTimeout(this.__debounce)
                 this.__debounce = setTimeout(() => {
                     this.formValue = value
                 }, Number(this.debounce))
