@@ -4,6 +4,7 @@ import {
     restoreFlattenedObject,
     normalizeArrayIndexes,
     compareFlatObjects,
+    normalizePath,
     CAPTCHA_NAME
 } from '../modules/helpers'
 
@@ -36,7 +37,10 @@ export const getters = {
         let errors = {}
         const form = getters.form(name)
         if (form) {
-            Object.keys(form.fields).forEach(field => fields[field] = form.fields[field].error)
+            Object.keys(form.fields).forEach(field => {
+                let error = form.fields[field].error
+                if (error) errors[field] = error
+            })
         }
         return isEmpty(errors) ? false : errors
     },
@@ -114,10 +118,10 @@ export const mutations = {
 
     setFormErrors(state, {formName, errors}) {
         const form = state[formName]
-        const _errors = flattenObject(errors)
-        Vue.set(form, 'firstErrorField', _errors[ Object.keys(_errors)[0] ])
-        for ( let fieldName in _errors ) {
-            Vue.set(form.fields[fieldName], 'error', _errors[fieldName])
+        Vue.set(form, 'firstErrorField', Object.keys(errors)[0])
+        for ( let fieldName in errors ) {
+            let _fieldName = normalizePath(fieldName)
+            Vue.set(form.fields[_fieldName], 'error', errors[fieldName])
         }
     },
 
@@ -189,22 +193,23 @@ export const actions = {
 
         return new Promise( resolve => {
 
-            let _res, _data
+            let _res
             const form = state[formName]
 
             commit('setLoading', {formName, status:true})
 
             dispatch('restoreData', { formName })
                 .then( data => {
-                    _data = data
                     // send request
                     return AWES.ajax(data, url, method)
                 })
                 .then( res => {
                     _res = res
+
                     if ( res.success ) {
                         // reset initial state
-                        Vue.set(form, 'initialState', flattenFileds(_data))
+                        Vue.set(form, 'initialState', flattenFileds(res.data.data))
+                        Vue.set(form, 'fields', flattenFileds(res.data.data))
                         if ( form.watchEdit ) Vue.set(form, 'isEdited', false)
                     } else if (res.data) {
                         commit('setFormErrors', {formName, errors: res.data})

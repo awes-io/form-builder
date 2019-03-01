@@ -3,7 +3,7 @@
         <div class="fb-multiblock" :class="[{'fb-multiblock_disabled' : this.isDisabled}]">
             <div
                 :class="['grid__wrap', {'fb-multiblock_has-close' : hasClose}]"
-                v-for="id in uniqIds"
+                v-for="id in blocks"
                 :key="id"
             >
 
@@ -32,10 +32,9 @@
 </template>
 
 <script>
-import baseMixin from '../js/mixins/fb-base.js';
-import triggerEvent from '../js/utils/triggerEvent.js';
-
-let _uniqId = 0
+import baseMixin from '../js/mixins/fb-base'
+import triggerEvent from '../js/utils/triggerEvent'
+import { compareFlatObjects } from '../js/modules/helpers'
 
 export default {
 
@@ -59,7 +58,7 @@ export default {
 
     data() {
         return {
-            uniqIds: []
+            blocks: []
         }
     },
 
@@ -67,15 +66,23 @@ export default {
     computed: {
 
         groups() {
-            return AWES._store.getters['forms/multiblockGroupIds'](this.formId, this.name) || []
+            return AWES._store.getters['forms/multiblockGroupIds'](this.formId, this.name) || [0]
+        },
+
+        nextIndex() {
+            return Math.max.apply(null, this.groups) + 1
         },
 
         hasClose() {
-            return this.uniqIds.length > 1
+            return this.blocks.length > 1
         },
 
         errors() {
             return AWES._store.getters['forms/errorsOrFalse'](this.formId)
+        },
+
+        fields() {
+            return this.$options
         }
     },
 
@@ -91,31 +98,31 @@ export default {
                 })
             },
             immediate: true
+        },
+
+        groups: {
+            handler(val) {
+                let equal = compareFlatObjects(this.blocks, val)
+                if ( ! equal ) {
+                    this.blocks = val.slice()
+                }
+            },
+            immediate: true
         }
     },
 
 
     methods: {
 
-        initMultiblock() {
-            let numItems = this.groups.length
-            if ( numItems ) {
-                this.uniqIds = this.groups.slice()
-                _uniqId = this.groups[numItems - 1] + 1
-            } else {
-                this.uniqIds.push( _uniqId++ )
-            }
-        },
-
         addField() {
             if ( this.isDisabled ) return
-            this.uniqIds.push( _uniqId++ )
+            this.blocks.push( this.nextIndex )
             this.updateTooltips()
         },
 
         removeField( id ) {
             if ( this.isDisabled ) return
-            this.uniqIds.splice(this.uniqIds.findIndex(i => i === id), 1)
+            this.blocks.splice(this.blocks.findIndex(i => i === id), 1)
 
             // clean up all related data
             AWES._store.commit('forms/deleteMultiblockBlock', {
@@ -132,11 +139,6 @@ export default {
                 triggerEvent('scroll', window)
             })
         }
-    },
-
-
-    created() {
-        this.initMultiblock()
     }
 }
 </script>

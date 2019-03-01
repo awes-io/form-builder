@@ -1,15 +1,23 @@
 <template>
     <div class="grid__cell" :class="[cellClass]" >
         <div :class="['fb-phone', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': isActive, 'fb-phone_error': hasError, }]">
-            <span class="fb-phone__label">{{ label }}</span>
-            <vue-tel-input
-                :value="formId ? formValue : value"
-                v-on="{ input: formId ? formValueHandler : vModelHandler }"
-                :disabled="isDisabled"
-                @onBlur="inFocus = false"
-                @onInput="checkFocus"
-                ref="tel"
-            ></vue-tel-input>
+
+            <fb-error-wrap
+                :open="showTooltip"
+                :error="error"
+                @clickTooltip="clickTooltip"
+            >
+                <span class="fb-phone__label">{{ label }}</span>
+                <vue-tel-input
+                    :value="formId ? formValue : value"
+                    v-on="{ input: formId ? formValueHandler : vModelHandler }"
+                    :disabled="isDisabled"
+                    @onBlur="inFocus = false"
+                    @onInput="checkFocus"
+                    ref="tel"
+                ></vue-tel-input>
+
+            </fb-error-wrap>
         </div>
     </div>
 </template>
@@ -66,10 +74,14 @@ export default {
     methods: {
 
         formValueHandler(value) {
-            clearTimeout(this.__debounce)
-            this.__debounce = setTimeout(() => {
+            if ( ! this.error ) {
+                this.__debounce = setTimeout(() => {
+                    this.formValue = value
+                }, Number(this.debounce))
+            } else {
                 this.formValue = value
-            }, 500)
+                this.resetError()
+            }
         },
 
         vModelHandler(value) {

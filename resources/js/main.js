@@ -1,7 +1,7 @@
 import plugin from './plugin'
-import lang from './lang.js'
-import storeModule from './modules/store-module'
-import storeShared from './store-shared'
+import lang from './modules/lang'
+import formsModule from './store/forms'
+import storeShared from './store/shared'
 
 const awesPlugin = {
 
@@ -17,7 +17,7 @@ const awesPlugin = {
             deps: ['vue'],
             cb() {
                 AWES._store = AWES._store || new Vuex.Store(storeShared)
-                AWES._store.registerModule('forms', storeModule)
+                AWES._store.registerModule('forms', formsModule)
             }
         },
         'vue-shortkey': {

@@ -63,6 +63,7 @@ export default {
         formValueHandler($event) {
             let checked = +$event.target.value
             this.formValue = this.isNumeric ? checked : Boolean(checked)
+            if ( this.error ) this.resetError()
         },
 
         vModelHandler($event) {

@@ -1,53 +1,52 @@
-# Компонент &lt;form-builder&gt;
+# The &lt;form-builder&gt; Component
 
-Компонент динамических форм. Регистрирует хранилище `Vuex` в переменной `Vue.prototype.$awesForms`. Внешние данные, которые указываются через параметр `store-data` берутся из общего хранилища `AWES._store`
+It is a component of dynamic forms. It registers the `Vuex` store in the `Vue.prototype.$awesForms`variable. The external data which are specified via the `store-data` parameter are extracted from the `AWES._store` general storage. As you can see from the example below, this component allows creating a form with different input fields, checkboxes, and buttons as well as validating it before submitting.
 
 ![form-builder](https://storage.googleapis.com/static.awes.io/docs/form-builder.gif)
 
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder url="/api-url">
-    <!-- поля формы и другие компоненты -->
+    <!-- form fields and other components -->
 </form-builder>
 ```
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип       | По-умолчанию        | Описание                                          |
+| Name                | Type      | Default             | Description                                       |
 |---------------------|:---------:|:-------------------:|---------------------------------------------------|
-| **name**            | `String`  | form-builder-${uid} | Идентификатор, для вызова и прослушивания событий |
-| **url(*)**          | `String`  | `undefined`         | Обязательное поле. Адрес, куда отправлять форму   |
-| **method**          | `String`  | `'post'`            | Метод отправки данных                             |
-| **default**         | `Object`  | `null`              | Объект с данными                                  |
-| **store-data**      | `String`  | `undefined`         | Название поля с данными в `AWES._store`           |
-| **disabled-dialog** | `Boolean` | `false`             | Отключить проверку закрытия окна                  |
-| **auto-submit**     | `Boolean` | `false`             | Автоматическая отправка формы                     |
-| **cancelbtn**       | `Boolean` | `false`             | Показать кнопку "отмена"                          |
-| **send-text**       | `String`  | `'Send'`            | Текст в кнопке "отправить"                        |
-| **cancel-text**     | `String`  | `'Cancel'`          | Текст в кнопке "отмена"                           |
-| **loading-text**    | `String`  | `'Loading...'`      | Текст в кнопке "отправить" при отправке           |
+| **name**            | `String`  | form-builder-${uid} | Identifier for calling and listening to the events |
+| **url(*)**          | `String`  | `undefined`         | Required field. Address where the form should be sent   |
+| **method**          | `String`  | `'post'`            | Data submission method                            |
+| **default**         | `Object`  | `null`              | Object with  data                                 |
+| **store-data**      | `String`  | `undefined`         | Name of the data field in `AWES._store`           |
+| **disabled-dialog** | `Boolean` | `false`             | Disable window closing check                      |
+| **auto-submit**     | `Boolean` | `false`             | Automatic form submission                         |
+| **send-text**       | `String`  | `'Send'`            | Text in the “Send” button                         |
+| **cancel-text**     | `String`  | `'Cancel'`          | Text in the “Cancel” button                       |
+| **loading-text**    | `String`  | `'Loading...'`      | Text in the “Send” button while sending           |
 
 
-## События компонента
+## Component events
 
-| Название                     | Тип       | Описание                                        |
+| Name                         | Type      | Description                                     |
 |------------------------------|:---------:|-------------------------------------------------|
-| **form-builder:before-send** | *AWES*    | Вызывается в шине событий перед отправкой формы |
-| **send**                     | *Vue*     | Если есть обработчик для этого события, то форма не отправляется, а данные передаются в обработчик |
-| **sended**                   | *Vue*     | Возникает после отправки формы, передаёт в обработчик данные с сервера |
-| **cancel**                   | *Vue*     | Нажата кнопка "отмена"                          |
+| **form-builder:before-send** | *AWES*    | It is called in the event bus before submitting the form |
+| **send**                     | *Vue*     | If there is a handler for this event, the form will not be sent and the data will be transferred to the handler |
+| **sended**                   | *Vue*     | It appears after sending the form and transfers data from the server to the handler |
+| **cancel**                   | *Vue*     | The “Cancel” button is pressed. If there is no handler for this event, cancel button will not be shown |
 
 
-## Языковые переменные
+## Language variables
 
 ```javascript
 {
     FORMS_SEND: 'Send',
     FORMS_CANCEL: 'Cancel',
     FORMS_LOADING: 'Loading...',
-    FORMS_CONFIRM: 'Are you shure? All not submitted data will be erased...',
+    FORMS_CONFIRM: 'Are you sure? All not submitted data will be erased...',
     FORMS_MULTIBLOCK_ADD: 'add',
     FORMS_SELECT_LABEL: 'Select a value',
     FORMS_SELECT_PLACEHOLDER: 'Pick a value',

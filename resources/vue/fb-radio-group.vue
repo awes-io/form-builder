@@ -2,6 +2,9 @@
     <div v-if="items && items.length" class="grid__cell" :class="[cellClass]">
 
         <div class="fc-radio" :class="[{'animated shake': shake, 'fc-radio_disabled': isDisabled }]">
+
+            <div class="fc-radio__label" v-if="label">{{ label }}</div>
+
             <fb-error-wrap
                 :open="showTooltip"
                 :error="error"
@@ -69,6 +72,7 @@ export default {
 
         formValueHandler($event) {
             this.formValue = $event.target.value
+            if ( this.error ) this.resetError()
         },
 
         vModelHandler($event) {

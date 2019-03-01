@@ -30,10 +30,14 @@ export default {
     methods: {
 
         formValueHandler($event) {
-            clearTimeout(this.__debounce)
-            this.__debounce = setTimeout(() => {
+            if ( ! this.error ) {
+                this.__debounce = setTimeout(() => {
+                    this.formValue = $event.target.value
+                }, Number(this.debounce))
+            } else {
                 this.formValue = $event.target.value
-            }, Number(this.debounce) )
+                this.resetError()
+            }
         },
 
         vModelHandler($event) {

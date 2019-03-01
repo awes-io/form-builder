@@ -1,6 +1,6 @@
 # The &lt;fb-input&gt; Component
 
-It is a text field component. It can be located only within the &lt;form-builder&gt; component and can be visualized as follows:
+It is a text field component. It can be located within the &lt;form-builder&gt; component or used with `v-model` directive and can be visualized as follows:
 
 ![fb-input](https://storage.googleapis.com/static.awes.io/docs/fb-input.png)
 
@@ -23,7 +23,7 @@ It is a text field component. It can be located only within the &lt;form-builder
 
 | Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
@@ -48,11 +48,10 @@ All standard attributes, except `class` and `style`, are passed to the `&lt;inpu
     disabled></fb-input>
 </form-builder>
 ```
-@vue
+
 <form-builder url="/api-url">
     <fb-input name="email" label="Enter your email" type="email" class="my-class" disabled></fb-input>
 </form-builder>
-@endvue
 
 #### type="checkbox" and type="radio"
 
@@ -62,8 +61,6 @@ Note: Don’t use &lt;fb-input type="checkbox"&gt; or &lt;fb-input type="radio"&
 
 If `type="password"` is passed, the Hide/Show Password button will automatically appear in the field.
 
-@vue
 <form-builder url="/api-url">
     <fb-input name="password" label="Enter your password" type="password"></fb-input>
 </form-builder>
-@endvue

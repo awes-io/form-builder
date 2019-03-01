@@ -59,12 +59,7 @@ export default {
                 if (errors) {
                     this.showTooltip = true;
                     this.hasError = true;
-                    if (this.$refs.element) {
-                        this.$refs.element.addEventListener('input', this.resetError, false)
-                    }
-                    if (typeof this.setFocus === 'function') {
-                        this.$nextTick(this.checkFocus)
-                    }
+                    this.checkFocus()
                 } else {
                     this.showTooltip = false;
                     this.hasError = false;
@@ -127,7 +122,8 @@ export default {
         },
 
         checkFocus() {
-            if (this.firstErrorField === this.realName) {
+            if (typeof this.setFocus === 'function' &&
+                this.firstErrorField === this.realName) {
                 setTimeout(this.setFocus, 0)
                 AWES._store.commit('resetFirstErrorField', this.formId)
             }

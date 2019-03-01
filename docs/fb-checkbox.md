@@ -1,6 +1,6 @@
 # The &lt;fb-checkbox&gt; Component
 
-It can be located only within the &lt;form-builder&gt; component.
+It can be located within the &lt;form-builder&gt; component, then it looks for the value, by the path given in the `name` property, or sets one if nothing found with a value of `value` property. Outside form component it can be used with a `v-model` directive
 
 ![fb-checkbox](https://storage.googleapis.com/static.awes.io/docs/fb-checkbox.png)
 
@@ -23,8 +23,10 @@ It can be located only within the &lt;form-builder&gt; component.
 
 | Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
-| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component   |
+| **name**            | `String`           | `undefined`         | Field identifier in the data object               |
+| **value**           | `Boolean, Number, Array` | `0`           | Used internally for Vue `v-model` directive       |
+| **default-value**   | `String`           | value of label prop | An HTML `value` attribute of checkbox (for multiple chechboxes, used in `v-model`) |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component |
 | **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
 | **padding**         | `String`           | `undefined`         | It adds the `.grid__cell_padding` class (for the additional left padding) |

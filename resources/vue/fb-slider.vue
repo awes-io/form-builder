@@ -87,6 +87,7 @@ export default {
 
         formValueHandler($event) {
             this.formValue = Number($event.target.value)
+            if ( this.error ) this.resetError()
         },
 
         vModelHandler($event) {

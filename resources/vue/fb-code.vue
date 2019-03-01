@@ -9,6 +9,7 @@
                         inputmode="numeric"
                         pattern="[0-9]*"
                         maxlength="1"
+                        autocomplete="off"
                         :value="inputValue[i-1]"
                         :class="['fb-keycode__field', {'is-focusable': isFocusable, 'in-focus': inFocus[i-1]}]"
                         :disabled="isDisabled"
@@ -158,14 +159,7 @@ export default {
         isEmpty(index) {
             return this.inputValue[index] === '' ||
                 typeof this.inputValue[index] === typeof undefined
-        },
-
-        // autoSubmitForm(value) {
-        //     if (this.hasCaptchaError) return
-        //     if (value.length === this.length) {
-        //         this.$root.$emit('forms:submit', this.formId)
-        //     }
-        // }
+        }
     },
 
     created() {
@@ -173,10 +167,6 @@ export default {
             this.inFocus.push(index === 0 && this.focus ? true : false)
             this.inputValue.push('')
         }
-
-        // if (this.autoSubmit) {
-        //     this.$watch('value', this.autoSubmitForm)
-        // }
     },
 
     beforeDestroy() {
