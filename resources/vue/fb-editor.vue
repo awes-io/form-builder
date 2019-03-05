@@ -19,10 +19,10 @@
             </div>
             <div class="fb-editor__tabs">
                 <div class="fb-editor__tab" :key="'visual'" v-show="mode === 'visual'">
-                    <textarea class="fb-editor__tiny" :id="editorId" :disabled="isDisabled">{{ value }}</textarea>
+                    <textarea class="fb-editor__tiny" :id="editorId" :disabled="isDisabled">{{ formValue }}</textarea>
                 </div>
                 <div class="fb-editor__tab" :key="'code'" v-show="mode === 'code'" >
-                    <textarea class="fb-editor__codemirror" :id="codeEditorId" ref="code" :disabled="isDisabled">{{ value }}</textarea>
+                    <textarea class="fb-editor__codemirror" :id="codeEditorId" ref="code" :disabled="isDisabled">{{ formValue }}</textarea>
                 </div>
             </div>
         </div>
@@ -30,15 +30,18 @@
 </template>
 
 <script>
-import fieldMixin from './mixins/fb-field.js';
+import fieldMixin from '../js/mixins/fb-field';
 import {
     defaultOptions,
     defaultCodeOptions,
     loadCodeEditor
-} from '../js/utils/codeEditors.js'
+} from '../js/utils/codeEditors'
+import {
+    _get
+} from '../js/modules/helpers'
 
-let _uid = 0,
-    codeEditor
+const SAVE_DEBOUNCE = 1000
+let _uid = 0
 
 export default {
 
@@ -60,8 +63,7 @@ export default {
             editorId: 'fb-editor-' + _uid,
             codeEditorId: 'fb-code-editor-' + _uid++,
             mode: 'visual',
-            codeEditorInited: false,
-            value: ''
+            codeEditorInited: false
         }
     },
 
@@ -90,11 +92,13 @@ export default {
 
         initEditor() {
             defaultOptions.selector = '#' + this.editorId
-            let options = _.get(AWES._config, 'formBuilder.fbEditor', {})
+            let options = _get(AWES._config, 'formBuilder.fbEditor', {})
+            if ( this.focus ) options.auto_focus = this.editorId
             Object.assign(options, this.options, defaultOptions)
+
             tinymce.init(options)
             const editor = tinymce.get(this.editorId)
-            editor.on('Change', _.debounce(this.save, 1000))
+            editor.on('Change', this._debounceSave)
             if ( typeof AWES._theme !== undefined ) {
                 editor.once('Init', () => {
                     this._switchThemeAttribute({detail: AWES._theme})
@@ -104,26 +108,31 @@ export default {
 
         initCodeEditor() {
             this.codeEditorInited = true
-            codeEditor = CodeMirror.fromTextArea( this.$refs.code, defaultCodeOptions)
-            codeEditor.on('update', _.debounce(this.save, 1000));
-            return codeEditor
+            this._codeEditor = CodeMirror.fromTextArea( this.$refs.code, defaultCodeOptions)
+            this._codeEditor.on('update', this._debounceSave);
+            return this._codeEditor
         },
 
         save() {
             this.mode === 'visual' ? this._saveVisual() : this._saveCode()
         },
 
+        _debounceSave() {
+            clearTimeout(this._debounce)
+            this._debounce = setTimeout(this.save, SAVE_DEBOUNCE);
+        },
+
         _saveVisual() {
-            this.value = tinymce.get(this.editorId).save()
+            this.formValue = tinymce.get(this.editorId).save()
         },
 
         _saveCode() {
-            if ( codeEditor ) this.value = codeEditor.doc.getValue()
+            if ( this._codeEditor ) this.formValue = this._codeEditor.doc.getValue()
         },
 
         _setCodeValue() {
-            codeEditor.doc.setValue( this.value )
-            setTimeout( () => { codeEditor.refresh() }, 1)
+            this._codeEditor.doc.setValue( this.formValue )
+            setTimeout( () => { this._codeEditor.refresh() }, 1)
         },
 
         _switchThemeAttribute($event) {
@@ -132,6 +141,21 @@ export default {
                 doc.documentElement.setAttribute('data-dark', true)
             } else {
                 doc.documentElement.removeAttribute('data-dark')
+            }
+        },
+
+        setFocus(state) {
+            try {
+                if (state !== false) {
+                    if ( this.mode === 'visual' ) {
+                        tinymce.get(this.editorId).focus()
+                    } else if ( this._codeEditor ) {
+                        this._codeEditor.focus()
+                    }
+                }
+            } catch (e) {
+                console.warn('Error while setting focus');
+                console.error(e)
             }
         }
     },

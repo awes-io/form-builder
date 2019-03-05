@@ -21,7 +21,15 @@ module.exports = {
         }
     },
     plugins: [
-        vue({ css: false }),
+        vue({
+            css: false,
+            template: {
+                compilerOptions: {
+                    whitespace: 'condense',
+                    preserveWhitespace: false
+                }
+            }
+        }),
         commonJs({
             include: 'node_modules/**'
         }),

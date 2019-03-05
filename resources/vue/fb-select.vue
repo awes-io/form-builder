@@ -1,38 +1,48 @@
 <template>
-  <div class="grid__cell" :class="[cellClass]">
-      <div class="fb-select" :class="[{ 'fb-select_active': inActive }, { 'fb-select_opened': isOpened }, { 'fb-select_disabled': disabled }]">
-        <span class="fb-select__label">{{ label || $lang.FORMS_SELECT_LABEL }}</span>
-        <multiselect
-          :show-labels="false"
-          :multiple="multiple"
-          :hide-selected="multiple"
-          :placeholder="placeholderText || defaultPlaceholder"
-          :internal-search="isAjax ? false : true"
-          :loading="isLoading"
-          v-model="selected"
-          :options="usedOptions"
-          label="name"
-          track-by="value"
-          :disabled="isDisabled"
-          class="fb-select__field"
-          @open="isOpened = true"
-          @close="isOpened = false"
-          v-on="isAjax ? {'search-change': ajaxSearch } : null"
-          ref="select"
-        >
-          <template slot="noOptions">{{ $lang.FORMS_SELECT_EMPTY }}</template>
-        </multiselect>
-      </div>
+    <div class="grid__cell" :class="[cellClass]">
+        <div class="fb-select" :class="[{ 'fb-select_active': isActive }, { 'fb-select_opened': isOpened }, { 'fb-select_disabled': disabled }]">
+
+            <fb-error-wrap
+                :open="showTooltip"
+                :error="error"
+                @clickTooltip="clickTooltip"
+            >
+                <span class="fb-select__label">{{ label || $lang.FORMS_SELECT_LABEL }}</span>
+                <multiselect
+                    :show-labels="false"
+                    :multiple="multiple"
+                    :hide-selected="multiple"
+                    :placeholder="placeholderText || defaultPlaceholder"
+                    :internal-search="isAjax ? false : true"
+                    :loading="isLoading"
+                    :value="formId ? convertValue(formValue) : value"
+                    :options="usedOptions"
+                    label="name"
+                    track-by="value"
+                    :disabled="isDisabled"
+                    class="fb-select__field"
+                    @open="isOpened = true"
+                    @close="isOpened = false"
+                    v-on="{
+                        'search-change': isAjax ? ajaxSearch : false,
+                        'input': formId ? formValueHandler : vModelHandler
+                    }"
+                    ref="select"
+                >
+                    <template slot="noOptions">{{ $lang.FORMS_SELECT_EMPTY }}</template>
+                </multiselect>
+            </fb-error-wrap>
+        </div>
     </div>
 </template>
 
 <script>
-  import fieldMixin from './mixins/fb-field.js';
+import fieldMixin from '../js/mixins/fb-field.js';
 
-  let _retry = 10 // times
-  const AJAX_DEBOUNCE = 1000 // ms
+let _retry = 10 // times
+const AJAX_DEBOUNCE = 1000 // ms
 
-  export default {
+export default {
 
     name: "fb-select",
 
@@ -55,124 +65,131 @@
 
     props: {
 
-      label: String,
+        value: {},
 
-      selectOptions: {
-        type: [String, Array],
-        default: () => []
-      },
+        selectOptions: {
+            type: [String, Array],
+            default: () => []
+        },
 
-      multiple: {
-        type: Boolean,
-        default: true
-      },
+        multiple: {
+            type: Boolean,
+            default: true
+        },
 
-      placeholderText: String
+        placeholderText: String
     },
 
 
     data() {
-      return {
-        selected: [],
-        isOpened: false,
-        isLoading: false,
-        ajaxOptions: []
-      }
+        return {
+            isOpened: false,
+            isLoading: false,
+            ajaxOptions: []
+        }
     },
 
 
     computed: {
 
-      value: {
-
-        get() {
-          return this.multiple ?
-                  this.selected.map( item => item.value) :
-                  this.selected && this.selected.value;
+        computedValue() {
+            return this.formId ? this.selectValue : this.value
         },
 
-        set( value ) {
-          if ( this.multiple ) {
-            this.selected = this.usedOptions.filter( item => {
-              return value.includes(item.value);
-            })
-          } else {
-            this.selected = this.usedOptions.find( item => {
-              return value === item.value;
-            })
-          }
+        hasValue() {
+            return !! ( this.multiple ? this.computedValue.length : this.computedValue );
+        },
+
+        isActive() {
+            return this.isOpened || this.hasValue;
+        },
+
+        isAjax() {
+            return typeof this.selectOptions === 'string'
+        },
+
+        defaultPlaceholder() {
+            return this.$lang[this.isAjax ? 'FORMS_SELECT_AJAX_PLACEHOLDER' : 'FORMS_SELECT_PLACEHOLDER']
+        },
+
+        usedOptions() {
+            return this.isAjax ? this.ajaxOptions : this.selectOptions
         }
-      },
-
-      hasValue() {
-        return !! ( this.multiple ? this.value.length : this.value );
-      },
-
-      inActive() {
-        return this.isOpened || this.hasValue;
-      },
-
-      isAjax() {
-        return typeof this.selectOptions === 'string'
-      },
-
-      defaultPlaceholder() {
-        return this.$lang[this.isAjax ? 'FORMS_SELECT_AJAX_PLACEHOLDER' : 'FORMS_SELECT_PLACEHOLDER']
-      },
-
-      usedOptions() {
-        return this.isAjax ? this.ajaxOptions : this.selectOptions
-      }
-    },
-
-
-    watch: {
-
-      selected(newValue) {
-        if (newValue) {
-          this.$emit('change', newValue)
-        }
-      }
     },
 
 
     methods: {
 
-      resetValue( formId ) {
-        if ( this.formId !== formId ) return
-        this.value = []
-      },
+        formValueHandler(selected) {
+            this.formValue = this.multiple ?
+                             selected.map( item => item.value) :
+                             selected.value;
+            if ( this.error ) this.resetError()
+        },
 
-      wrapTabEvents() {
-        try {
-          this.$refs.select.$el.querySelector('.multiselect__input').classList.add('is-focusable')
-        } catch(e) {
-          _retry--
-          if (_retry) setTimeout(this.wrapTabEvents, 500)
+        vModelHandler(selected) {
+            this.$emit('input', selected)
+        },
+
+        convertValue(value) {
+            if ( this.multiple ) {
+                return Array.isArray(value) ?
+                    this.usedOptions.filter( item => {
+                        return value.includes(item.value);
+                    }) :
+                    value
+            } else {
+                return this.usedOptions.find( item => {
+                    return value === item.value;
+                })
+            }
+        },
+
+        resetFormValue( formId ) {
+            if ( this.formId !== formId ) return
+            this.formValue = this.multiple ? [] : undefined
+        },
+
+        setFocus(state) {
+            try {
+                let useMethod = (state !== false) ? 'focus' : 'blur';
+                this.$refs.select.$el[useMethod]()
+            } catch (e) {
+                _retry--
+                if (_retry) setTimeout(this.setFocus, 1000, state)
+            }
+        },
+
+        wrapTabEvents() {
+            try {
+                this.$refs.select.$el.querySelector('.multiselect__input').classList.add('is-focusable')
+            } catch(e) {
+                _retry--
+                if (_retry) setTimeout(this.wrapTabEvents, 500)
+            }
+        },
+
+        ajaxSearch(search) {
+            if ( ! search ) return
+            clearTimeout(this.__search)
+            this.isLoading = true
+            this.__search = setTimeout(() => {
+                AWES.ajax({}, this.selectOptions.replace('%s', search), 'get')
+                    .then( res => {
+                        if ( res.success === true ) {
+                            this.ajaxOptions = res.data
+                        } else {
+                            this.ajaxOptions = []
+                        }
+                        this.isLoading = false
+                    })
+            }, AJAX_DEBOUNCE);
         }
-      },
-
-      ajaxSearch(search) {
-        if ( ! search ) return
-        clearTimeout(this.__search)
-        this.isLoading = true
-        this.__search = setTimeout(() => {
-          AWES.ajax({}, this.selectOptions.replace('%s', search), 'get')
-            .then( res => {
-              if ( res.success === true ) {
-                this.ajaxOptions = res.data
-              } else {
-                this.ajaxOptions = []
-              }
-              this.isLoading = false
-            })
-        }, AJAX_DEBOUNCE);
-      }
     },
 
 
     mounted() {
-      this.$nextTick( this.wrapTabEvents )
+        this.$nextTick( this.wrapTabEvents )
     }
-  }
+}
 </script>

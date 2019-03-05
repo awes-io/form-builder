@@ -1,113 +1,117 @@
 <template>
     <form
-      class="form-builder"
-      :class="{'modal_form': modal}"
-      :action="url"
-      :method="method">
+        class="form-builder"
+        :class="{'modal_form': modal}"
+        :action="url"
+        :method="method"
+        @submit.prevent="send"
+    >
 
-      <div class="grid grid_forms">
-        <slot :fields="workingState" />
-      </div>
-
-      <div v-if="! autoSubmit"
-            :class="modal ? 'line-btns' : null">
-        <div :class="modal ? 'line-btns__wrap' : 'line-btns'">
-
-            <button
-              class="btn btn-send waves-effect waves-button"
-              :class="{ 'loading-inline': showLoader }"
-              :disabled="!isEdited || isBlocked"
-              :data-loading="$lang.FORMS_LOADING"
-              type="submit"
-              data-awes="modal_button_ok"
-              v-shortkey="['ctrl', 'enter']"
-              @shortkey="send"
-              @click.prevent="send"
-              @click.native.prevent="send">
-              {{ sendText || $lang.FORMS_SEND }}
-            </button>  <!-- v-waves.button -->
-
-            <button v-if="modal || cancelbtn"
-              class="btn waves-effect waves-button"
-              :class="{'btn_transparent': cancelbtn}"
-              type="button"
-              v-shortkey="['esc']"
-              @shortkey="close"
-              @click.prevent="modal ? close() : $emit('cancel')">
-              {{ cancelText || $lang.FORMS_CANCEL }}
-            </button> <!-- v-waves.button -->
-
-            <slot name="buttons-after"></slot>
+        <div class="grid grid_forms">
+            <slot :fields="fields"></slot>
         </div>
-      </div>
 
+        <div v-if="! autoSubmit"
+            :class="modal ? 'line-btns' : null">
+            <div :class="modal ? 'line-btns__wrap' : 'line-btns'">
+
+                <button
+                    class="btn btn-send waves-effect waves-button"
+                    :class="{ 'loading-inline': isLoading }"
+                    :disabled="!isEdited || isLoading"
+                    :data-loading="$lang.FORMS_LOADING"
+                    type="submit"
+                    data-awes="modal_button_ok"
+                    v-shortkey="['ctrl', 'enter']"
+                    @shortkey="send"
+                >
+                    {{ sendText || $lang.FORMS_SEND }}
+                </button><!-- v-waves.button -->
+
+                <button v-if="modal || $listeners.cancel"
+                    class="btn waves-effect waves-button"
+                    :class="{'btn_transparent': $listeners.cancel}"
+                    type="button"
+                    v-shortkey="['esc']"
+                    v-on="{
+                        shortkey: close,
+                        click: modal ? close : $listeners.cancel
+                    }"
+                >
+                    {{ cancelText || $lang.FORMS_CANCEL }}
+                </button><!-- v-waves.button -->
+
+                <slot name="buttons-after"></slot>
+            </div>
+        </div>
     </form>
 </template>
 
 <script>
-  let _uniqFormId = 0;
+import {
+    flattenObject,
+    restoreFlattenedObject
+} from '../js/modules/helpers'
 
-  const UNLOAD_EVENTS = [{
-    type: 'beforeunload',
-    handler: 'windowUnloadHandler'
-  },
-  {
-    type: 'popstate',
-    handler: 'popStateHandler'
-  }];
+let _uniqFormId = 0;
 
-  export default {
+const UNLOAD_EVENTS = [
+    {
+        type: 'beforeunload',
+        handler: 'windowUnloadHandler'
+    },
+    {
+        type: 'popstate',
+        handler: 'popStateHandler'
+    }
+];
 
-    name: "form-builder",
+export default {
+
+    name: 'form-builder',
 
     props: {
 
-      cancelbtn: {
-        type: Boolean,
-        default: false
-      },
+        name: {
+            type: String,
+            default() {
+                return `form-builder-${ _uniqFormId++ }`
+            }
+        },
 
-      name: {
-        type: String,
-        default: () => `form-builder-${ _uniqFormId++ }`
-      },
+        url: {
+            type: String,
+            required: true
+        },
 
-      url: {
-        type: String,
-        required: true
-      },
+        method: {
+            type: String,
+            default: 'post',
+            validator( method ) {
+            return method === undefined ||
+                    ['get', 'put', 'post', 'delete', 'patch'].includes( method.toLowerCase() )
+            }
+        },
 
-      sendText: String,
+        default: Object,
 
-      cancelText: String,
+        storeData: String,
 
-      loadingText: String,
+        sendText: String,
 
-      default: {
-        type: Object,
-        default: null
-      },
+        cancelText: String,
 
-      method: {
-        type: String,
-        default: 'post',
-        validator( method ) {
-          return method === undefined ||
-                ['get', 'put', 'post', 'delete', 'patch'].includes( method.toLowerCase() )
+        loadingText: String,
+
+        disabledDialog: {
+            type: Boolean,
+            default: false
+        },
+
+        autoSubmit: {
+            type: Boolean,
+            default: false
         }
-      },
-
-      storeData: String,
-
-      disabledDialog: {
-        type: Boolean,
-        default: false
-      },
-
-      autoSubmit: {
-        type: Boolean,
-        default: false
-      }
     },
 
 
@@ -127,223 +131,142 @@
     },
 
 
-    data() {
-        return {
-            loading: false,
-            serverData: null,
-            serverDataErrors: null,
-            showLoader: false
-        }
-    },
-
-
     computed: {
 
-      form() {
-        return this.$awesForms.getters['form'](this.name)
-      },
-
-      isEdited() {
-        return this.$awesForms.getters['isEdited'](this.name)
-      },
-
-      isBlocked() {
-        return this.$awesForms.getters['isBlocked'](this.name)
-      },
-
-      workingState() {
-        return this.$awesForms.getters['workingState'](this.name)
-      },
-
-      storeFormData() {
-        return this.storeData ? AWES._store.state[this.storeData] : false;
-      },
-
-      usedFormData() {
-        if ( this.storeFormData ) {
-          if ( this.default ) {
-            console.warn('Only VUEX STORE data will be used, despite DEFAULT data exists')
-          }
-          return this.storeFormData
-        } else if ( this.default ) {
-          return this.default
-        } else {
-          return false
-        }
-      }
-    },
-
-    watch: {
-
-      usedFormData: {
-        handler: function( fields ) {
-          if ( this.form ) return // only once, to create form
-          this.createForm();
-          if ( fields ) {
-            this.$awesForms.commit('setDefaultData', {
-              id: this.name,
-              fields,
-            })
-          }
+        form() {
+            return AWES._store.state.forms[this.name]
         },
-        deep: true,
-        immediate: true
-      },
 
-      loading( isLoading ) {
-        this.$awesForms.commit('toggleFormLoading', { id: this.name, isLoading })
-      },
+        isLoading() {
+            return this.form && this.form.isLoading
+        },
 
-      serverData( data ) {
-        if ( data ) {
-          if ( this.storeData ) {
-            AWES._store.commit('setData', { param: this.storeData, data: data.data });
-          } else {
-            this.$awesForms.commit('setDefaultData', { id: this.name, fields: data.data });
-          }
-          this.$awesForms.commit('resetFormEdited', this.name);
-          this.serverData = null;
-          this.$emit('sended', data.data || true);
-          if ( this.modal ) this.close(this.modal.name)
+        isEdited() {
+            return this.form && this.form.isEdited
+        },
+
+        fields() {
+            return AWES._store.getters['forms/fields'](this.name)
         }
-      },
-
-      serverDataErrors( errors ) {
-        if ( errors ) {
-          this.$awesForms.commit('setErrors', { id: this.name, errors })
-          this.serverDataErrors = null
-          if ( !this.disabledDialog ) {
-            this.addUnloadHandlers()
-          }
-        }
-      }
     },
+
 
     methods: {
 
-      createForm() {
-        this.$awesForms.commit( 'createForm', {
-          id: this.name,
-          url: this.url,
-          method: this.method
-        })
-      },
+        send() {
 
-      send() {
-        AWES.emit('form-builder:before-send')
-        if ( this.loading || this.isBlocked || ! this.isEdited ) return
-        // invoke attached @send method if present
-        if ( this.$listeners.hasOwnProperty('send') ) {
-          this.$emit('send', this.workingState)
+            if ( this.isLoading || ! this.isEdited ) return
+
+            AWES.emit('form-builder:before-send')
+
+            if ( this.$listeners.send ) {
+                AWES._store.dispatch('forms/restoreData', {
+                    formName: this.name
+                }).then( data => {
+                    this.$emit('send', data)
+                })
+            } else {
+                AWES._store.dispatch('forms/sendForm', {
+                    formName: this.name,
+                    url: this.url,
+                    method: this.method
+                }).then( res => {
+                    this.$emit(res.success ? 'sended' : 'error', res.data)
+                })
+            }
+        },
+
+        addUnloadHandlers() {
+            UNLOAD_EVENTS.forEach( event => {
+                window.addEventListener(event.type, this[event.handler], false)
+            })
+        },
+
+        removeUnloadHandlers() {
+            UNLOAD_EVENTS.forEach( event => {
+                window.removeEventListener(event.type, this[event.handler])
+            })
+        },
+
+        checkCloseAllowed() {
+            if ( this.disabledDialog ) return true
+            if ( this.isEdited ) {
+                const answer = confirm(this.$lang.FORMS_CONFIRM)
+                return answer
+            } else {
+                return true
+            }
+        },
+
+        popStateHandler() {
+            this.removeUnloadHandlers()
+            if ( this.checkCloseAllowed() ) {
+                if ( this.modal ) this.close()
+            } else {
+                const modal = this.modal ? this.modal.hash : ''
+                const url = location.href + modal
+                history.pushState( {modal}, document.title, url )
+                this.addUnloadHandlers()
+            }
+        },
+
+        windowUnloadHandler( $event ) {
+            if ( this.disabledDialog || ! this.isEdited ) return true
+            $event.returnValue = this.$lang.FORMS_CONFIRM
+            return this.$lang.FORMS_CONFIRM
+        },
+
+        close() {
+            if ( this.checkCloseAllowed() ) {
+                this.removeUnloadHandlers()
+                AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
+                AWES.emit(`modal::${this.modal.name}.close`)
+            }
+        },
+
+        preventModalClose(e) {
+            e.detail.preventClose()
+            this.close()
         }
-        // otherwise send form with serverRequest
-        else {
-          this.removeUnloadHandlers()
-          this.$awesForms.commit('resetErrors', this.name);
-          this.loading = true;
-          AWES.on('core:ajax', this.onRequestProcess )
-          AWES.ajax( this.workingState, this.url, this.method )
-              .then( res => {
-                  if ( res.success ) {
-                    this.serverData = res.data || {}
-                  }
-                  if ( ! res.success && res.data ) {
-                    this.serverDataErrors = res.data
-                  }
-              })
-              .finally( () => {
-                  this.loading = false;
-                  this.showLoader = false;
-                  AWES.off('core:ajax', this.onRequestProcess )
-              })
-        }
-      },
-
-      onRequestProcess(e) {
-        this.showLoader = e.detail
-      },
-
-      addUnloadHandlers() {
-        UNLOAD_EVENTS.forEach( event => {
-          window.addEventListener(event.type, this[event.handler], false)
-        })
-      },
-
-      removeUnloadHandlers() {
-        UNLOAD_EVENTS.forEach( event => {
-          window.removeEventListener(event.type, this[event.handler])
-        })
-      },
-
-      checkCloseAllowed() {
-        if ( this.disabledDialog ) return true
-        if ( this.isEdited ) {
-          const answer = confirm(this.$lang.FORMS_CONFIRM)
-          return answer
-        } else {
-          return true
-        }
-      },
-
-      popStateHandler() {
-        this.removeUnloadHandlers()
-        if ( this.checkCloseAllowed() ) {
-          if ( this.modal ) this.close()
-        } else {
-          const modal = this.modal ? this.modal.hash : ''
-          const url = location.href + modal
-          history.pushState( {modal}, document.title, url )
-          this.addUnloadHandlers()
-        }
-      },
-
-      windowUnloadHandler( $event ) {
-        if ( this.disabledDialog || ! this.isEdited ) return true
-        $event.returnValue = this.$lang.FORMS_CONFIRM
-        return this.$lang.FORMS_CONFIRM
-      },
-
-      close() {
-        if ( this.checkCloseAllowed() ) {
-          this.removeUnloadHandlers()
-          AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
-          AWES.emit(`modal::${this.modal.name}.close`)
-        }
-      },
-
-      preventModalClose(e) {
-        e.detail.preventClose()
-        this.close()
-      }
     },
 
 
     created() {
-      this.$root.$on('forms:submit', name => {
-        if ( this.name === name ) this.send()
-      })
-      if ( this.modal ) {
-        this.__unwatchModalPrevent = this.$watch('isEdited', state => {
-          AWES.on(`modal::${this.modal.name}.before-close`, this.preventModalClose)
+
+        // get default values
+        let fields = this.storeData ? AWES._store[this.storeData] : (this.default || {})
+
+        // create storage record
+        AWES._store.commit('forms/createForm', {
+            formName: this.name,
+            fields
         })
-      }
+
+        // set watcher for modal close method
+        if ( this.modal ) {
+            this.$watch('isEdited', edited => {
+                AWES[edited ? 'on': 'off'](`modal::${this.modal.name}.before-close`, this.preventModalClose)
+            })
+        }
     },
 
 
     mounted() {
-      this.addUnloadHandlers()
-      if ( this.autoSubmit ) {
-        this._unwatchEdit = this.$watch('form.editCounter', this.send)
-      }
+        this.addUnloadHandlers()
+        if ( this.autoSubmit ) {
+            this.$watch('fields', this.send )
+        }
     },
 
 
     beforeDestroy() {
-      this.removeUnloadHandlers()
-      if ( typeof this.__unwatchModalPrevent === 'function' ) this.__unwatchModalPrevent()
-      this.$awesForms.commit('deleteForm', this.name)
-      if ( typeof this._unwatchEdit === 'function' ) this._unwatchEdit()
-      AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
+        this.removeUnloadHandlers()
+    },
+
+
+    destroyed() {
+        AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
+        AWES._store.commit('forms/deleteForm', this.name)
     }
-  }
+}
 </script>

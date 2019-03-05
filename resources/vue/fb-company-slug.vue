@@ -1,7 +1,7 @@
 <template>
     <div class="grid__cell" :class="[cellClass]" >
-        <div :class="['fb-slug', { 'fb-slug_disabled': isDisabled, 'fb-slug_active': inActive, 'fb-slug_error': hasError, 'animated shake': shake}]">
-            <fb-error-wrap :open="tooltip" :error="error" @clickTooltip="clickTooltip">
+        <div :class="['fb-slug', { 'fb-slug_disabled': isDisabled, 'fb-slug_active': isActive, 'fb-slug_error': hasError, 'animated shake': shake}]">
+            <fb-error-wrap :open="showTooltip" :error="error" @clickTooltip="clickTooltip">
                 <div class="fb-slug__group-wrap">
                     <span class="fb-slug__group-field">
                         <label class="fb-slug__label" :for="'#' + inputId">{{ label }}</label>
@@ -9,17 +9,18 @@
                             :id="inputId"
                             :class="['fb-slug__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
                             :data-awes="$options.name + '.' + name"
-                            :maxlength="maxLength || _config.length"
+                            :maxlength="maxlength"
                             type="text"
                             :disabled="isDisabled"
-                            v-model="value"
+                            :value="formId ? formValue : removeDomain(value)"
+                            v-on="{ input: formId ? formValueHandler : vModelHandler }"
                             @input="toggleWatcher"
                             @focus="inFocus = true"
-                            @blur="slugBlur"
+                            @blur="inFocus = false"
                             @keydown.enter.prevent="focusNext"
                             ref="element">
                     </span>
-                    <span class="fb-slug__group-label">.{{ domain || _config.domain }}</span>
+                    <span class="fb-slug__group-label">{{ dotDomain }}</span>
                 </div>
             </fb-error-wrap>
         </div>
@@ -27,83 +28,125 @@
 </template>
 
 <script>
-    import fbInput from './fb-input.vue'
-    import _config from '../js/config.js'
+import fbInput from './fb-input.vue'
+import _config from '../js/config.js'
 
-    export default {
+export default {
 
-        name: 'fb-company-slug',
+    name: 'fb-company-slug',
 
-        extends: fbInput,
-
-
-        props: {
-
-            domain: String,
-
-            input: {
-                type: String,
-                required: true
-            },
-
-            maxLength: Number,
-        },
+    extends: fbInput,
 
 
-        data() {
-            return {
-                watchInput: true
+    props: {
+
+        domain: {
+            type: String,
+            default() {
+                return this._config.domain
             }
         },
 
-
-        computed: {
-
-            fromName() {
-                return this.multiblock ? `${this.multiblock}.${this.id}.${this.input}` : this.input
-            },
-
-            fromValue() {
-                return this.$awesForms.getters['fieldValue'](this.formId, this.fromName);
-            }
+        debounce: {
+            type: [String, Number],
+            default: 0
         },
 
-
-        watch: {
-
-            fromValue( val ) {
-                if ( ! this.watchInput || ! val ) return
-                this.value = this.noramlizeUrl(val) 
-            }
+        input: {
+            type: String,
+            default: ''
         },
 
-
-        methods: {
-
-            noramlizeUrl( string ) {
-                return this._toUrl(string).substr(0, this.maxlength)
-            },
-
-            toggleWatcher( $event ) {
-                if ( $event.target.value === '' ) {
-                    this.watchInput = true
-                } else if ( this.watchInput ) {
-                    this.watchInput = false
-                }
-            },
-            
-            slugBlur( $event ) {
-                this.inFocus = false
-                if ( ! this.watchInput ) {
-                    this.value = this.noramlizeUrl( $event.target.value )
-                }
+        maxlength: {
+            type: [String, Number],
+            default() {
+                return this._config.maxlength
             }
-        },
-
-
-        beforeCreate() {
-            this._config = Object.assign({}, _config.companySlug, AWES._config.companySlug)
-            this._toUrl = Urlify.create(this._config.ulrifyOptions)
         }
+    },
+
+
+    data() {
+        return {
+            watchInput: true,
+        }
+    },
+
+
+    computed: {
+
+        dotDomain() {
+            return '.' + this.domain.replace(/^\./, '')
+        },
+
+        formValue: {
+
+            get() {
+                return this.removeDomain( AWES._store.getters['forms/fieldValue'](this.formId, this.realName) )
+            },
+
+            set(value) {
+                AWES._store.commit('forms/setFieldValue', {
+                    formName: this.formId,
+                    fieldName: this.realName,
+                    value: this.addDomain( this.noramlizeUrl(value) )
+                });
+            }
+        }
+    },
+
+
+    watch: {
+
+        input: {
+            handler( value ) {
+                if ( this.$isServer || ! this.watchInput || ! value) return
+                if ( this.formId ) {
+                    if ( this._isMounted ) {
+                        this.formValue = value
+                    } else {
+                        this.$nextTick( () => this.formValue = value )
+                    }
+                } else {
+                    this.vModelHandler({ target: { value } })
+                }
+            },
+            immediate: true
+        }
+    },
+
+
+    methods: {
+
+        vModelHandler($event) {
+            this.$emit('input', this.addDomain(this.noramlizeUrl($event.target.value)) )
+        },
+
+        toggleWatcher( $event ) {
+            if ( $event.target.value === '' ) {
+                this.watchInput = true
+            } else if ( this.watchInput ) {
+                this.watchInput = false
+            }
+        },
+
+        noramlizeUrl( value ) {
+            return value && this.$toUrl(value).substr(0, +this.maxlength)
+        },
+
+        addDomain( value ) {
+            return value && this.removeDomain(value) + this.dotDomain
+        },
+
+        removeDomain( value ) {
+            return value && value.replace(this.dotDomain, '')
+        }
+    },
+
+
+    beforeCreate() {
+        this._config = Object.assign({}, _config.companySlug, window.AWES._config.companySlug)
+        this.$toUrl = Urlify.create(this._config.ulrifyOptions)
     }
+}
 </script>

@@ -1,7 +1,7 @@
 import plugin from './plugin'
-import lang from './lang.js'
-import storeModule from './store-module'
-import storeShared from './store-shared'
+import lang from './modules/lang'
+import formsModule from './store/forms'
+import storeShared from './store/shared'
 
 const awesPlugin = {
 
@@ -12,13 +12,12 @@ const awesPlugin = {
                 Vue.use(plugin)
             }
         },
-        'lodash': 'https://unpkg.com/lodash@4.17.11/lodash.min.js',
         'vuex': {
             src: 'https://unpkg.com/vuex@2.5.0/dist/vuex.min.js',
             deps: ['vue'],
             cb() {
                 AWES._store = AWES._store || new Vuex.Store(storeShared)
-                Vue.prototype.$awesForms = new Vuex.Store(storeModule)
+                AWES._store.registerModule('forms', formsModule)
             }
         },
         'vue-shortkey': {

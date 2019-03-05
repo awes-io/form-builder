@@ -2,13 +2,14 @@
 <div :class="['fb-keycode', {'animated shake': shake}, { 'fb-keycode_disabled': isDisabled }]">
     <div class="fb-keycode__block">
 
-        <fb-error-wrap :open="tooltip" :error="error" @clickTooltip="clickTooltip">
+        <fb-error-wrap :open="showTooltip" :error="error" @clickTooltip="clickTooltip">
             <div class="fb-keycode__wrap" id="keywrap">
                 <div class="fb-keycode__field-wrap" v-for="i in length" :key="i">
                     <input type="tel"
                         inputmode="numeric"
                         pattern="[0-9]*"
                         maxlength="1"
+                        autocomplete="off"
                         :value="inputValue[i-1]"
                         :class="['fb-keycode__field', {'is-focusable': isFocusable, 'in-focus': inFocus[i-1]}]"
                         :disabled="isDisabled"
@@ -20,7 +21,8 @@
                         @keydown.right="i < length ? onRight($event, i-1) : null"
                         @input="onInput($event, i-1)"
                         @paste.prevent="onPaste"
-                        ref="fields">
+                        ref="fields"
+                    >
                 </div>
             </div>
 
@@ -30,14 +32,13 @@
 </template>
 
 <script>
-import fieldMixin from './mixins/fb-field.js';
-import focusMixin from './mixins/fb-focus.js';
+import fieldMixin from '../js/mixins/fb-field.js';
 
 export default {
 
     name: "fb-code",
 
-    mixins: [fieldMixin, focusMixin],
+    mixins: [fieldMixin],
 
     props: {
 
@@ -46,10 +47,10 @@ export default {
             default: 6
         },
 
-        autoSubmit: {
-            type: Boolean,
-            default: true
-        }
+        // autoSubmit: {
+        //     type: Boolean,
+        //     default: true
+        // }
     },
 
 
@@ -74,7 +75,7 @@ export default {
         },
 
         hasCaptchaError() {
-            return this.$awesForms.getters['hasCaptchaError'](this.formId)
+            return AWES._store.getters['forms/hasCaptchaError'](this.formId)
         }
     },
 
@@ -100,6 +101,12 @@ export default {
         hasCaptchaError(hasError) {
             if (!hasError) {
                 this.autoSubmitForm(this.value)
+            }
+        },
+
+        value(val) {
+            if (val.length === this.length) {
+                this.formValue = val
             }
         }
     },
@@ -152,13 +159,6 @@ export default {
         isEmpty(index) {
             return this.inputValue[index] === '' ||
                 typeof this.inputValue[index] === typeof undefined
-        },
-
-        autoSubmitForm(value) {
-            if (this.hasCaptchaError) return
-            if (value.length === this.length) {
-                this.$root.$emit('forms:submit', this.formId)
-            }
         }
     },
 
@@ -167,17 +167,12 @@ export default {
             this.inFocus.push(index === 0 && this.focus ? true : false)
             this.inputValue.push('')
         }
-
-        if (this.autoSubmit) {
-            this.__unwatchFormSubmit = this.$watch('value', this.autoSubmitForm)
-        }
     },
 
     beforeDestroy() {
         this.$refs.fields.forEach(field => {
             field.removeEventListener('input', this.resetError)
         })
-        if (this.__unwatchFormSubmit) this.__unwatchFormSubmit()
     }
 }
 </script>

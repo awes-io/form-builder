@@ -23,7 +23,8 @@ if ( isDev ) {
       ui: false,
       open: false,
       notify: false,
-      server: ['./examples', './dist']
+      serveStatic: ['./examples', './dist'],
+      proxy: "localhost:3030"
     })
 
     gulp.watch('./resources/css/**/*.styl', gulp.series('build:styles'))
@@ -70,7 +71,7 @@ gulp.task('build:styles', function(){
 /*
  * Gloabl tasks
  */
- 
+
 gulp.task('clean', function(){
   return gulp.src('./dist', { read: false, allowEmpty: true })
     .pipe( clean() )

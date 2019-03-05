@@ -1,13 +1,15 @@
-# Компонент &lt;fb-select&gt;
+# The &lt;fb-select&gt; Component
 
-Внутри используется компонент [vue-multiselect](https://vue-multiselect.js.org/)
+This component is intended to select one or more options from a list of options. The [vue-multiselect](https://vue-multiselect.js.org/) component is used within it.
 
-Может находиться только внутри &lt;form-builder&gt;
+It can be located within the &lt;form-builder&gt; component, then it requires a `name` property, or it can be used with a `v-model` Vue directive
+
+The component is visualized as follows:
 
 ![fb-select](https://storage.googleapis.com/static.awes.io/docs/fb-select.gif)
 
 
-## Пример использования компонента
+## Example of using the component
 
 ```html
 <form-builder url="/api-url">
@@ -18,47 +20,44 @@
     ></fb-select>
 </form-builder>
 ```
-@vue
+
 <form-builder url="/api-url">
     <fb-select name="select" label="Select options"></fb-select>
 </form-builder>
-@endvue
 
 
-## Свойства компонента
+## Component properties
 
-| Название            | Тип                | По-умолчанию        | Описание                                          |
+| Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Идентификатор поля в объекте данных               |
-| **id**              | `Number`           | `undefined`         | Порядковый номер внутри &lt;fb-multi-block&gt;    |
-| **cell**            | `String`, `Number` | `undefined`         | Количество колонок в ряду. Может быть 2 или 3     |
-| **label**           | `String`           | `''`                | Текст в элементе &lt;label&gt;                    |
-| **selectOptions**   | `Array`            | `[]`                | [Массив элементов](#fbs-items)                    |
-| **multiple**        | `Boolean`          | `true`              | Можно выбирать несколько элементов                |
-| **placeholder-text**| `String`           | `'Pick a value'`    | Текст когда ничего не выбрано                     |
-| **enter-skip**      | `Boolean`          | `false`             | Пропускать поле при переключении по <kbd>enter</kbd> |
-| **focus**           | `Boolean`          | `false`             | Установить фокус в это поле при загрузке страницы |
+| **name**            | `String`           | `undefined`         | Field identifier in the data object               |
+| **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
+| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
+| **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
+| **selectOptions**   | `Array`            | `[]`                | [Items array](#fbs-items)                         |
+| **multiple**        | `Boolean`          | `true`              | You can select multiple items                     |
+| **placeholder-text**| `String`           | `'Pick a value'`    | Text when no item is selected                     |
+| **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
+| **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
 
 
-## Массив элементов
+## Items array
 
-Массив элементов для отображения может быть в двух вариантах
+There are two options for displaying the items array:
 
 ```javascript
 const items = ['Item 1', 'Item 2', 'Item 3']
-// В таком случае получим `<option value="Item 1">Item 1<option>`
+// In such case, we will get the following result: `<option value="Item 1">Item 1<option>`
 
 const items = [
     {name: 'Item 1', value: 'val1'},
     {name: 'Item 2', value: 'val2'},
     {name: 'Item 3', value: 'val3'}
 ]
-// В таком случае получим `<option value="val1">Item 1<option>`
+// And in such case, we will get the following result: `<option value="val1">Item 1<option>`
 ```
 
-@vue
 <form-builder url="/api-url">
     <fb-radio-group name="equal" label="Equal option" :items="['Option 1', 'Option 2']"></fb-radio-group>
     <fb-radio-group name="different" label="Different option" :items="[{name: 'Option 1', value:'option_1'}, {name: 'Option 2', value:'option_2'}]"></fb-radio-group>
 </form-builder>
-@endvue
