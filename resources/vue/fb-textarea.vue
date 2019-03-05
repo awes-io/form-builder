@@ -1,89 +1,84 @@
 <template>
-  <div class="grid__cell" :class="[cellClass]" >
+<div class="grid__cell" :class="[cellClass]" >
 
-    <div class="fb-textarea" :class="{ 'fb-textarea_disabled': isDisabled, 'fb-textarea_active': inActive, 'fb-textarea_error': hasError, 'animated shake': shake}">
+    <div class="fb-textarea" :class="{ 'fb-textarea_disabled': isDisabled, 'fb-textarea_active': isActive, 'fb-textarea_error': hasError, 'animated shake': shake}">
 
-      <fb-error-wrap
-        :open="tooltip"
-        :error="error"
-        @clickTooltip="clickTooltip">
+        <fb-error-wrap
+            :open="showTooltip"
+            :error="error"
+            @clickTooltip="clickTooltip"
+        >
 
-        <span class="fb-textarea__label">{{ label }}</span>
+            <label class="fb-textarea__label" :for="textareaId">{{ label }}</label>
 
-        <textarea
-          v-bind="$attrs"
-          :class="['fb-textarea__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
-          :disabled="isDisabled"
-          v-model="value"
-          @focus="inFocus = true"
-          @blur="inFocus = false"
-          ref="element"></textarea>
+            <textarea
+                :id="textareaId"
+                v-bind="$attrs"
+                :class="['fb-textarea__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
+                :disabled="isDisabled"
+                :value="formId ? formValue : value"
+                v-on="{ input: formId ? formValueHandler : vModelHandler }"
+                @focus="inFocus = true"
+                @blur="inFocus = false"
+                ref="element"
+            ></textarea>
 
-      </fb-error-wrap>
+        </fb-error-wrap>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
-  import fieldMixin from './mixins/fb-field.js';
-  import focusMixin from './mixins/fb-focus.js';
-  import autosize from "autosize";
+import textFieldMixin from '../js/mixins/fb-text-field.js';
+import autosize from "autosize";
 
-  let unwatcher;
+let _textareasId = 0
 
-  export default {
+export default {
 
     name: "fb-textarea",
 
     inheritAttrs: false,
 
-    mixins: [ fieldMixin, focusMixin ],
+    mixins: [ textFieldMixin ],
 
     props: {
 
-      label: {
-        type: String,
-        default: ''
-      },
-
-      fixsize: {
-        type: Boolean,
-        default: false
-      }
+        fixsize: {
+            type: Boolean,
+            default: false
+        }
     },
 
 
-    data() {
-      return {
-        value: '',
-      }
+    computed: {
+
+        textareaId() {
+            return 'textarea-' + _textareasId++
+        }
     },
 
 
     methods: {
 
-      setAutoResize() {
-        if ( ! this.fixsize ) {
-          autosize( this.$refs.element );
-          unwatcher = this.$watch('value', this.updateAutoResize)
-        }
-      },
+        setAutoResize() {
+            if ( ! this.fixsize ) {
+                autosize( this.$refs.element );
+                this.$watch('value', this.updateAutoResize)
+            }
+        },
 
-      updateAutoResize() {
-        this.$nextTick( () => {
-          autosize.update(this.$refs.element)
-        })
-      }
+        updateAutoResize() {
+            this.$nextTick( () => {
+              autosize.update(this.$refs.element)
+            })
+        }
     },
 
 
     mounted() {
-      this.setAutoResize();
-    },
-
-    beforeDestroy() {
-      if ( typeof unwatcher === 'function' ) unwatcher()
+        this.setAutoResize();
     }
 
-  }
+}
 </script>

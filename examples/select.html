@@ -34,11 +34,10 @@
                 <fb-select name="select2" label="single select" :select-options="[{name:'one', value: 1}, {name:'two', value: 2}]" :multiple="false"></fb-select>
 
                 <h2>Ajax select</h2>
-                <fb-select name="select2" label="AJAX select" select-options="/ajax-options.json?test=%s"></fb-select>
+                <fb-select name="select3" label="AJAX select" select-options="/ajax-options.json?test=%s"></fb-select>
 
                 <h2>Ajax single select</h2>
-                <fb-select name="select2" label="Search field" select-options="/ajax-options.json?test=%s" :multiple="false"
-                @change="val => { AWES.notify({status:'success', message: 'You seach for ' + val.name}) }"></fb-select>
+                <fb-select name="select4" label="Search field" select-options="/ajax-options.json?test=%s" :multiple="false"></fb-select>
 
                 <h2>Enter skip test</h2>
                 <fb-input name="input" label="label" cell="2"></fb-input>

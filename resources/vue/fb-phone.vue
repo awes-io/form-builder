@@ -1,21 +1,29 @@
 <template>
     <div class="grid__cell" :class="[cellClass]" >
-        <div :class="['fb-phone', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': inActive, 'fb-phone_error': hasError, }]">
-            <span class="fb-phone__label">{{ label }}</span>
-            <vue-tel-input
-                v-model="value"
-                :disabled="isDisabled"
-                @onBlur="inFocus = false"
-                @onInput="checkFocus"
-                ref="tel"
-            ></vue-tel-input>
+        <div :class="['fb-phone', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': isActive, 'fb-phone_error': hasError, }]">
+
+            <fb-error-wrap
+                :open="showTooltip"
+                :error="error"
+                @clickTooltip="clickTooltip"
+            >
+                <span class="fb-phone__label">{{ label }}</span>
+                <vue-tel-input
+                    :value="formId ? formValue : value"
+                    v-on="{ input: formId ? formValueHandler : vModelHandler }"
+                    :disabled="isDisabled"
+                    @onBlur="inFocus = false"
+                    @onInput="checkFocus"
+                    ref="tel"
+                ></vue-tel-input>
+
+            </fb-error-wrap>
         </div>
     </div>
 </template>
 
 <script>
-import fieldMixin from './mixins/fb-field.js';
-import focusMixin from './mixins/fb-focus.js';
+import fieldMixin from '../js/mixins/fb-field.js';
 
 const ERR_COUNTER_MAX = 20
 let errCounter = ERR_COUNTER_MAX
@@ -24,7 +32,7 @@ export default {
 
     name: 'fb-phone',
 
-    mixins: [ fieldMixin, focusMixin ],
+    mixins: [ fieldMixin ],
 
     components: {
         VueTelInput: resolve => {
@@ -40,19 +48,46 @@ export default {
 
 
     props: {
-        label: String
+
+        value: {
+            type: String,
+            default: ''
+        }
     },
 
 
     data() {
         return {
             nativeTelInput: false,
-            value: ''
+        }
+    },
+
+
+    computed: {
+
+        isActive() {
+            return !!(this.inFocus || this.value);
         }
     },
 
 
     methods: {
+
+        formValueHandler(value) {
+            if ( ! this.error ) {
+                clearTimeout(this.__debounce)
+                this.__debounce = setTimeout(() => {
+                    this.formValue = value
+                }, Number(this.debounce))
+            } else {
+                this.formValue = value
+                this.resetError()
+            }
+        },
+
+        vModelHandler(value) {
+            this.$emit('input', value)
+        },
 
         setFocusWatcher() {
             if ( ! this.$refs.tel ) return

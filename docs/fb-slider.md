@@ -2,7 +2,7 @@
 
 This slider component consists of a horizontal slider and a handle that can be moved with the mouse. You can also specify the minimum and maximal values.
 
-The component can be located only within the &lt;form-builder&gt; component. Below, you will see this component in action.
+The component can be located within the &lt;form-builder&gt; component, then it requires `name` property, or it can be used with `v-model` Vue directive. Below, you will see this component in action.
 
 ![fb-slider](https://storage.googleapis.com/static.awes.io/docs/fb-slider.gif)
 
@@ -14,11 +14,10 @@ The component can be located only within the &lt;form-builder&gt; component. Bel
     <fb-slider name="opacity" label="Choose opacity level"></fb-slider>
 </form-builder>
 ```
-@vue
+
 <form-builder url="/api-url">
     <fb-slider name="opacity" label="Choose opacity level"></fb-slider>
 </form-builder>
-@endvue
 
 
 ## Component properties

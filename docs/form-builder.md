@@ -24,7 +24,6 @@ It is a component of dynamic forms. It registers the `Vuex` store in the `Vue.pr
 | **store-data**      | `String`  | `undefined`         | Name of the data field in `AWES._store`           |
 | **disabled-dialog** | `Boolean` | `false`             | Disable window closing check                      |
 | **auto-submit**     | `Boolean` | `false`             | Automatic form submission                         |
-| **cancelbtn**       | `Boolean` | `false`             | Show the “Cancel” button                          |
 | **send-text**       | `String`  | `'Send'`            | Text in the “Send” button                         |
 | **cancel-text**     | `String`  | `'Cancel'`          | Text in the “Cancel” button                       |
 | **loading-text**    | `String`  | `'Loading...'`      | Text in the “Send” button while sending           |
@@ -37,7 +36,7 @@ It is a component of dynamic forms. It registers the `Vuex` store in the `Vue.pr
 | **form-builder:before-send** | *AWES*    | It is called in the event bus before submitting the form |
 | **send**                     | *Vue*     | If there is a handler for this event, the form will not be sent and the data will be transferred to the handler |
 | **sended**                   | *Vue*     | It appears after sending the form and transfers data from the server to the handler |
-| **cancel**                   | *Vue*     | The “Cancel” button is pressed                  |
+| **cancel**                   | *Vue*     | The “Cancel” button is pressed. If there is no handler for this event, cancel button will not be shown |
 
 
 ## Language variables

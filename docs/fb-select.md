@@ -2,7 +2,9 @@
 
 This component is intended to select one or more options from a list of options. The [vue-multiselect](https://vue-multiselect.js.org/) component is used within it.
 
-It can be located only within the &lt;form-builder&gt; component and is visualized as follows:
+It can be located within the &lt;form-builder&gt; component, then it requires a `name` property, or it can be used with a `v-model` Vue directive
+
+The component is visualized as follows:
 
 ![fb-select](https://storage.googleapis.com/static.awes.io/docs/fb-select.gif)
 
@@ -18,18 +20,17 @@ It can be located only within the &lt;form-builder&gt; component and is visualiz
     ></fb-select>
 </form-builder>
 ```
-@vue
+
 <form-builder url="/api-url">
     <fb-select name="select" label="Select options"></fb-select>
 </form-builder>
-@endvue
 
 
 ## Component properties
 
 | Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
@@ -56,9 +57,7 @@ const items = [
 // And in such case, we will get the following result: `<option value="val1">Item 1<option>`
 ```
 
-@vue
 <form-builder url="/api-url">
     <fb-radio-group name="equal" label="Equal option" :items="['Option 1', 'Option 2']"></fb-radio-group>
     <fb-radio-group name="different" label="Different option" :items="[{name: 'Option 1', value:'option_1'}, {name: 'Option 2', value:'option_2'}]"></fb-radio-group>
 </form-builder>
-@endvue

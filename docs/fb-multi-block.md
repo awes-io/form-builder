@@ -38,7 +38,7 @@ It can be located only within the &lt;form-builder&gt; component and is visually
         <fb-multi-block name="managers">
             <template slot-scope="block">
                 <fb-checkbox name="active" label="Active" :id="block.id"></fb-checkbox>
-                <fb-input :disabled="! form.fields.managers[block.id].active" name="manager" label="Manager name" :id="block.id"></fb-input>
+                <fb-input :disabled="! form.fields[`managers[${block.id}].active`]" name="manager" label="Manager name" :id="block.id"></fb-input>
             </template>
         </fb-multi-block>
     </template>

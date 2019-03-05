@@ -2,7 +2,7 @@
 
 This is a text area component. When filling in the text area, it will automatically increase its height.
 
-This component can be located only within the &lt;form-builder&gt; component. Below, you will see a text area field in different states and its display style.
+This component can be located within the &lt;form-builder&gt; component, then it requires `name` property, or it can be used with `v-model` Vue directive. Below, you will see a text area field in different states and its display style.
 
 ![fb-textarea](https://storage.googleapis.com/static.awes.io/docs/fb-textarea.png)
 
@@ -14,18 +14,17 @@ This component can be located only within the &lt;form-builder&gt; component. Be
     <fb-textarea name="first_name" label="Enter your name"></fb-textarea>
 </form-builder>
 ```
-@vue
+
 <form-builder url="/api-url">
     <fb-textarea name="first_name" label="Enter your name"></fb-textarea>
 </form-builder>
-@endvue
 
 
 ## Component properties
 
 | Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |

@@ -2,7 +2,10 @@
 
 It is a component for converting text into URL (It uses the [urlify](https://github.com/Gottox/node-urlify) library).
 
-It can be located only within the &lt;form-builder&gt; component and requires the &lt;fb-input&gt; component from which the subdomain will be transformed. This component visually looks like:
+It can be located within the &lt;form-builder&gt; component, or can be used with `v-model` directive. You may provide a string from other form-builder text field to transform to subdomain with an `input` property
+
+
+This component visually looks like:
 
 ![fb-company-slug](https://storage.googleapis.com/static.awes.io/docs/fb-company-slug.gif)
 
@@ -11,14 +14,18 @@ It can be located only within the &lt;form-builder&gt; component and requires th
 
 ```html
 <form-builder url="/api-url">
-    <fb-input name="company" label="Enter company name"></fb-input>
-    <fb-company-slug name="slug" input="company"></fb-company-slug>
+    <template slot-scope="form">
+        <fb-input name="company" label="Enter company name"></fb-input>
+        <fb-company-slug name="slug" input="form.fields['company']"></fb-company-slug>
+    </template>
 </form-builder>
 ```
 @vue
 <form-builder url="/api-url">
-    <fb-input name="company" label="Enter company name"></fb-input>
-    <fb-company-slug name="slug" input="company"></fb-company-slug>
+    <template slot-scope="form">
+        <fb-input name="company" label="Enter company name"></fb-input>
+        <fb-company-slug name="slug" input="form.fields['company']"></fb-company-slug>
+    </template>
 </form-builder>
 @endvue
 
@@ -27,13 +34,13 @@ It can be located only within the &lt;form-builder&gt; component and requires th
 
 | Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
 | **domain**          | `String`           | `'awescrm.de'`      | Main domain                                       |
-| **input(*)**        | `String`           | `undefined`         | Field identifier on which the subdomain is built  |
-| **max-length**      | `Number`           | `32`                | Maximum length of the subdomain                   |
+| **input**           | `String`           | `undefined`         | String to transofm into subdomain                 |
+| **maxlength**       | `Number`           | `32`                | Maximum length of the subdomain                   |
 | **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
 | **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
 

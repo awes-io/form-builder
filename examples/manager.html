@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Refactoring</title>
+
+    <script>
+        const AWES_CONFIG = {
+            key: '680a7d07f89b94e7fc83be657a2daa27',
+            reCaptchaSiteKey: '6Lf6bm8UAAAAAEzGZHWPwnlBYoLIcndT-ITBo9fS',
+        }
+    </script>
+
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/base-js/v1.0.7/js/main.js"></script>
+</head>
+<body>
+    <div id="awes-app">
+        <h1>Test form errors</h1>
+        <ul>
+            <li>Name is required</li>
+            <li>Email is required (responds with not normalized field path)</li>
+            <li>Phone must be digit-only</li>
+            <li>SMTP must be enabled only for status "Manager" (displays error on SMTP host field)</li>
+        </ul>
+        <form-builder disabled-dialog url="/manager" name="manager" :default="{
+            active: 1,
+            email:'camylle57@example.com',
+            id:'ODY%3D',
+            status: 'Manager',
+            profile_manager: {
+                description:'Ea voluptates voluptatibus in consequuntur ut tempora doloremque. Provident excepturi iste saepe illum saepe. Ipsa alias maiores ut quasi rerum fuga. Consequatur nihil dolores quam alias et.',
+                phones: [
+                    { phone: '1354634', validated: '+7 135 4634' },
+                    { phone: '4456634', validated: '+7 445 6634' },
+                ],
+                loyalty: 20,
+                fax:'9150818698',
+                first_name:'Clementine',
+                full_name:'Clementine Farrell',
+                last_name:'Farrell',
+                position:'Photographic Restorer',
+                smtp:1,
+                smtp_host:'breitenberg.net',
+                smtp_login:'sydni09',smtp_password:'eyJpdiI6InkyeHZYRVVUakU0OEd3aUtuSjZPU1E9PSIsInZhbHVlIjoiSlUzSE8xcGphTWhyQmVtWFlIeHdIQT09IiwibWFjIjoiMDQxZjUwY2U5ZDAxNDFlZmQ4M2ZkYzg3NmI4YmNiYmM3ZDdkYmM2MDY3ZmQwMGRmNGM3NTY4YjRmYTliNTBhYyJ9'
+            },
+            theme_dark:0
+        }">
+            <template v-slot="{fields}">
+                <fb-input label="Name" name="profile_manager.first_name" debounce="50"></fb-input>
+                <fb-input label="Email" name="email" type="email"></fb-input>
+                <fb-radio-group label="Status" :items="['Manager', 'Client']" name="status"></fb-radio-group>
+                <fb-multi-block name="profile_manager.phones">
+                    <template v-slot="{id}">
+                        <fb-phone label="phone" name="phone" :id="id"></fb-phone>
+                        <fb-input name="validated" type="hidden" :id="id"></fb-input>
+                    </template>
+                </fb-multi-block>
+                <fb-textarea label="Description" name="profile_manager.description"></fb-textarea>
+                <fb-checkbox label="Dark theme" name="theme_dark"></fb-checkbox>
+                <fb-slider label="Loyalty" name="profile_manager.loyalty"></fb-slider>
+                <fb-switcher label="SMTP" name="profile_manager.smtp"></fb-switcher>
+                <fb-select label="SMTP Host" :disabled="! fields['profile_manager.smtp']" name="profile_manager.smtp_host" :select-options="[{name: 'breitenberg.net', value:'breitenberg.net'}, {name: 'mail.ru', value:'mail.ru'}]" :multiple="false"></fb-select>
+            </template>
+        </form-builder>
+    </div>
+</body>
+</html>

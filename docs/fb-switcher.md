@@ -1,6 +1,6 @@
 # The  &lt;fb-switcher&gt; Component
 
-The `input[type="range"]`-based switcher 0/1. It can be located only within the &lt;form-builder&gt; component. Here is how the switcher component functions as well as how it is displayed.
+The `input[type="range"]`-based switcher 0/1. It can be located within the &lt;form-builder&gt; component, then it requires `name` property, or it can be used with `v-model` Vue directive. Here is how the switcher component functions as well as how it is displayed.
 
 ![fb-switcher](https://storage.googleapis.com/static.awes.io/docs/fb-switcher.gif)
 
@@ -12,18 +12,17 @@ The `input[type="range"]`-based switcher 0/1. It can be located only within the 
     <fb-switcher name="active" label="Active"></fb-switcher>
 </form-builder>
 ```
-@vue
+
 <form-builder url="/api-url">
     <fb-switcher name="active" label="Active"></fb-switcher>
 </form-builder>
-@endvue
 
 
 ## Component properties
 
 | Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |

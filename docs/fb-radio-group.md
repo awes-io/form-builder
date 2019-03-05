@@ -1,6 +1,6 @@
 # The &lt;fb-radio-group&gt; Component
 
-Using this component, you can create a group of radio buttons. It can be located only within the &lt;form-builder&gt; component.  The example below shows several different groups of radio buttons which you can customize at your own discretion.
+Using this component, you can create a group of radio buttons. It can be located within the &lt;form-builder&gt; component, then it requires `name` property, or it can be used with `v-model` Vue directive. The example below shows several different groups of radio buttons which you can customize at your own discretion.
 
 ![fb-radio-group](https://storage.googleapis.com/static.awes.io/docs/fb-radio-group.png)
 
@@ -26,7 +26,7 @@ Using this component, you can create a group of radio buttons. It can be located
 
 | Name                | Type               | Default             | Description                                       |
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
-| **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
+| **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
