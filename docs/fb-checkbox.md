@@ -12,11 +12,11 @@ It can be located within the &lt;form-builder&gt; component, then it looks for t
     <fb-checkbox name="agree" label="Agree with cookie policy"></fb-checkbox>
 </form-builder>
 ```
-@vue
+<div class="vue-example">
 <form-builder url="/api-url">
     <fb-checkbox name="agree" label="Agree with cookie policy"></fb-checkbox>
 </form-builder>
-@endvue
+</div>
 
 
 ## Component properties
