@@ -2,10 +2,26 @@
 
 It can be located within the &lt;form-builder&gt; component, then it looks for the value, by the path given in the `name` property, or sets one if nothing found with a value of `value` property. Outside form component it can be used with a `v-model` directive
 
-![fb-checkbox](https://storage.googleapis.com/static.awes.io/docs/fb-checkbox.png)
+![fb-checkbox](https://static.awes.io/docs/fb-checkbox.png)
 
+## Components
+* [General information](./form-builder.md)
+* [Auto Captcha](./auto-captcha.md)
+* **Checkbox**
+* [Company Slug](./company-slug.md)
+* [Editor](./editor.md)
+* [Input](./input.md)
+* [Multi Block](./multi-block.md)
+* [Phone](./phone.md)
+* [Radio Group](./radio-group.md)
+* [Select](./select.md)
+* [Slider](./slider.md)
+* [Switcher](./switcher.md)
+* [Textarea](./textarea.md)
+* [Uploader](./uploader.md)
+* [Validation Code](./code.md)
 
-## Example of using the component
+## Example
 
 ```html
 <form-builder url="/api-url">

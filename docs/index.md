@@ -1,20 +1,28 @@
-The package includes such component as
+# Form Builder 
 
-[form-builder](./form-builder.md)
+From Builder is a component for building any forms.
 
-and the following fields of the &lt;form-builder&gt; component:
+![form-builder](https://static.awes.io/docs/form-builder.gif)
 
-* [fb-auto-captcha](./fb-auto-captcha.md)
-* [fb-checkbox](./fb-checkbox.md)
-* [fb-code](./fb-code.md)
-* [fb-cmpany-slug](./fb-company-slug.md)
-* [fb-editor](./fb-editor.md)
-* [fb-input](./fb-input.md)
-* [fb-multi-block](./fb-multi-block.md)
-* [fb-phone](./fb-phone.md)
-* [fb-radio-group](./fb-radio-group.md)
-* [fb-select](./fb-select.md)
-* [fb-slider](./fb-slider.md)
-* [fb-switcher](./fb-switcher.md)
-* [fb-textarea](./fb-textarea.md)
-* [fb-uploader](./fb-uploader.md)
+## Install
+
+```bash
+composer require awes-io/form-builder
+```
+
+## Components
+* [General information](./form-builder.md)
+* [Auto Captcha](./auto-captcha.md)
+* [Checkbox](./checkbox.md)
+* [Company Slug](./company-slug.md)
+* [Editor](./editor.md)
+* [Input](./input.md)
+* [Multi Block](./multi-block.md)
+* [Phone](./phone.md)
+* [Radio Group](./radio-group.md)
+* [Select](./select.md)
+* [Slider](./slider.md)
+* [Switcher](./switcher.md)
+* [Textarea](./textarea.md)
+* [Uploader](./uploader.md)
+* [Validation Code](./code.md)
