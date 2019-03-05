@@ -2,9 +2,26 @@
 
 It can be located only within the &lt;form-builder&gt; component and is visually presented as follows:
 
-![fb-multi-block](https://storage.googleapis.com/static.awes.io/docs/fb-multi-block.gif)
+![fb-multi-block](https://static.awes.io/docs/fb-multi-block.gif)
 
-## Example of using the component
+## Components
+* [General information](./form-builder.md)
+* [Auto Captcha](./auto-captcha.md)
+* [Checkbox](./checkbox.md)
+* [Company Slug](./company-slug.md)
+* [Editor](./editor.md)
+* [Input](./input.md)
+* **Multi Block**
+* [Phone](./phone.md)
+* [Radio Group](./radio-group.md)
+* [Select](./select.md)
+* [Slider](./slider.md)
+* [Switcher](./switcher.md)
+* [Textarea](./textarea.md)
+* [Uploader](./uploader.md)
+* [Validation Code](./code.md)
+
+## Example
 
 ```html
 <form-builder

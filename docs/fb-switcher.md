@@ -2,10 +2,26 @@
 
 The `input[type="range"]`-based switcher 0/1. It can be located within the &lt;form-builder&gt; component, then it requires `name` property, or it can be used with `v-model` Vue directive. Here is how the switcher component functions as well as how it is displayed.
 
-![fb-switcher](https://storage.googleapis.com/static.awes.io/docs/fb-switcher.gif)
+![fb-switcher](https://static.awes.io/docs/fb-switcher.gif)
 
+## Components
+* [General information](./form-builder.md)
+* [Auto Captcha](./auto-captcha.md)
+* [Checkbox](./checkbox.md)
+* [Company Slug](./company-slug.md)
+* [Editor](./editor.md)
+* [Input](./input.md)
+* [Multi Block](./multi-block.md)
+* [Phone](./phone.md)
+* [Radio Group](./radio-group.md)
+* [Select](./select.md)
+* **Slider**
+* [Switcher](./switcher.md)
+* [Textarea](./textarea.md)
+* [Uploader](./uploader.md)
+* [Validation Code](./code.md)
 
-## Example of using the component
+## Example
 
 ```html
 <form-builder url="/api-url">
