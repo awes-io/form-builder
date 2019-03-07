@@ -1,40 +1,37 @@
 <template>
-    <div class="grid__cell" :class="[{'grid__cell_padding': padding}, cellClass]">
+    <div :class="['fb-switcher', {'fb-switcher_error': hasError, 'fb-switcher_active': isActive, 'fb-switcher_disabled': isDisabled}]"
+        @keyup.space="toggleValue(rangeValue)">
 
-        <div :class="['fb-switcher', {'fb-switcher_error': hasError, 'fb-switcher_active': value, 'fb-switcher_disabled': isDisabled}]"
-            @keyup.space="toggleValue(rangeValue)">
+        <fb-error-wrap
+            :open="showTooltip"
+            :error="error"
+            @clickTooltip="clickTooltip"
+        >
 
-            <fb-error-wrap
-                :open="showTooltip"
-                :error="error"
-                @clickTooltip="clickTooltip"
-            >
+            <div class="fb-switcher__field-wrap" :data-awes="$options.name + '.' + name">
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="1"
+                    :value="rangeValue"
+                    v-on="{ change: formId ? formValueHandler : vModelHandler }"
+                    v-bind="$attrs"
+                    class="fb-switcher__field"
+                    :class="{'is-focusable': isFocusable, 'in-focus': inFocus}"
+                    :disabled="isDisabled"
+                    @focus="inFocus = true"
+                    @blur="inFocus = false"
+                    @keydown.enter.prevent="focusNext"
+                    @mousedown="checkClick(rangeValue)"
+                    ref="element"
+                >
+            </div>
 
-                <div class="fb-switcher__field-wrap" :data-awes="$options.name + '.' + name">
-                    <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="1"
-                        :value="rangeValue"
-                        v-on="{ change: formId ? formValueHandler : vModelHandler }"
-                        v-bind="$attrs"
-                        class="fb-switcher__field"
-                        :class="{'is-focusable': isFocusable, 'in-focus': inFocus}"
-                        :disabled="isDisabled"
-                        @focus="inFocus = true"
-                        @blur="inFocus = false"
-                        @keydown.enter.prevent="focusNext"
-                        @mousedown="checkClick(rangeValue)"
-                        ref="element"
-                    >
-                </div>
+            <span class="fb-switcher__label" @click="toggleValue(rangeValue)">{{ label }}</span>
 
-                <span class="fb-switcher__label" @click="toggleValue">{{ label }}</span>
+        </fb-error-wrap>
 
-            </fb-error-wrap>
-
-        </div>
     </div>
 </template>
 

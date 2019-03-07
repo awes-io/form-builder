@@ -1,29 +1,27 @@
 <template>
-    <div class="grid__cell" :class="[cellClass]" >
-        <div :class="['fb-slug', { 'fb-slug_disabled': isDisabled, 'fb-slug_active': isActive, 'fb-slug_error': hasError, 'animated shake': shake}]">
-            <fb-error-wrap :open="showTooltip" :error="error" @clickTooltip="clickTooltip">
-                <div class="fb-slug__group-wrap">
-                    <span class="fb-slug__group-field">
-                        <label class="fb-slug__label" :for="'#' + inputId">{{ label }}</label>
-                        <input v-bind="$attrs"
-                            :id="inputId"
-                            :class="['fb-slug__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
-                            :data-awes="$options.name + '.' + name"
-                            :maxlength="maxlength"
-                            type="text"
-                            :disabled="isDisabled"
-                            :value="formId ? formValue : removeDomain(value)"
-                            v-on="{ input: formId ? formValueHandler : vModelHandler }"
-                            @input="toggleWatcher"
-                            @focus="inFocus = true"
-                            @blur="inFocus = false"
-                            @keydown.enter.prevent="focusNext"
-                            ref="element">
-                    </span>
-                    <span class="fb-slug__group-label">{{ dotDomain }}</span>
-                </div>
-            </fb-error-wrap>
-        </div>
+    <div :class="['fb-slug', { 'fb-slug_disabled': isDisabled, 'fb-slug_active': isActive, 'fb-slug_error': hasError, 'animated shake': shake}]">
+        <fb-error-wrap :open="showTooltip" :error="error" @clickTooltip="clickTooltip">
+            <div class="fb-slug__group-wrap">
+                <span class="fb-slug__group-field">
+                    <label class="fb-slug__label" :for="'#' + inputId">{{ label }}</label>
+                    <input v-bind="$attrs"
+                        :id="inputId"
+                        :class="['fb-slug__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
+                        :data-awes="$options.name + '.' + name"
+                        :maxlength="maxlength"
+                        type="text"
+                        :disabled="isDisabled"
+                        :value="formId ? formValue : removeDomain(value)"
+                        v-on="{ input: formId ? formValueHandler : vModelHandler }"
+                        @input="toggleWatcher"
+                        @focus="inFocus = true"
+                        @blur="inFocus = false"
+                        @keydown.enter.prevent="focusNext"
+                        ref="element">
+                </span>
+                <span class="fb-slug__group-label">{{ dotDomain }}</span>
+            </div>
+        </fb-error-wrap>
     </div>
 </template>
 

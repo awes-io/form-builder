@@ -7,13 +7,13 @@ const awesPlugin = {
 
     modules: {
         'vue': {
-            src: 'https://unpkg.com/vue@2.5.21/dist/vue.min.js',
+            src: 'https://unpkg.com/vue/dist/vue.min.js',
             cb() {
                 Vue.use(plugin)
             }
         },
         'vuex': {
-            src: 'https://unpkg.com/vuex@2.5.0/dist/vuex.min.js',
+            src: 'https://unpkg.com/vuex/dist/vuex.min.js',
             deps: ['vue'],
             cb() {
                 AWES._store = AWES._store || new Vuex.Store(storeShared)
@@ -21,12 +21,12 @@ const awesPlugin = {
             }
         },
         'vue-shortkey': {
-            src: 'https://unpkg.com/vue-shortkey@3',
+            src: 'https://unpkg.com/vue-shortkey/dist/index.js',
             deps: ['vue'],
             cb() { Vue.use(VueShortkey) }
         },
         'v-tooltip': {
-            src: 'https://unpkg.com/v-tooltip@2.0.0-rc.33/dist/v-tooltip.min.js',
+            src: 'https://unpkg.com/v-tooltip/dist/v-tooltip.min.js',
             deps: ['vue'],
             cb() {
                 VTooltip.default.options.popover = Object.assign(VTooltip.default.options.popover, {
@@ -50,7 +50,7 @@ const awesPlugin = {
         }
     },
 
-    install() {
+    install(AWES) {
         AWES.lang = lang
     }
 }

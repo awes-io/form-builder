@@ -45,7 +45,6 @@ Using this component, you can create a group of radio buttons. It can be located
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
 | **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
-| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
 | **items**           | `Array`            | `undefined`         | [Array of radio buttons](#fbrg-items)             |
 | **box**             | `Boolean`          | `false`             | It adds classes for styling with a frame          |

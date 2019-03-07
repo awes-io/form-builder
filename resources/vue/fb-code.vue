@@ -45,12 +45,7 @@ export default {
         length: {
             type: Number,
             default: 6
-        },
-
-        // autoSubmit: {
-        //     type: Boolean,
-        //     default: true
-        // }
+        }
     },
 
 

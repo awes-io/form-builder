@@ -1,9 +1,7 @@
 <template>
-  <div class="grid__cell" :class="[cellClass]" >
+<div :class="['fb-input', { 'fb-input_disabled': isDisabled, 'fb-input_active': isActive || autoFilled, 'fb-input_error': hasError, 'animated shake': shake }]">
 
-    <div :class="['fb-input', { 'fb-input_disabled': isDisabled, 'fb-input_active': isActive || autoFilled, 'fb-input_error': hasError, 'animated shake': shake }]">
-
-      <fb-error-wrap
+    <fb-error-wrap
         :open="showTooltip"
         :error="error"
         @clickTooltip="clickTooltip">
@@ -37,9 +35,8 @@
             <i :class="['icon', inputType === 'password' ? 'icon-eye' : 'icon-eye2']"></i>
         </button>
 
-      </fb-error-wrap>
-    </div>
-  </div>
+    </fb-error-wrap>
+</div>
 </template>
 
 <script>

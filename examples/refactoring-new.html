@@ -14,13 +14,13 @@
     </script>
 
     <script src="/js/main.js"></script>
-    <link rel="stylesheet" href="/css/main.css">
-    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/base-js/v1.x.x/js/main.js"></script>
+    <link rel="stylesheet" href="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/indigo-layout/v1.x.x/css/main.css">
+    <!-- <link rel="stylesheet" href="/css/main.css"> -->
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/base-js/v1.0.7/js/main.js"></script>
 </head>
 
 <body>
-    <div id="awes-app">
-        <button @click="$root.$emit('forms:reset', 'manager')">RESET</button>
+    <div id="awes-app" class="mainwrapper" style="padding: 20px">
         <form-builder disabled-dialog url="//httpbin.org/post" name="manager" :default="{
             active: 1,
             email:'camylle57@example.com',
