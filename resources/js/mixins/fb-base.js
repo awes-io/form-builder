@@ -11,9 +11,7 @@ export default {
         disabled: {
             type: Boolean,
             default: false
-        },
-
-        cell: [String, Number]
+        }
     },
 
 
@@ -56,10 +54,6 @@ export default {
             return this.multiblock ?
                 AWES._store.getters['forms/isMultiblockDisabled'](this.formId, this.multiblock) :
                 false
-        },
-
-        cellClass() {
-            return this.cell ? 'grid__cell_' + this.cell : '';
         }
     }
 }

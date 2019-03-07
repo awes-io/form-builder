@@ -1,40 +1,37 @@
 <template>
-    <div class="grid__cell" :class="[cellClass]" >
+    <div :class="['fb-slider', { 'fb-slider_disabled': isDisabled, 'fb-slider_error': hasError, 'animated shake': shake }]"> <!-- 'fb-slider_active': isActive -->
 
-        <div :class="['fb-slider', { 'fb-slider_disabled': isDisabled, 'fb-slider_error': hasError, 'animated shake': shake }]"> <!-- 'fb-slider_active': isActive -->
-
-            <fb-error-wrap
-                :open="showTooltip"
-                :error="error"
-                @clickTooltip="clickTooltip"
-            >
-                <div class="fb-slider__wrap">
-                    <div class="fb-slider__wrap-left">
-                        <label class="fb-slider__label" :for="'#' + inputId">{{ label }}</label>
-                        <span class="fb-slider__value">{{ percent }} %</span>
-                    </div>
-                    <div class="fb-slider__wrap-right">
-                        <input
-                            v-bind="$attrs"
-                            :id="inputId"
-                            :class="['fb-slider__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }]"
-                            :style="'--percent: ' + percent + '%'"
-                            :data-awes="$options.name + '.' + name"
-                            type="range"
-                            :disabled="isDisabled"
-                            :value="formId ? formValue : value"
-                            v-on="{
-                                input: formId ? formValueHandler : vModelHandler,
-                            }"
-                            @focus="inFocus = true"
-                            @blur="inFocus = false"
-                            @keydown.enter.prevent="focusNext"
-                            ref="element"
-                        >
-                    </div>
+        <fb-error-wrap
+            :open="showTooltip"
+            :error="error"
+            @clickTooltip="clickTooltip"
+        >
+            <div class="fb-slider__wrap">
+                <div class="fb-slider__wrap-left">
+                    <label class="fb-slider__label" :for="'#' + inputId">{{ label }}</label>
+                    <span class="fb-slider__value">{{ percent }} %</span>
                 </div>
-            </fb-error-wrap>
-        </div>
+                <div class="fb-slider__wrap-right">
+                    <input
+                        v-bind="$attrs"
+                        :id="inputId"
+                        :class="['fb-slider__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }]"
+                        :style="'--percent: ' + percent + '%'"
+                        :data-awes="$options.name + '.' + name"
+                        type="range"
+                        :disabled="isDisabled"
+                        :value="formId ? formValue : value"
+                        v-on="{
+                            input: formId ? formValueHandler : vModelHandler,
+                        }"
+                        @focus="inFocus = true"
+                        @blur="inFocus = false"
+                        @keydown.enter.prevent="focusNext"
+                        ref="element"
+                    >
+                </div>
+            </div>
+        </fb-error-wrap>
     </div>
 </template>
 

@@ -1,33 +1,29 @@
 <template>
-    <div class="grid__wrap">
-        <div class="fb-multiblock" :class="[{'fb-multiblock_disabled' : this.isDisabled}]">
-            <div
-                :class="['grid__wrap', {'fb-multiblock_has-close' : hasClose}]"
-                v-for="id in blocks"
-                :key="id"
+    <div class="fb-multiblock" :class="[{'fb-multiblock_disabled' : this.isDisabled}]">
+        <div
+            :class="['fb-multiblock__block', {'fb-multiblock_has-close' : hasClose}]"
+            v-for="id in blocks"
+            :key="id"
+        >
+
+            <slot :id="id"></slot>
+
+            <button
+                v-if="hasClose"
+                aria-label="delete"
+                class="fb-multiblock__clear"
+                @click.prevent="removeField(id)"
             >
-
-                <slot :id="id"></slot>
-
-                <button
-                    v-if="hasClose"
-                    aria-label="delete"
-                    class="fb-multiblock__clear"
-                    @click.prevent="removeField(id)"
-                >
-                    <i class="icon icon-cross"></i>
-                </button>
-            </div>
-
-            <div class="grid__wrap">
-                <button
-                    class="fb-multiblock__add"
-                    @click.prevent="addField"
-                >
-                    {{ label || $lang.FORMS_MULTIBLOCK_ADD }}
-                </button>
-            </div>
+                <i class="icon icon-cross"></i>
+            </button>
         </div>
+
+        <button
+            class="fb-multiblock__add"
+            @click.prevent="addField"
+        >
+            {{ label || $lang.FORMS_MULTIBLOCK_ADD }}
+        </button>
     </div>
 </template>
 

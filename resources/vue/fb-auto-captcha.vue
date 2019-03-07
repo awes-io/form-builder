@@ -1,8 +1,5 @@
 <template>
-    <div
-        v-if="isShow && !reset"
-        :class="['grid__cell', cellClass]"
-    >
+    <div v-if="isShow && !reset">
 
         <fb-error-wrap
             :open="showTooltip"

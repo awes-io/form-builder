@@ -26,7 +26,6 @@ The component can be located within the &lt;form-builder&gt; component, then it 
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
 | **name(*)**         | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
-| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
 | **min**             | `Number`           | `0`                 | Minimum value                                     |
 | **max**             | `Number`           | `100`               | Maximum value                                     |
