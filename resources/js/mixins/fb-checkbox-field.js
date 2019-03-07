@@ -7,11 +7,6 @@ export default {
 
     props: {
 
-        padding: {
-            type: Boolean,
-            default: true
-        },
-
         value: {
             type: [Boolean, Number, Array],
             default: 0
@@ -36,7 +31,7 @@ export default {
     computed: {
 
         isActive() {
-            return !!(this.inFocus || (this.formId ? this.formValue : this.vModelChecked))
+            return !!(this.formId ? this.formValue : this.vModelChecked)
         },
 
         vModelArray() {

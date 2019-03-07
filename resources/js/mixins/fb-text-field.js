@@ -22,7 +22,7 @@ export default {
     computed: {
 
         isActive() {
-            return !!(this.inFocus || this.value);
+            return !!(this.inFocus || (this.value || this.formValue));
         },
     },
 

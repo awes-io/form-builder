@@ -27,9 +27,6 @@
         margin-bottom: 10px;
         font-size: 25px;
       }
-      .grid__cell {
-        margin-bottom: 10px;
-      }
 
       .input__label {
         margin-bottom: 5px;
@@ -47,10 +44,10 @@
 
           <div class="demo-title">Input group</div>
           <fb-group>
-              <fb-input name="input" label="label" cell="2"></fb-input>
-              <fb-input name="input" type="password" label="password" cell="2"></fb-input>
-              <fb-input name="input" label="label" cell="2"></fb-input>
-              <fb-input name="input" label="label" cell="2"></fb-input>
+              <fb-input name="input" label="label"></fb-input>
+              <fb-input name="input" type="password" label="password"></fb-input>
+              <fb-input name="input" label="label"></fb-input>
+              <fb-input name="input" label="label"></fb-input>
           </fb-group>
 
 
@@ -83,9 +80,8 @@
           <fb-textarea name="textarea" label="textarea"></fb-textarea>
 
           <div  class="demo-title">Code example</div>
-          <div class="grid__cell">
-            <fb-code name="code"></fb-code>
-          </div>
+
+          <fb-code name="code"></fb-code>
 
           <div class="grid__title">Company slug example</div>
           <fb-company-slug name="slug" input="company"></fb-company-slug>

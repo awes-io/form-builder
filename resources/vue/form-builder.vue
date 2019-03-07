@@ -7,9 +7,7 @@
         @submit.prevent="send"
     >
 
-        <div class="grid grid_forms">
-            <slot :fields="fields"></slot>
-        </div>
+        <slot :fields="fields"></slot>
 
         <div v-if="! autoSubmit"
             :class="modal ? 'line-btns' : null">

@@ -43,8 +43,6 @@ It can be located within the &lt;form-builder&gt; component, then it looks for t
 | **value**           | `Boolean, Number, Array` | `0`           | Used internally for Vue `v-model` directive       |
 | **default-value**   | `String`           | value of label prop | An HTML `value` attribute of checkbox (for multiple chechboxes, used in `v-model`) |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component |
-| **cell**            | `String`, `Number` | `undefined`         | Number of columns in the row. It can be 2 or 3    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
-| **padding**         | `String`           | `undefined`         | It adds the `.grid__cell_padding` class (for the additional left padding) |
 | **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
 | **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |

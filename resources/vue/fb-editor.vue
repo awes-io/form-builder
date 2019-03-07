@@ -1,29 +1,27 @@
 <template>
-    <div class="grid__cell" :class="cellClass">
-        <div class="fb-editor" :class="[{'fb-editor_disabled': isDisabled}]">
-            <div class="fb-editor__modes">
-                <button
-                    :class="['fb-editor__modes-button', {'is-active': mode === 'visual'}]"
-                    type="button"
-                    @click="mode = 'visual'"
-                >
-                    {{ $lang.FORMS_EDITOR_VISUAL }}
-                </button>
-                <button
-                    :class="['fb-editor__modes-button', {'is-active': mode === 'code'}]"
-                    type="button"
-                    @click="mode = 'code'"
-                >
-                    {{ $lang.FORMS_EDITOR_CODE }}
-                </button>
+    <div class="fb-editor" :class="[{'fb-editor_disabled': isDisabled}]">
+        <div class="fb-editor__modes">
+            <button
+                :class="['fb-editor__modes-button', {'is-active': mode === 'visual'}]"
+                type="button"
+                @click="mode = 'visual'"
+            >
+                {{ $lang.FORMS_EDITOR_VISUAL }}
+            </button>
+            <button
+                :class="['fb-editor__modes-button', {'is-active': mode === 'code'}]"
+                type="button"
+                @click="mode = 'code'"
+            >
+                {{ $lang.FORMS_EDITOR_CODE }}
+            </button>
+        </div>
+        <div class="fb-editor__tabs">
+            <div class="fb-editor__tab" :key="'visual'" v-show="mode === 'visual'">
+                <textarea class="fb-editor__tiny" :id="editorId" :disabled="isDisabled">{{ formValue }}</textarea>
             </div>
-            <div class="fb-editor__tabs">
-                <div class="fb-editor__tab" :key="'visual'" v-show="mode === 'visual'">
-                    <textarea class="fb-editor__tiny" :id="editorId" :disabled="isDisabled">{{ formValue }}</textarea>
-                </div>
-                <div class="fb-editor__tab" :key="'code'" v-show="mode === 'code'" >
-                    <textarea class="fb-editor__codemirror" :id="codeEditorId" ref="code" :disabled="isDisabled">{{ formValue }}</textarea>
-                </div>
+            <div class="fb-editor__tab" :key="'code'" v-show="mode === 'code'" >
+                <textarea class="fb-editor__codemirror" :id="codeEditorId" ref="code" :disabled="isDisabled">{{ formValue }}</textarea>
             </div>
         </div>
     </div>

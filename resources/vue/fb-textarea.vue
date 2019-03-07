@@ -1,6 +1,4 @@
 <template>
-<div class="grid__cell" :class="[cellClass]" >
-
     <div class="fb-textarea" :class="{ 'fb-textarea_disabled': isDisabled, 'fb-textarea_active': isActive, 'fb-textarea_error': hasError, 'animated shake': shake}">
 
         <fb-error-wrap
@@ -25,7 +23,6 @@
 
         </fb-error-wrap>
     </div>
-</div>
 </template>
 
 <script>

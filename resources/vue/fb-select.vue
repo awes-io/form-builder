@@ -1,38 +1,36 @@
 <template>
-    <div class="grid__cell" :class="[cellClass]">
-        <div class="fb-select" :class="[{ 'fb-select_active': isActive }, { 'fb-select_opened': isOpened }, { 'fb-select_disabled': disabled }]">
+    <div class="fb-select" :class="[{ 'fb-select_active': isActive }, { 'fb-select_opened': isOpened }, { 'fb-select_disabled': disabled }]">
 
-            <fb-error-wrap
-                :open="showTooltip"
-                :error="error"
-                @clickTooltip="clickTooltip"
+        <fb-error-wrap
+            :open="showTooltip"
+            :error="error"
+            @clickTooltip="clickTooltip"
+        >
+            <span class="fb-select__label">{{ label || $lang.FORMS_SELECT_LABEL }}</span>
+            <multiselect
+                :show-labels="false"
+                :multiple="multiple"
+                :hide-selected="multiple"
+                :placeholder="placeholderText || defaultPlaceholder"
+                :internal-search="isAjax ? false : true"
+                :loading="isLoading"
+                :value="formId ? convertValue(formValue) : value"
+                :options="usedOptions"
+                label="name"
+                track-by="value"
+                :disabled="isDisabled"
+                class="fb-select__field"
+                @open="isOpened = true"
+                @close="isOpened = false"
+                v-on="{
+                    'search-change': isAjax ? ajaxSearch : false,
+                    'input': formId ? formValueHandler : vModelHandler
+                }"
+                ref="select"
             >
-                <span class="fb-select__label">{{ label || $lang.FORMS_SELECT_LABEL }}</span>
-                <multiselect
-                    :show-labels="false"
-                    :multiple="multiple"
-                    :hide-selected="multiple"
-                    :placeholder="placeholderText || defaultPlaceholder"
-                    :internal-search="isAjax ? false : true"
-                    :loading="isLoading"
-                    :value="formId ? convertValue(formValue) : value"
-                    :options="usedOptions"
-                    label="name"
-                    track-by="value"
-                    :disabled="isDisabled"
-                    class="fb-select__field"
-                    @open="isOpened = true"
-                    @close="isOpened = false"
-                    v-on="{
-                        'search-change': isAjax ? ajaxSearch : false,
-                        'input': formId ? formValueHandler : vModelHandler
-                    }"
-                    ref="select"
-                >
-                    <template slot="noOptions">{{ $lang.FORMS_SELECT_EMPTY }}</template>
-                </multiselect>
-            </fb-error-wrap>
-        </div>
+                <template slot="noOptions">{{ $lang.FORMS_SELECT_EMPTY }}</template>
+            </multiselect>
+        </fb-error-wrap>
     </div>
 </template>
 

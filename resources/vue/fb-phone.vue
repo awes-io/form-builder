@@ -1,24 +1,22 @@
 <template>
-    <div class="grid__cell" :class="[cellClass]" >
-        <div :class="['fb-phone', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': isActive, 'fb-phone_error': hasError, }]">
+    <div :class="['fb-phone', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': isActive, 'fb-phone_error': hasError, }]">
 
-            <fb-error-wrap
-                :open="showTooltip"
-                :error="error"
-                @clickTooltip="clickTooltip"
-            >
-                <span class="fb-phone__label">{{ label }}</span>
-                <vue-tel-input
-                    :value="formId ? formValue : value"
-                    v-on="{ input: formId ? formValueHandler : vModelHandler }"
-                    :disabled="isDisabled"
-                    @onBlur="inFocus = false"
-                    @onInput="checkFocus"
-                    ref="tel"
-                ></vue-tel-input>
+        <fb-error-wrap
+            :open="showTooltip"
+            :error="error"
+            @clickTooltip="clickTooltip"
+        >
+            <span class="fb-phone__label">{{ label }}</span>
+            <vue-tel-input
+                :value="formId ? formValue : value"
+                v-on="{ input: formId ? formValueHandler : vModelHandler }"
+                :disabled="isDisabled"
+                @onBlur="inFocus = false"
+                @onInput="checkFocus"
+                ref="tel"
+            ></vue-tel-input>
 
-            </fb-error-wrap>
-        </div>
+        </fb-error-wrap>
     </div>
 </template>
 
@@ -66,7 +64,7 @@ export default {
     computed: {
 
         isActive() {
-            return !!(this.inFocus || this.value);
+            return !!(this.inFocus || (this.value || this.formValue));
         }
     },
 
