@@ -4,10 +4,26 @@ This slider component consists of a horizontal slider and a handle that can be m
 
 The component can be located within the &lt;form-builder&gt; component, then it requires `name` property, or it can be used with `v-model` Vue directive. Below, you will see this component in action.
 
-![fb-slider](https://storage.googleapis.com/static.awes.io/docs/fb-slider.gif)
+![fb-slider](https://static.awes.io/docs/fb-slider.gif)
 
+## Components
+* [General information](./form-builder.md)
+* [Auto Captcha](./auto-captcha.md)
+* [Checkbox](./checkbox.md)
+* [Company Slug](./company-slug.md)
+* [Editor](./editor.md)
+* [Input](./input.md)
+* [Multi Block](./multi-block.md)
+* [Phone](./phone.md)
+* [Radio Group](./radio-group.md)
+* [Select](./select.md)
+* **Slider**
+* [Switcher](./switcher.md)
+* [Textarea](./textarea.md)
+* [Uploader](./uploader.md)
+* [Validation Code](./code.md)
 
-## Example of using the component
+## Example
 
 ```html
 <form-builder url="/api-url">

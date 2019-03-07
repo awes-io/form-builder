@@ -4,9 +4,26 @@ This component is intended for uploading files. It can be located within the &lt
 
 It uploads files according to the specified `url` property and sends paths to the uploaded files when submitting a form. Below, you can see the process of uploading files by using the &lt;fb-uploader&gt; component:
 
-![fb-uploader](https://storage.googleapis.com/static.awes.io/docs/fb-uploader.gif)
+![fb-uploader](https://static.awes.io/docs/fb-uploader.gif)
 
-## Example of using the component
+## Components
+* [General information](./form-builder.md)
+* [Auto Captcha](./auto-captcha.md)
+* [Checkbox](./checkbox.md)
+* [Company Slug](./company-slug.md)
+* [Editor](./editor.md)
+* [Input](./input.md)
+* [Multi Block](./multi-block.md)
+* [Phone](./phone.md)
+* [Radio Group](./radio-group.md)
+* [Select](./select.md)
+* [Slider](./slider.md)
+* [Switcher](./switcher.md)
+* [Textarea](./textarea.md)
+* **Uploader**
+* [Validation Code](./code.md)
+
+## Example
 
 ```html
 <form-builder url="/form-url">

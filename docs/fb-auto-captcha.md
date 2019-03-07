@@ -4,10 +4,26 @@ The Recaptcha component. It can be located only within the &lt;form-builder&gt; 
 
 By default, the field is hidden if the `show`property is not passed. If the server response contains an error for the field with component identifier, the field will be displayed (that is, the recaptcha will appear). In the  visual presentation below, you can watch this component in action.
 
-![fb-auto-catptcha](https://storage.googleapis.com/static.awes.io/docs/fb-auto-captcha.gif)
+![fb-auto-catptcha](https://static.awes.io/docs/fb-auto-captcha.gif)
 
+## Components
+* [General information](./form-builder.md)
+* **Auto Captcha**
+* [Checkbox](./checkbox.md)
+* [Company Slug](./company-slug.md)
+* [Editor](./editor.md)
+* [Input](./input.md)
+* [Multi Block](./multi-block.md)
+* [Phone](./phone.md)
+* [Radio Group](./radio-group.md)
+* [Select](./select.md)
+* [Slider](./slider.md)
+* [Switcher](./switcher.md)
+* [Textarea](./textarea.md)
+* [Uploader](./uploader.md)
+* [Validation Code](./code.md)
 
-## Example of using the component
+## Example
 
 ```html
 <form-builder url="/api-url">

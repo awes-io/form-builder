@@ -7,8 +7,24 @@ It can be located within the &lt;form-builder&gt; component, or can be used with
 
 This component visually looks like:
 
-![fb-company-slug](https://storage.googleapis.com/static.awes.io/docs/fb-company-slug.gif)
+![fb-company-slug](https://static.awes.io/docs/fb-company-slug.gif)
 
+## Components
+* [General information](./form-builder.md)
+* [Auto Captcha](./auto-captcha.md)
+* [Checkbox](./checkbox.md)
+* **Company Slug**
+* [Editor](./editor.md)
+* [Input](./input.md)
+* [Multi Block](./multi-block.md)
+* [Phone](./phone.md)
+* [Radio Group](./radio-group.md)
+* [Select](./select.md)
+* [Slider](./slider.md)
+* [Switcher](./switcher.md)
+* [Textarea](./textarea.md)
+* [Uploader](./uploader.md)
+* [Validation Code](./code.md)
 
 ## <a name="fbcs-example"></a> Example of using the component
 
