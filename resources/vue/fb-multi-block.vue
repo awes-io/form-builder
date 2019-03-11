@@ -47,26 +47,16 @@ export default {
 
     provide() {
         return {
-            multiblock: this.realName
-        }
-    },
-
-
-    data() {
-        return {
-            blocks: []
+            multiblock: this.realName,
+            nextIndex: 0
         }
     },
 
 
     computed: {
 
-        groups() {
-            return AWES._store.getters['forms/multiblockGroupIds'](this.formId, this.name) || [0]
-        },
-
-        nextIndex() {
-            return Math.max.apply(null, this.groups) + 1
+        blocks() {
+            return AWES._store.getters['forms/multiblockIds'](this.formId, this.name)
         },
 
         hasClose() {
@@ -85,25 +75,12 @@ export default {
 
     watch: {
 
-        disabled: {
-            handler: function( value ) {
-                AWES._store.commit('forms/toggleMultiblockState', {
-                    formName: this.formId,
-                    multiblockName: this.realName,
-                    status: value
-                })
-            },
-            immediate: true
-        },
-
-        groups: {
-            handler(val) {
-                let equal = compareFlatObjects(this.blocks, val)
-                if ( ! equal ) {
-                    this.blocks = val.slice()
-                }
-            },
-            immediate: true
+        disabled( value ) {
+            AWES._store.commit('forms/toggleMultiblockState', {
+                formName: this.formId,
+                multiblockName: this.realName,
+                status: value
+            })
         }
     },
 
@@ -112,16 +89,17 @@ export default {
 
         addField() {
             if ( this.isDisabled ) return
-            this.blocks.push( this.nextIndex )
+            AWES._store.commit('forms/addMultiblockId', {
+                formName: this.formId,
+                multiblockName: this.name,
+                id: ++this.nextIndex
+            })
             this.updateTooltips()
         },
 
         removeField( id ) {
             if ( this.isDisabled ) return
-            this.blocks.splice(this.blocks.findIndex(i => i === id), 1)
-
-            // clean up all related data
-            AWES._store.commit('forms/deleteMultiblockBlock', {
+            AWES._store.commit('forms/deleteMultiblockId', {
                 formName: this.formId,
                 multiblockName: this.name,
                 id
@@ -134,7 +112,32 @@ export default {
             this.$nextTick( () => {
                 triggerEvent('scroll', window)
             })
+        },
+
+        initMultiblock() {
+            AWES._store.commit('forms/createMutiblock', {
+                formName: this.formId,
+                multiblockName: this.realName,
+                disabled: this.disabled
+            });
+            this.nextIndex = Math.max.apply(null, this.blocks) + 1
+        },
+
+        destroyMultiblock() {
+            AWES._store.commit('forms/deleteMultiblock', {
+                formName: this.formId,
+                multiblockName: this.realName
+            });
         }
+    },
+
+    created() {
+        this.initMultiblock()
+    },
+
+
+    destroyed() {
+        this.destroyMultiblock()
     }
 }
 </script>
