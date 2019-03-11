@@ -1,19 +1,18 @@
 import {
+    _get,
+    _set,
     isEmpty,
     flattenObject,
     restoreFlattenedObject,
     normalizeArrayIndexes,
-    compareFlatObjects,
     normalizePath,
     CAPTCHA_NAME
 } from '../modules/helpers'
 
-const flattenFileds = fields => flattenObject(fields, val => ({ value: val }))
-const restoreFields = fields => restoreFlattenedObject(fields, val => val.value)
-const checkEdited = form => {
-    if ( ! form.watchEdit ) return
-    let equal = compareFlatObjects(form.initialState, form.fields, val => val.value)
-    Vue.set(form, 'isEdited', !equal)
+function checkEdited(form) {
+    if ( ! form.isEdited ) {
+        Vue.set(form, 'isEdited', true)
+    }
 }
 
 export const state = () => ({})
@@ -28,20 +27,23 @@ export const getters = {
         let fields = {}
         const form = getters.form(name)
         if ( form ) {
-            Object.keys(form.fields).forEach(field => fields[field] = form.fields[field].value)
+            fields = form.fields
         }
         return fields
     },
 
-    errorsOrFalse: (state, getters) => name => {
-        let errors = {}
-        const form = getters.form(name)
+    multiblockIds: (state, getters) => (formName, multiblockName) => {
+        let multiblockIds = [0]
+        const form = getters.form(formName)
         if (form) {
-            Object.keys(form.fields).forEach(field => {
-                let error = form.fields[field].error
-                if (error) errors[field] = error
-            })
+            multiblockIds = form.multiblocks[multiblockName].ids
         }
+        return multiblockIds
+    },
+
+    errorsOrFalse: (state, getters) => name => {
+        const form = getters.form(name)
+        let errors = form && form.errors || {}
         return isEmpty(errors) ? false : errors
     },
 
@@ -60,19 +62,14 @@ export const getters = {
         return form && !form.multiblocksDisabled[multiblockName]
     },
 
-    field: (state, getters) => (formName, fieldName) => {
+    fieldValue: (state, getters) => (formName, fieldName) => {
         const form = getters.form(formName)
         return form && form.fields[fieldName]
     },
 
-    fieldValue: (state, getters) => (formName, fieldName) => {
-        const field = getters.field(formName, fieldName)
-        return field && field.value
-    },
-
     fieldError: (state, getters) => (formName, fieldName) => {
-        const field = getters.field(formName, fieldName)
-        return field && field.error
+        const form = getters.form(formName)
+        return form && form.errors[fieldName]
     },
 
     multiblockGroupIds: (state, getters) => (formName, multiblockName) => {
@@ -98,12 +95,12 @@ export const mutations = {
 
     createForm(state, {formName, fields}) {
         Vue.set(state, formName, {
-            initialState: flattenFileds(fields), // no shallow copys
-            fields: flattenFileds(fields),
-            watchEdit: ! isEmpty(fields),
-            multiblocksDisabled: {},
+            initialState: fields,
+            fields: {},
+            errors: {},
+            multiblocks: {},
             isLoading: false,
-            isEdited: isEmpty(fields),
+            isEdited: false,
             firstErrorField: null
         })
     },
@@ -119,74 +116,100 @@ export const mutations = {
     setFormErrors(state, {formName, errors}) {
         const form = state[formName]
         Vue.set(form, 'firstErrorField', Object.keys(errors)[0])
-        for ( let fieldName in errors ) {
-            let _fieldName = normalizePath(fieldName)
-            Vue.set(form.fields[_fieldName], 'error', errors[fieldName])
+        let _errors = {}
+        for (let error in errors) {
+            let _value = errors[error]
+            _errors[normalizePath(error)] = _value
         }
+        Vue.set(form, 'errors', _errors)
     },
 
     createField(state, { formName, fieldName, value }) {
         const form = state[formName]
-        Vue.set(form.fields, fieldName, { value })
-        checkEdited(form)
+        value = _get(form.initialState, fieldName, value)
+        Vue.set(form.fields, fieldName, value)
     },
 
     setFieldValue(state, { formName, fieldName, value }) {
         const form = state[formName]
-        Vue.set(form.fields[fieldName], 'value', value)
+        Vue.set(form.fields, fieldName, value)
         checkEdited(form)
     },
 
     deleteField(state, { formName, fieldName }) {
         const form = state[formName]
         Vue.delete(form.fields, fieldName)
-        checkEdited(form)
+        Vue.delete(form.errors, fieldName)
     },
 
     resetError(state, { formName, fieldName }) {
-        Vue.delete(state[formName].fields[fieldName], 'error')
+        Vue.delete(state[formName].errors, fieldName)
     },
 
     resetFirstErrorField(state, formName) {
         Vue.set(state[formName], 'firstErrorField', null)
     },
 
-    toggleMultiblockState(state, { formName, multiblockName, status }) {
-        Vue.set(state[formName].multiblocksDisabled, multiblockName, status)
+    createMutiblock(state, { formName, multiblockName, disabled }) {
+        const form = state[formName]
+        let ids = Object.keys(_get(form.initialState, multiblockName, [{}])).map(id => Number(id))
+        Vue.set(form.multiblocks, multiblockName, {
+            disabled,
+            ids
+        })
     },
 
-    /**
-     * Cleanup related data if it exists, but not used in multiblock, because of rendering empty spaces
-     */
-    deleteMultiblockBlock: (state, { formName, multiblockName, id }) => {
-        const blockRegExp = new RegExp('^' + multiblockName + `\\[${id}\\]`)
-        Object.keys(state[formName].fields).filter( field => {
-            let found = field.match(blockRegExp)
-            return found && found[0]
-        }).map( fieldName => {
-            Vue.delete(state[formName].fields, fieldName)
-        })
+    deleteMutiblock(state, { formName, multiblockName }) {
+        Vue.delete(state[formName].multiblocks, multiblockName)
+    },
+
+    toggleMultiblockState(state, { formName, multiblockName, status }) {
+        Vue.set(state[formName].multiblocks[multiblockName], 'disabled', status)
+    },
+
+    addMultiblockId(state, { formName, multiblockName, id }) {
+        const form = state[formName]
+        form.multiblocks[multiblockName].ids.push(id)
+        checkEdited(form)
+    },
+
+    deleteMultiblockId(state, { formName, multiblockName, id }) {
+        const form = state[formName]
+        let ids = form.multiblocks[multiblockName].ids
+        let index = ids.findIndex( _id => _id === id )
+        ids.splice(index, 1)
+        checkEdited(form)
     }
 }
 
 export const actions = {
 
     restoreData({ state }, { formName }) {
-        const form = state[formName]
+        try {
+            const form = state[formName]
 
-        // restore data object
-        const data = restoreFields(form.fields)
+            // restore data object
+            const data = restoreFlattenedObject(form.fields)
 
-        // convert data and normalize arrays if multiblocks exist
-        const multiblockNames = Object.keys(form.multiblocksDisabled)
-        if (multiblockNames.length) {
-            normalizeArrayIndexes(data, multiblockNames)
+            // convert data and normalize arrays if multiblocks exist
+            const multiblockNames = Object.keys(form.multiblocks)
+            if (multiblockNames.length) {
+                normalizeArrayIndexes(data, multiblockNames)
+                for (let multiblockName of multiblockNames) {
+                    let ids = Object.keys(_get(data, multiblockName, [{}])).map(id => Number(id))
+                    Vue.set(form.multiblocks[multiblockName], 'ids', ids)
+                }
+            }
+
+            // reset errors and set normalized multiblock indexes
+            Vue.set(form, 'fields', flattenObject(data))
+            Vue.set(form, 'errors', {})
+
+            return data
+        } catch (e) {
+            console.log(e);
+
         }
-
-        // reset errors and set normalized multiblock indexes
-        Vue.set(form, 'fields', flattenFileds(data))
-
-        return data
     },
 
     sendForm({ state, commit, dispatch }, {formName, url, method}) {
@@ -208,9 +231,10 @@ export const actions = {
 
                     if ( res.success ) {
                         // reset initial state
-                        Vue.set(form, 'initialState', flattenFileds(res.data.data))
-                        Vue.set(form, 'fields', flattenFileds(res.data.data))
-                        if ( form.watchEdit ) Vue.set(form, 'isEdited', false)
+                        let data = res.data.data || {}
+                        Vue.set(form, 'initialState', data)
+                        Vue.set(form, 'fields', flattenObject(data))
+                        Vue.set(form, 'isEdited', false)
                     } else if (res.data) {
                         commit('setFormErrors', {formName, errors: res.data})
                     }

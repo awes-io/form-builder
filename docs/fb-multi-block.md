@@ -34,7 +34,7 @@ It can be located only within the &lt;form-builder&gt; component and is visually
         ]
     }"
 >
-    <template slot-scope="form">
+    <template slot-scope="fields">
         <fb-multi-block name="managers">
             <template slot-scope="block">
                 <fb-checkbox name="active" label="Active" :id="block.id"></fb-checkbox>
@@ -42,7 +42,7 @@ It can be located only within the &lt;form-builder&gt; component and is visually
                     name="manager"
                     label="Manager name"
                     :id="block.id"
-                    :disabled="! form.fields.managers[block.id].active"
+                    :disabled="! fields[`managers[${block.id}].active`]"
                 ></fb-input>
             </template>
         </fb-multi-block>
@@ -51,11 +51,11 @@ It can be located only within the &lt;form-builder&gt; component and is visually
 ```
 @vue
 <form-builder url="/api-url" :default="{ managers: [{active: true, manager: 'Manager 1'}, {active: true, manager: 'Manager 2'}, {active: false, manager: 'Manager 3'}] }">
-    <template slot-scope="form">
+    <template slot-scope="fields">
         <fb-multi-block name="managers">
             <template slot-scope="block">
                 <fb-checkbox name="active" label="Active" :id="block.id"></fb-checkbox>
-                <fb-input :disabled="! form.fields[`managers[${block.id}].active`]" name="manager" label="Manager name" :id="block.id"></fb-input>
+                <fb-input :disabled="! fields[`managers[${block.id}].active`]" name="manager" label="Manager name" :id="block.id"></fb-input>
             </template>
         </fb-multi-block>
     </template>
