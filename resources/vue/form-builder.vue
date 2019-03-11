@@ -7,7 +7,7 @@
         @submit.prevent="send"
     >
 
-        <slot :fields="fields"></slot>
+        <slot v-bind="fields"></slot>
 
         <div v-if="! autoSubmit"
             :class="modal ? 'line-btns' : null">

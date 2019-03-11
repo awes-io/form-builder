@@ -30,17 +30,17 @@ This component visually looks like:
 
 ```html
 <form-builder url="/api-url">
-    <template slot-scope="form">
+    <template slot-scope="fields">
         <fb-input name="company" label="Enter company name"></fb-input>
-        <fb-company-slug name="slug" input="form.fields['company']"></fb-company-slug>
+        <fb-company-slug name="slug" input="fields['company']"></fb-company-slug>
     </template>
 </form-builder>
 ```
 @vue
 <form-builder url="/api-url">
-    <template slot-scope="form">
+    <template slot-scope="fields">
         <fb-input name="company" label="Enter company name"></fb-input>
-        <fb-company-slug name="slug" input="form.fields['company']"></fb-company-slug>
+        <fb-company-slug name="slug" input="fields['company']"></fb-company-slug>
     </template>
 </form-builder>
 @endvue
