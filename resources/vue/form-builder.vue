@@ -2,7 +2,7 @@
     <form
         class="form-builder"
         :class="{'modal_form': modal}"
-        :action="url"
+        :action="replacedUrl"
         :method="method"
         @submit.prevent="send"
     >
@@ -47,8 +47,7 @@
 
 <script>
 import {
-    flattenObject,
-    restoreFlattenedObject
+    _get
 } from '../js/modules/helpers'
 
 let _uniqFormId = 0;
@@ -145,6 +144,17 @@ export default {
 
         fields() {
             return AWES._store.getters['forms/fields'](this.name)
+        },
+
+        replacedUrl() {
+            let url = this.url
+            if ( this.form ) {
+                let props = url.match(/(?!{)([\w.\[\]]+)(?=})/g)
+                props && props.length && props.forEach( prop => {
+                    url = url.replace('{' + prop + '}', _get(this.form.initialState, prop, ''))
+                })
+            }
+            return url.replace(/(\/\/+)/g, '/')
         }
     },
 
@@ -166,7 +176,7 @@ export default {
             } else {
                 AWES._store.dispatch('forms/sendForm', {
                     formName: this.name,
-                    url: this.url,
+                    url: this.replacedUrl,
                     method: this.method
                 }).then( res => {
                     this.$emit(res.success ? 'sended' : 'error', res.data)
