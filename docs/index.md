@@ -21,7 +21,7 @@ composer require awes-io/form-builder
 * [Multi block](./fb-multi-block.md)
 * [Phone](./fb-phone.md)
 * [Radio Group](./fb-radio-group.md)
-* [Seledt](./fb-select.md)
+* [Select](./fb-select.md)
 * [Slider](./fb-slider.md)
 * [Switcher](./fb-switcher.md)
 * [Textarea](./fb-textarea.md)

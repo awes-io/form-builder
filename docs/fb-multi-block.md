@@ -15,7 +15,7 @@ It can be located only within the &lt;form-builder&gt; component and is visually
 * **Multi block**
 * [Phone](./fb-phone.md)
 * [Radio Group](./fb-radio-group.md)
-* [Seledt](./fb-select.md)
+* [Select](./fb-select.md)
 * [Slider](./fb-slider.md)
 * [Switcher](./fb-switcher.md)
 * [Textarea](./fb-textarea.md)

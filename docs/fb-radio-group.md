@@ -15,7 +15,7 @@ Using this component, you can create a group of radio buttons. It can be located
 * [Multi block](./fb-multi-block.md)
 * [Phone](./fb-phone.md)
 * **Radio Group**
-* [Seledt](./fb-select.md)
+* [Select](./fb-select.md)
 * [Slider](./fb-slider.md)
 * [Switcher](./fb-switcher.md)
 * [Textarea](./fb-textarea.md)
