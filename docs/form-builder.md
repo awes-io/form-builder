@@ -1,6 +1,6 @@
 # The &lt;form-builder&gt; Component
 
-It is a VueJS component of dynamic forms. It registers the `Vuex` store in the `Vue.prototype.$awesForms` variable. The 
+It is a VueJS component of dynamic forms. It registers the `Vuex` store in the `Vue.prototype.$awesForms` variable. The
 external data which are specified via the `store-data` parameter are extracted from the `AWES._store` general storage. As you can see from the example below, this component allows creating a form with different input fields, checkboxes, and buttons as well as validating it before submitting.
 
 ## Components
@@ -33,7 +33,7 @@ external data which are specified via the `store-data` parameter are extracted f
 | Name                | Type      | Default             | Description                                       |
 |---------------------|:---------:|:-------------------:|---------------------------------------------------|
 | **name**            | `String`  | form-builder-${uid} | Identifier for calling and listening to the events |
-| **url(*)**          | `String`  | `undefined`         | Required field. Address where the form should be sent   |
+| **url(*)**          | `String`  | `undefined`         | Required field. Address where the form should be sent. Acceps a template, for example `/api/update/{records[0].id}`, will search for value in current form default data |
 | **method**          | `String`  | `'post'`            | Data submission method                            |
 | **default**         | `Object`  | `null`              | Object with  data                                 |
 | **store-data**      | `String`  | `undefined`         | Name of the data field in `AWES._store`           |

@@ -173,7 +173,7 @@ export function _get(obj, path, value) {
         let key = path.shift()
         if ( path.length ) {
             current = current[key]
-        } else {
+        } else if ( typeof current[key] !== 'undefined' ) {
             value = current[key]
         }
     }
