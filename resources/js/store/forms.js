@@ -2,7 +2,6 @@ import {
     _get,
     _set,
     isEmpty,
-    flattenObject,
     restoreFlattenedObject,
     normalizeArrayIndexes,
     normalizePath,
@@ -146,6 +145,10 @@ export const mutations = {
         Vue.delete(state[formName].errors, fieldName)
     },
 
+    resetErrors(state, formName) {
+        Vue.set(state[formName], 'errors', {})
+    },
+
     resetFirstErrorField(state, formName) {
         Vue.set(state[formName], 'firstErrorField', null)
     },
@@ -185,31 +188,22 @@ export const mutations = {
 export const actions = {
 
     restoreData({ state }, { formName }) {
-        try {
-            const form = state[formName]
+        const form = state[formName]
 
-            // restore data object
-            const data = restoreFlattenedObject(form.fields)
+        // restore data object
+        const data = restoreFlattenedObject(form.fields)
 
-            // convert data and normalize arrays if multiblocks exist
-            const multiblockNames = Object.keys(form.multiblocks)
-            if (multiblockNames.length) {
-                normalizeArrayIndexes(data, multiblockNames)
-                for (let multiblockName of multiblockNames) {
-                    let ids = Object.keys(_get(data, multiblockName, [{}])).map(id => Number(id))
-                    Vue.set(form.multiblocks[multiblockName], 'ids', ids)
-                }
+        // convert data and normalize arrays if multiblocks exist
+        const multiblockNames = Object.keys(form.multiblocks)
+        if (multiblockNames.length) {
+            normalizeArrayIndexes(data, multiblockNames)
+            for (let multiblockName of multiblockNames) {
+                let ids = Object.keys(_get(data, multiblockName, [{}])).map(id => Number(id))
+                Vue.set(form.multiblocks[multiblockName], 'ids', ids)
             }
-
-            // reset errors and set normalized multiblock indexes
-            Vue.set(form, 'fields', flattenObject(data))
-            Vue.set(form, 'errors', {})
-
-            return data
-        } catch (e) {
-            console.log(e);
-
         }
+
+        return data
     },
 
     sendForm({ state, commit, dispatch }, {formName, url, method}) {
@@ -218,6 +212,8 @@ export const actions = {
 
             let _res
             const form = state[formName]
+
+            commit('resetErrors', formName)
 
             commit('setLoading', {formName, status:true})
 
@@ -233,7 +229,11 @@ export const actions = {
                         // reset initial state
                         let data = res.data.data || {}
                         Vue.set(form, 'initialState', data)
-                        Vue.set(form, 'fields', flattenObject(data))
+                        let _data = {}
+                        for (let field in form.fields) {
+                            _data[field] = _get(data, field)
+                        }
+                        Vue.set(form, 'fields', _data)
                         Vue.set(form, 'isEdited', false)
                     } else if (res.data) {
                         commit('setFormErrors', {formName, errors: res.data})
