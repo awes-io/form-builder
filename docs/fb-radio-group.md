@@ -5,21 +5,21 @@ Using this component, you can create a group of radio buttons. It can be located
 ![fb-radio-group](https://static.awes.io/docs/fb-radio-group.png)
 
 ## Components
-* [General information](./form-builder.md)
-* [Auto Captcha](./auto-captcha.md)
-* [Checkbox](./checkbox.md)
-* [Company Slug](./company-slug.md)
-* [Editor](./editor.md)
-* [Input](./input.md)
-* [Multi Block](./multi-block.md)
-* [Phone](./phone.md)
+* [Form Builder](./form-builder.md)
+* [Auto Captcha](./fb-auto-captcha.md)
+* [Checkbox](./fb-checkbox.md)
+* [Code](./fb-code.md)
+* [Company Slug](./fb-company-slug.md)
+* [Editor](./fb-editor.md)
+* [Input](./fb-input.md)
+* [Multi block](./fb-multi-block.md)
+* [Phone](./fb-phone.md)
 * **Radio Group**
-* [Select](./select.md)
-* [Slider](./slider.md)
-* [Switcher](./switcher.md)
-* [Textarea](./textarea.md)
-* [Uploader](./uploader.md)
-* [Validation Code](./code.md)
+* [Select](./fb-select.md)
+* [Slider](./fb-slider.md)
+* [Switcher](./fb-switcher.md)
+* [Textarea](./fb-textarea.md)
+* [Uploader](./fb-uploader.md)
 
 ## Example
 

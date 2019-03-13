@@ -10,21 +10,21 @@ This component visually looks like:
 ![fb-company-slug](https://static.awes.io/docs/fb-company-slug.gif)
 
 ## Components
-* [General information](./form-builder.md)
-* [Auto Captcha](./auto-captcha.md)
-* [Checkbox](./checkbox.md)
+* [Form Builder](./form-builder.md)
+* [Auto Captcha](./fb-auto-captcha.md)
+* [Checkbox](./fb-checkbox.md)
+* [Code](./fb-code.md)
 * **Company Slug**
-* [Editor](./editor.md)
-* [Input](./input.md)
-* [Multi Block](./multi-block.md)
-* [Phone](./phone.md)
-* [Radio Group](./radio-group.md)
-* [Select](./select.md)
-* [Slider](./slider.md)
-* [Switcher](./switcher.md)
-* [Textarea](./textarea.md)
-* [Uploader](./uploader.md)
-* [Validation Code](./code.md)
+* [Editor](./fb-editor.md)
+* [Input](./fb-input.md)
+* [Multi block](./fb-multi-block.md)
+* [Phone](./fb-phone.md)
+* [Radio Group](./fb-radio-group.md)
+* [Select](./fb-select.md)
+* [Slider](./fb-slider.md)
+* [Switcher](./fb-switcher.md)
+* [Textarea](./fb-textarea.md)
+* [Uploader](./fb-uploader.md)
 
 ## <a name="fbcs-example"></a> Example of using the component
 
