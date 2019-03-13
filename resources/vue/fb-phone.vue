@@ -11,7 +11,7 @@
                 :value="formId ? formValue : value"
                 v-on="{ input: formId ? formValueHandler : vModelHandler }"
                 :disabled="isDisabled"
-                @onBlur="inFocus = false"
+                @onBlur="save(); inFocus = false"
                 @onInput="checkFocus"
                 ref="tel"
             ></vue-tel-input>
@@ -50,6 +50,11 @@ export default {
         value: {
             type: String,
             default: ''
+        },
+
+        debounce: {
+            type: [String, Number],
+            default: 500
         }
     },
 
@@ -124,6 +129,11 @@ export default {
 
         checkFocus() {
             if ( ! this.inFocus ) this.setFocus()
+        },
+
+        save() {
+            clearTimeout(this.__debounce)
+            this.formValue = this.nativeTelInput.value;
         }
     },
 

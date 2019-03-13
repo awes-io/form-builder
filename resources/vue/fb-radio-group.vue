@@ -79,7 +79,7 @@ export default {
         },
 
         checkActive( item ) {
-            return this.getItemValue(item) === (this.formId ? this.formValue : this.value)
+            return this.getItemValue(item) == (this.formId ? this.formValue : this.value)
         },
 
         getItemValue( item ) {

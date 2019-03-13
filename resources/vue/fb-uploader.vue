@@ -16,7 +16,7 @@
             <p class="fb-uploader__message">
                 {{ $lang.FORMS_UPLOAD_DROP }}
                 <span class="fb-uploader__fakebtn">{{ $lang.FORMS_UPLOAD_ADD }}</span>
-                <uploader-btn class="fb-uploader__btn"><span>{{ $lang.FORMS_UPLOAD_ADD }}</span></uploader-btn>
+                <uploader-btn class="fb-uploader__btn" tabindex="1" ref="uploaderBtn"><span>{{ $lang.FORMS_UPLOAD_ADD }}</span></uploader-btn>
             </p>
             <p v-if="format || size">
                 <i class="fb-uploader__formats" v-if="format">
@@ -222,6 +222,20 @@ export default {
             }
             file.cancel()
             delete this.filesProgress[file.uniqueIdentifier]
+        },
+
+        setFocus(state) {
+            this.__retries = this.__retries || 20
+            try {
+                let useMethod = (state !== false) ? 'focus' : 'blur';
+                this.$refs.uploaderBtn.$el[useMethod]()
+                this.__retries = 20
+            } catch(e) {
+                this.__retries -= 1
+                if (this.__retries) {
+                    setTimeout(() => this.setFocus(state), 1000)
+                }
+            }
         }
     }
 }
