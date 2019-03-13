@@ -18,7 +18,7 @@
             :value="formId ? formValue : value"
             v-on="{ input: formId ? formValueHandler : vModelHandler }"
             @focus="inFocus = true"
-            @blur="inFocus = false"
+            @blur="save(); inFocus = false"
             @keydown.enter.prevent="focusNext"
             @animationstart="autoFillHack"
             ref="element"

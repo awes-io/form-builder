@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        const AWES_CONFIG = {
+            key: '680a7d07f89b94e7fc83be657a2daa27'
+        }
+    </script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet"
+        href="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/indigo-layout/v1.x.x/css/main.css">
+    <style>
+        .fb-multiblock {
+            display: block;
+        }
+        .fb-uploader__btn input {
+            visibility: visible !important;
+            overflow: hidden;
+        }
+    </style>
+    <script src="https://storage.awes.io/680a7d07f89b94e7fc83be657a2daa27/awes-io/base-js/v1.0.7/js/main.js"></script>
+</head>
+<body>
+    <div id="awes-app" class="mainwrapper">
+        <form-builder url="http://httpbin.org/post" disabled-dialog>
+            <template slot-scope="fields">
+                <p>All form elements has mod <code>blockname_error</code>, <code>blockname_ok</code>,
+                    <code>blockname_disabled</code></p>
+                <h4>текст</h4>
+                <fb-input name="awdaw12312312" label="Input field" autocomplete="off"></fb-input>
+                <fb-phone name="asd123123asd" label="Phone label"></fb-phone>
+                <fb-input name="awdaw1231222312" label="Label test long label"></fb-input>
+                <fb-company-slug label="Slug default" name="slug221" domain="very very long link awescrm.de"></fb-company-slug>
+                <p>Сайт рыбатекст <a href="#re">consectetur adipisicing elit</a>поможет дизайнеру, верстальщику, вебмастеру
+                    сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору
+                    отточить навык публичных выступлений в домашних условиях. При создании генератора мы использовали небезизвестный
+                    универсальный код речей. Текст генерируется абзацами случайным образом от двух до десяти предложений в абзаце,
+                    что позволяет сделать текст более привлекательным и живым для визуально-слухового восприятия.</p>
+                <h4>Switcher</h4>
+                <fb-switcher label="switcher" name="switcher1"></fb-switcher>
+                <fb-switcher label="switcher" disabled name="switcher2"></fb-switcher>
+                <fb-switcher class="fb-switcher_error" label="switcher" name="switcher3"></fb-switcher>
+                <fb-switcher class="fb-switcher_ok" label="switcher" name="switcher4"></fb-switcher><br><br>
+                <h4>Select</h4><br><br>
+                <h4>Phone input</h4>
+                <fb-phone name="phone1" disabled label="Phone label"></fb-phone>
+                <fb-phone name="phone2" label="Phone label"></fb-phone>
+                <fb-phone class="fb-phone_ok" name="phone3" label="Phone ok"></fb-phone>
+                <fb-phone class="fb-phone_error" name="phone4" label="Phone error"></fb-phone><br><br>
+                <h4>MCE Editor</h4>
+                <fb-editor name="editor1"></fb-editor>
+                <fb-editor name="editor2" disabled></fb-editor>
+                <fb-editor class="fb-editor_ok" name="editor3"></fb-editor>
+                <fb-editor class="fb-editor_error" name="editor4"></fb-editor><br><br>
+                <h4>Textarea</h4>
+                <fb-textarea name="ed1" label="Textarea label"></fb-textarea>
+                <fb-textarea name="ed2" label="Textarea disabled" disabled></fb-textarea>
+                <fb-textarea class="fb-textarea_error" name="ed3" label="Textarea error"></fb-textarea>
+                <fb-textarea class="fb-textarea_ok" name="ed4" label="Textarea ok"></fb-textarea><br><br>
+                <h4>Uploader</h4>
+                <fb-uploader name="files1" url="http://httpbin.org/post" format="docx" size="15"></fb-uploader>
+                <fb-uploader name="files2" url="http://httpbin.org/post" format="docx" size="15" disabled></fb-uploader>
+                <fb-uploader class="fb-uploader_ok" name="files3" url="http://httpbin.org/post" format="docx" size="15">
+                </fb-uploader>
+                <fb-uploader class="fb-uploader_error" name="files4" url="http://httpbin.org/post" format="docx" size="15">
+                </fb-uploader><br><br>
+                <h4>Range Slider</h4>
+                <fb-slider name="range1"
+                    label="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugiat iure perspiciatis corporis nesciunt inventore, eius quos maiores sit, ipsa neque quas harum maxime. Sunt a nobis excepturi accusamus assumenda necessitatibus?">
+                </fb-slider>
+                <fb-slider name="range2" label="Disabled" disabled></fb-slider>
+                <fb-slider class="fb-slider_error" name="range3" label="Slider error"></fb-slider>
+                <fb-slider class="fb-slider_ok" name="range4" label="Slider Ok"></fb-slider><br><br>
+                <h4>Input example</h4>
+                <fb-input name="input1"
+                    label="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore id minima facilis voluptate vitae magnam rem beatae corporis, explicabo eveniet molestias quibusdam accusantium voluptatum accusamus eius officiis! Amet, fugiat ad?"
+                    disabled></fb-input>
+                <fb-input name="input2" label="Default label"></fb-input>
+                <fb-input class="fb-input_ok" name="input3" label="Input ok"></fb-input>
+                <fb-input class="fb-input_error" name="input4" label="Input error"></fb-input><br><br>
+                <h4>Checkbox example</h4>
+                <fb-checkbox name="checkbox1" label="default checkbox"></fb-checkbox>
+                <fb-checkbox name="checkbox2" label="disabled checkbox" disabled></fb-checkbox>
+                <fb-checkbox class="fb-checkbox_ok" name="checkbox3" label="checkbox ok"></fb-checkbox>
+                <fb-checkbox class="fb-checkbox_error" name="checkbox4" label="checkbox error"></fb-checkbox><br><br>
+                <h4>Code example</h4>
+                <fb-code name="code1"></fb-code>
+                <fb-code disabled name="code2"></fb-code>
+                <fb-code class="fb-keycode_ok" name="code3"></fb-code>
+                <fb-code class="fb-keycode_error" name="code4"></fb-code><br><br>
+                <h4>Company Slug</h4>
+                <fb-input label="Company name" name="company1" debounce="0"></fb-input>
+                <fb-company-slug label="Slug default" name="slug1" :input="fields['company1']" domain="very very long link awescrm.de">
+                </fb-company-slug>
+                <fb-company-slug label="Slug disabled" disabled name="slug2" :input="fields['company1']" domain="awescrm.de"></fb-company-slug>
+                <fb-company-slug class="fb-slug_ok" label="Slug ok" name="slug3" :input="fields['company1']" domain="local.awescrm.de">
+                </fb-company-slug>
+                <fb-company-slug class="fb-slug_error" label="Slug error" name="slug4" :input="fields['company1']" domain="dev.awescrm.de">
+                </fb-company-slug><br><br>
+                <h4>Radio Group</h4>
+                <fb-radio-group name="radio1" label="radio"
+                    :items="[{name:'one', value: 1}, {name:'two', value: 2}, {name:'three', value: 3}]"></fb-radio-group>
+                <fb-radio-group name="radio2" disabled label="radio disabled"
+                    :items="[{name:'one', value: 1}, {name:'two', value: 2}, {name:'three', value: 3}]"></fb-radio-group>
+                <fb-radio-group class="fc-radio_ok" name="radio1" label="radio ok"
+                    :items="[{name:'one', value: 1}, {name:'two', value: 2}, {name:'three', value: 3}]"></fb-radio-group>
+                <fb-radio-group class="fc-radio_error" name="radio2" label="radio error"
+                    :items="[{name:'one', value: 1}, {name:'two', value: 2}, {name:'three', value: 3}]"></fb-radio-group><br><br>
+                <h4>Multiblock</h4>
+                <fb-multi-block name="multi1"><template slot-scope="mb">
+                        <fb-input name="input22" label="multi-block" :id="mb.id"></fb-input>
+                        <fb-input name="input33" label="multi-block" :id="mb.id"></fb-input>
+                        <fb-textarea name="text11" label="multi block" :id="mb.id"></fb-textarea>
+                    </template></fb-multi-block><br><br>
+                <h4>Multiblock disabled</h4>
+                <fb-multi-block name="multi2" disabled><template slot-scope="mb">
+                        <fb-input name="input" label="multi-block" :id="mb.id"></fb-input>
+                    </template></fb-multi-block>
+            </template>
+        </form-builder>
+    </div>
+</body>
+</html>

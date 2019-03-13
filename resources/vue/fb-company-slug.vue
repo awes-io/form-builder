@@ -15,7 +15,7 @@
                         v-on="{ input: formId ? formValueHandler : vModelHandler }"
                         @input="toggleWatcher"
                         @focus="inFocus = true"
-                        @blur="inFocus = false"
+                        @blur="save(); inFocus = false"
                         @keydown.enter.prevent="focusNext"
                         ref="element">
                 </span>
