@@ -91,11 +91,13 @@ export default {
     computed: {
 
         computedValue() {
-            return this.formId ? this.selectValue : this.value
+            return this.formId ? this.formValue : this.value
         },
 
         hasValue() {
-            return !! ( this.multiple ? this.computedValue.length : this.computedValue );
+            return !! ( this.multiple ?
+                        this.computedValue && this.computedValue.length :
+                        this.computedValue )
         },
 
         isActive() {
