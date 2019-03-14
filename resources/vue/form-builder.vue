@@ -156,7 +156,7 @@ export default {
                     url = url.replace('{' + prop + '}', _get(this.form.initialState, prop, ''))
                 })
             }
-            return url.replace(/(\/\/+)/g, '/')
+            return url.replace(/([^:]\/)\/+/g, '$1')
         }
     },
 
