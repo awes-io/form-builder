@@ -49,9 +49,11 @@ The component is visualized as follows:
 | **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
-| **selectOptions**   | `Array`            | `[]`                | [Items array](#fbs-items)                         |
+| **selectOptions**   | `Array, String`    | `[]`                | [Items array](#fbs-items). If the value type is `String`, then it's treated like an url for AJAX-select |
 | **multiple**        | `Boolean`          | `true`              | You can select multiple items                     |
 | **placeholder-text**| `String`           | `'Pick a value'`    | Text when no item is selected                     |
+| **debounce**        | `String, Number`   | `1000`              | AJAX-request debounce on user input               |
+| **auto-fetch**      | `Boolean`          | `true`              | Fetch no-templated AJAX-options before user starts typing |
 | **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
 | **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
 
@@ -73,6 +75,20 @@ const items = [
 ```
 
 <form-builder url="/api-url">
-    <fb-radio-group name="equal" label="Equal option" :items="['Option 1', 'Option 2']"></fb-radio-group>
-    <fb-radio-group name="different" label="Different option" :items="[{name: 'Option 1', value:'option_1'}, {name: 'Option 2', value:'option_2'}]"></fb-radio-group>
+    <fb-select name="select" label="Select option" :select-options="[{name: 'Option 1', value:'option_1'}, {name: 'Option 2', value:'option_2'}]"></fb-select>
 </form-builder>
+
+
+## AJAX select
+
+```html
+<form-builder url="/api-url">
+    <fb-select name="select" label="Select option" select-options="/api-url/search?q=%s"></fb-select>
+</form-builder>
+```
+
+The component may get it's options asyncronously via **GET**-request if the `select-options` property is a `String`.
+
+If you need to filter values depending on user input, you may pass a template to `select-options` property, where `%s` will be replaced with **non-escaped** input text.
+
+By default, if the `select-options` is not a template, options will be auto fetched from api url. To disable this behaviour, provide `:auto-fetch="false"`, then the component will wait for user input

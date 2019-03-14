@@ -75,6 +75,16 @@ export default {
             default: true
         },
 
+        debounce: {
+            type: [String, Number],
+            default: AJAX_DEBOUNCE
+        },
+
+        autoFetch: {
+            type: Boolean,
+            default: true
+        },
+
         placeholderText: String
     },
 
@@ -106,6 +116,10 @@ export default {
 
         isAjax() {
             return typeof this.selectOptions === 'string'
+        },
+
+        isTemplateAjax() {
+            return this.isAjax && ~this.selectOptions.indexOf('%s')
         },
 
         defaultPlaceholder() {
@@ -183,13 +197,16 @@ export default {
                         }
                         this.isLoading = false
                     })
-            }, AJAX_DEBOUNCE);
+            }, Number(this.debounce) );
         }
     },
 
 
     mounted() {
         this.$nextTick( this.wrapTabEvents )
+        if ( this.isAjax && ! this.isTemplateAjax && this.autoFetch ) {
+            this.ajaxSearch(true)
+        }
     }
 }
 </script>
