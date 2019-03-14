@@ -71,19 +71,19 @@ export const getters = {
         return form && form.errors[fieldName]
     },
 
-    multiblockGroupIds: (state, getters) => (formName, multiblockName) => {
-        const form = getters.form(formName)
-        const groupRegExp = new RegExp('^' + multiblockName + '\\[(\\d)\\]')
-        const groupIds = []
-        form && Object.keys(form.fields).forEach( fieldName => {
-            let found = fieldName.match(groupRegExp)
-            let id = found && +found[1]
-            if (id !== null && !groupIds.includes(id)) {
-                groupIds.push(id)
-            }
-        })
-        return groupIds
-    },
+    // multiblockGroupIds: (state, getters) => (formName, multiblockName) => {
+    //     const form = getters.form(formName)
+    //     const groupRegExp = new RegExp('^' + multiblockName + '\\[(\\d)\\]')
+    //     const groupIds = []
+    //     form && Object.keys(form.fields).forEach( fieldName => {
+    //         let found = fieldName.match(groupRegExp)
+    //         let id = found && +found[1]
+    //         if (id !== null && !groupIds.includes(id)) {
+    //             groupIds.push(id)
+    //         }
+    //     })
+    //     return groupIds
+    // },
 
     firstErrorField: state => formName => {
         return state[formName] && state[formName].firstErrorField

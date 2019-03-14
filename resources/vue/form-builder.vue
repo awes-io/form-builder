@@ -14,7 +14,7 @@
             <div :class="modal ? 'line-btns__wrap' : 'line-btns'">
 
                 <button
-                    class="btn btn-send waves-effect waves-button"
+                    class="btn btn-send has-wave"
                     :class="{ 'loading-inline': isLoading }"
                     :disabled="!isEdited || isLoading"
                     :data-loading="$lang.FORMS_LOADING"
@@ -24,10 +24,11 @@
                     @shortkey="send"
                 >
                     {{ sendText || $lang.FORMS_SEND }}
-                </button><!-- v-waves.button -->
+                    <span class="wave"></span>
+                </button>
 
                 <button v-if="modal || $listeners.cancel"
-                    class="btn waves-effect waves-button"
+                    class="btn has-wave"
                     :class="{'btn_transparent': $listeners.cancel}"
                     type="button"
                     v-shortkey="['esc']"
@@ -37,7 +38,8 @@
                     }"
                 >
                     {{ cancelText || $lang.FORMS_CANCEL }}
-                </button><!-- v-waves.button -->
+                    <span class="wave"></span>
+                </button>
 
                 <slot name="buttons-after"></slot>
             </div>
@@ -242,7 +244,7 @@ export default {
     created() {
 
         // get default values
-        let fields = this.storeData ? AWES._store[this.storeData] : (this.default || {})
+        let fields = this.storeData ? AWES._store.state[this.storeData] : (this.default || {})
 
         // create storage record
         AWES._store.commit('forms/createForm', {
