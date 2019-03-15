@@ -1,6 +1,4 @@
 import {
-    _get,
-    _set,
     isEmpty,
     restoreFlattenedObject,
     normalizeArrayIndexes,
@@ -71,20 +69,6 @@ export const getters = {
         return form && form.errors[fieldName]
     },
 
-    // multiblockGroupIds: (state, getters) => (formName, multiblockName) => {
-    //     const form = getters.form(formName)
-    //     const groupRegExp = new RegExp('^' + multiblockName + '\\[(\\d)\\]')
-    //     const groupIds = []
-    //     form && Object.keys(form.fields).forEach( fieldName => {
-    //         let found = fieldName.match(groupRegExp)
-    //         let id = found && +found[1]
-    //         if (id !== null && !groupIds.includes(id)) {
-    //             groupIds.push(id)
-    //         }
-    //     })
-    //     return groupIds
-    // },
-
     firstErrorField: state => formName => {
         return state[formName] && state[formName].firstErrorField
     }
@@ -125,7 +109,7 @@ export const mutations = {
 
     createField(state, { formName, fieldName, value }) {
         const form = state[formName]
-        value = _get(form.initialState, fieldName, value)
+        value = AWES.utils.object.get(form.initialState, fieldName, value)
         Vue.set(form.fields, fieldName, value)
     },
 
@@ -155,7 +139,7 @@ export const mutations = {
 
     createMutiblock(state, { formName, multiblockName, disabled }) {
         const form = state[formName]
-        let ids = Object.keys(_get(form.initialState, multiblockName, [{}])).map(id => Number(id))
+        let ids = Object.keys(AWES.utils.object.get(form.initialState, multiblockName, [{}])).map(id => Number(id))
         Vue.set(form.multiblocks, multiblockName, {
             disabled,
             ids
@@ -198,7 +182,7 @@ export const actions = {
         if (multiblockNames.length) {
             normalizeArrayIndexes(data, multiblockNames)
             for (let multiblockName of multiblockNames) {
-                let ids = Object.keys(_get(data, multiblockName, [{}])).map(id => Number(id))
+                let ids = Object.keys(AWES.utils.object.get(data, multiblockName, [{}])).map(id => Number(id))
                 Vue.set(form.multiblocks[multiblockName], 'ids', ids)
             }
         }
@@ -231,7 +215,7 @@ export const actions = {
                         Vue.set(form, 'initialState', data)
                         let _data = {}
                         for (let field in form.fields) {
-                            _data[field] = _get(data, field)
+                            _data[field] = AWES.utils.object.get(data, field)
                         }
                         Vue.set(form, 'fields', _data)
                         Vue.set(form, 'isEdited', false)

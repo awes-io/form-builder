@@ -34,9 +34,6 @@ import {
     defaultCodeOptions,
     loadCodeEditor
 } from '../js/utils/codeEditors'
-import {
-    _get
-} from '../js/modules/helpers'
 
 const SAVE_DEBOUNCE = 1000
 let _uid = 0
@@ -90,7 +87,7 @@ export default {
 
         initEditor() {
             defaultOptions.selector = '#' + this.editorId
-            let options = _get(AWES._config, 'formBuilder.fbEditor', {})
+            let options = AWES.utils.object.get(AWES._config, 'formBuilder.fbEditor', {})
             if ( this.focus ) options.auto_focus = this.editorId
             Object.assign(options, this.options, defaultOptions)
 

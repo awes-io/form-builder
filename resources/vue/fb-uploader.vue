@@ -83,7 +83,6 @@
 
 <script>
 import fieldMixin from '../js/mixins/fb-field';
-import { _get } from '../js/modules/helpers'
 
 export default {
 
@@ -209,7 +208,7 @@ export default {
             delete this.filesProgress[file.uniqueIdentifier]
             try {
                 let response = JSON.parse(message)
-                let fileName = _get(response, 'meta.path', file.relativePath)
+                let fileName = AWES.utils.object.get(response, 'meta.path', file.relativePath)
                 Array.isArray(this.formValue) ? this.formValue.push(fileName) : this.formValue = [fileName]
             } catch(e) {
                 console.log(e);

@@ -1,8 +1,6 @@
 import baseMixin from './fb-base'
 import focusMixin from './fb-focus';
 
-import { _get } from '../modules/helpers'
-
 export default {
 
     mixins: [ baseMixin, focusMixin ],
@@ -118,7 +116,7 @@ export default {
 
         resetFormValue(formId) {
             if (this.formId !== formId) return
-            this.formValue = _get(this.$options, 'props.value.default')
+            this.formValue = AWES.utils.object.get(this.$options, 'props.value.default')
         },
 
         checkFocus() {
