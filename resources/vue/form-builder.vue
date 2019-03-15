@@ -48,9 +48,6 @@
 </template>
 
 <script>
-import {
-    _get
-} from '../js/modules/helpers'
 
 let _uniqFormId = 0;
 
@@ -153,7 +150,7 @@ export default {
             if ( this.form ) {
                 let props = url.match(/(?!{)([\w.\[\]]+)(?=})/g)
                 props && props.length && props.forEach( prop => {
-                    url = url.replace('{' + prop + '}', _get(this.form.initialState, prop, ''))
+                    url = url.replace('{' + prop + '}', AWES.utils.object.get(this.form.initialState, prop, ''))
                 })
             }
             return url.replace(/([^:]\/)\/+/g, '$1')
@@ -182,6 +179,7 @@ export default {
                     method: this.method
                 }).then( res => {
                     this.$emit(res.success ? 'sended' : 'error', res.data)
+                    if ( this.modal && res.success ) this.close()
                 })
             }
         },
