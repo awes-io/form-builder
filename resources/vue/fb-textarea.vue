@@ -1,5 +1,5 @@
 <template>
-    <div class="fb-textarea" :class="{ 'fb-textarea_disabled': isDisabled, 'fb-textarea_active': isActive, 'fb-textarea_error': hasError, 'animated shake': shake}">
+    <div class="fb-textarea fb-element" :class="{ 'fb-textarea_disabled': isDisabled, 'fb-textarea_active': isActive, 'fb-textarea_error': hasError, 'animated shake': shake}">
 
         <fb-error-wrap
             :open="showTooltip"
