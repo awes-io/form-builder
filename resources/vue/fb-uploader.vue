@@ -1,6 +1,6 @@
 <template>
     <uploader
-        class="fb-uploader"
+        class="fb-uploader fb-element"
         :class="{'fb-uploader_disabled': isDisabled}"
         :options="uploaderOptions"
         @file-added="checkFile"

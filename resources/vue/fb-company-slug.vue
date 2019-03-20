@@ -1,5 +1,5 @@
 <template>
-    <div :class="['fb-slug', { 'fb-slug_disabled': isDisabled, 'fb-slug_active': isActive, 'fb-slug_error': hasError, 'animated shake': shake}]">
+    <div :class="['fb-slug', 'fb-element', { 'fb-slug_disabled': isDisabled, 'fb-slug_active': isActive, 'fb-slug_error': hasError, 'animated shake': shake}]">
         <fb-error-wrap :open="showTooltip" :error="error" @clickTooltip="clickTooltip">
             <div class="fb-slug__group-wrap">
                 <span class="fb-slug__group-field">

@@ -1,5 +1,5 @@
 <template>
-    <div class="fb-select" :class="[{ 'fb-select_active': isActive }, { 'fb-select_opened': isOpened }, { 'fb-select_disabled': disabled }]">
+    <div class="fb-select fb-element" :class="[{ 'fb-select_active': isActive }, { 'fb-select_opened': isOpened }, { 'fb-select_disabled': disabled }]">
 
         <fb-error-wrap
             :open="showTooltip"

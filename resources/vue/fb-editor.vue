@@ -1,5 +1,5 @@
 <template>
-    <div class="fb-editor" :class="[{'fb-editor_disabled': isDisabled}]">
+    <div class="fb-editor fb-element" :class="[{'fb-editor_disabled': isDisabled}]">
         <div class="fb-editor__modes">
             <button
                 :class="['fb-editor__modes-button', {'is-active': mode === 'visual'}]"

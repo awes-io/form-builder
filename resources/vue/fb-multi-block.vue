@@ -1,5 +1,5 @@
 <template>
-    <div class="fb-multiblock" :class="[{'fb-multiblock_disabled' : this.isDisabled}]">
+    <div class="fb-multiblock fb-element" :class="[{'fb-multiblock_disabled' : this.isDisabled}]">
         <div
             :class="['fb-multiblock__block', {'fb-multiblock_has-close' : hasClose}]"
             v-for="id in blocks"
