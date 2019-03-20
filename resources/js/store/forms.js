@@ -139,7 +139,10 @@ export const mutations = {
 
     createMutiblock(state, { formName, multiblockName, disabled }) {
         const form = state[formName]
-        let ids = Object.keys(AWES.utils.object.get(form.initialState, multiblockName) || [{}]).map(id => Number(id))
+        const { get, isEmpty } = AWES.utils.object
+        let blocks = get(form.initialState, multiblockName)
+        blocks = isEmpty(blocks) ? [{}] : blocks
+        let ids = Object.keys(blocks).map(id => Number(id))
         Vue.set(form.multiblocks, multiblockName, {
             disabled,
             ids
