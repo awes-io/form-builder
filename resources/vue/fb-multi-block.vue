@@ -92,7 +92,7 @@ export default {
             this.$store.commit('forms/addMultiblockId', {
                 formName: this.formId,
                 multiblockName: this.name,
-                id: ++this.nextIndex
+                id: this.nextIndex++
             })
             this.updateTooltips()
         },
