@@ -1,25 +1,10 @@
 import plugin from './plugin'
 import lang from './modules/lang'
 import formsModule from './store/forms'
-import storeShared from './store/shared'
 
 const awesPlugin = {
 
     modules: {
-        'vue': {
-            src: 'https://unpkg.com/vue/dist/vue.min.js',
-            cb() {
-                Vue.use(plugin)
-            }
-        },
-        'vuex': {
-            src: 'https://unpkg.com/vuex/dist/vuex.min.js',
-            deps: ['vue'],
-            cb() {
-                AWES._store = AWES._store || new Vuex.Store(storeShared)
-                AWES._store.registerModule('forms', formsModule)
-            }
-        },
         'vue-shortkey': {
             src: 'https://unpkg.com/vue-shortkey/dist/index.js',
             deps: ['vue'],
@@ -51,6 +36,8 @@ const awesPlugin = {
     },
 
     install(AWES) {
+        Vue.use(plugin)
+        AWES._store.registerModule('forms', formsModule)
         AWES.lang = lang
     }
 }

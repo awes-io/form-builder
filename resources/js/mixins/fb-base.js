@@ -43,7 +43,7 @@ export default {
         },
 
         formLoading() {
-            return AWES._store.getters['forms/isLoading'](this.formId);
+            return this.$store.getters['forms/isLoading'](this.formId);
         },
 
         isDisabled() {
@@ -52,7 +52,7 @@ export default {
 
         isMultiblockDisabled() {
             return this.multiblock ?
-                AWES._store.getters['forms/isMultiblockDisabled'](this.formId, this.multiblock) :
+                this.$store.getters['forms/isMultiblockDisabled'](this.formId, this.multiblock) :
                 false
         }
     }

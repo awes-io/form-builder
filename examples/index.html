@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AwesCode Forms package test</title>
+    <link rel="stylesheet" href="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/indigo-layout/v1.x.x/css/main.css">
     <script>
       AWES_CONFIG = {
+        dev: true,
         key: '5cd207e2c94eb723c3307764a5693def',
         reCaptchaSiteKey: '6Lf6bm8UAAAAAEzGZHWPwnlBYoLIcndT-ITBo9fS',
         companySlug: {
@@ -16,7 +18,7 @@
       }
     </script>
     <script src="/js/main.js"></script>
-    <link rel="stylesheet" href="/css/main.css">
+    <!-- <link rel="stylesheet" href="/css/main.css"> -->
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.x.x/js/main.js"></script>
 </head>
 
@@ -33,7 +35,7 @@
       }
     </style>
 
-    <div id="awes-app">
+    <div id="awes-app" class="mainwrapper">
       <div style="max-width: 500px">
         <form-builder url="//httpbin.org/post" disabled-dialog>
 
@@ -43,12 +45,11 @@
           <fb-switcher label="Switcher" name="switcher2"></fb-switcher>
 
           <div class="demo-title">Input group</div>
-          <fb-group>
-              <fb-input name="input" label="label"></fb-input>
-              <fb-input name="input" type="password" label="password"></fb-input>
-              <fb-input name="input" label="label"></fb-input>
-              <fb-input name="input" label="label"></fb-input>
-          </fb-group>
+
+          <fb-input name="input" label="label"></fb-input>
+          <fb-input name="input" type="password" label="password"></fb-input>
+          <fb-input name="input" label="label"></fb-input>
+          <fb-input name="input" label="label"></fb-input>
 
 
           <div class="demo-title">Input example</div>

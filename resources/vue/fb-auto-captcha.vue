@@ -68,11 +68,11 @@ export default {
         formValue: {
 
             get() {
-                return AWES._store.getters['forms/fieldValue'](this.formId, this.realName)
+                return this.$store.getters['forms/fieldValue'](this.formId, this.realName)
             },
 
             set(value) {
-                AWES._store.commit('forms/setFieldValue', {
+                this.$store.commit('forms/setFieldValue', {
                     formName: this.formId,
                     fieldName: this.realName,
                     value
@@ -81,7 +81,7 @@ export default {
         },
 
         error() {
-            return AWES._store.getters['forms/fieldError'](this.formId, this.realName)
+            return this.$store.getters['forms/fieldError'](this.formId, this.realName)
         },
 
         realName() {
@@ -134,7 +134,7 @@ export default {
 
         resetError() {
             this.showTooltip = false;
-            AWES._store.commit('forms/resetError', {
+            this.$store.commit('forms/resetError', {
                 formName: this.formId,
                 fieldName: this.realName
             });

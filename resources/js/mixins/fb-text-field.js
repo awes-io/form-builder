@@ -14,7 +14,7 @@ export default {
 
         debounce: {
             type: [String, Number],
-            default: 500
+            default: 300
         }
     },
 

@@ -56,7 +56,7 @@ export default {
     computed: {
 
         blocks() {
-            return AWES._store.getters['forms/multiblockIds'](this.formId, this.name)
+            return this.$store.getters['forms/multiblockIds'](this.formId, this.name)
         },
 
         hasClose() {
@@ -64,7 +64,7 @@ export default {
         },
 
         errors() {
-            return AWES._store.getters['forms/errorsOrFalse'](this.formId)
+            return this.$store.getters['forms/errorsOrFalse'](this.formId)
         },
 
         fields() {
@@ -76,7 +76,7 @@ export default {
     watch: {
 
         disabled( value ) {
-            AWES._store.commit('forms/toggleMultiblockState', {
+            this.$store.commit('forms/toggleMultiblockState', {
                 formName: this.formId,
                 multiblockName: this.realName,
                 status: value
@@ -89,7 +89,7 @@ export default {
 
         addField() {
             if ( this.isDisabled ) return
-            AWES._store.commit('forms/addMultiblockId', {
+            this.$store.commit('forms/addMultiblockId', {
                 formName: this.formId,
                 multiblockName: this.name,
                 id: ++this.nextIndex
@@ -99,7 +99,7 @@ export default {
 
         removeField( id ) {
             if ( this.isDisabled ) return
-            AWES._store.commit('forms/deleteMultiblockId', {
+            this.$store.commit('forms/deleteMultiblockId', {
                 formName: this.formId,
                 multiblockName: this.name,
                 id
@@ -115,7 +115,7 @@ export default {
         },
 
         initMultiblock() {
-            AWES._store.commit('forms/createMutiblock', {
+            this.$store.commit('forms/createMutiblock', {
                 formName: this.formId,
                 multiblockName: this.realName,
                 disabled: this.disabled
@@ -124,7 +124,7 @@ export default {
         },
 
         destroyMultiblock() {
-            AWES._store.commit('forms/deleteMultiblock', {
+            this.$store.commit('forms/deleteMultiblock', {
                 formName: this.formId,
                 multiblockName: this.realName
             });

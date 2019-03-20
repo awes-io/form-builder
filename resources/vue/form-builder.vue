@@ -130,7 +130,7 @@ export default {
     computed: {
 
         form() {
-            return AWES._store.state.forms[this.name]
+            return this.$store.state.forms[this.name]
         },
 
         isLoading() {
@@ -142,7 +142,7 @@ export default {
         },
 
         fields() {
-            return AWES._store.getters['forms/fields'](this.name)
+            return this.$store.getters['forms/fields'](this.name)
         },
 
         replacedUrl() {
@@ -167,13 +167,13 @@ export default {
             AWES.emit('form-builder:before-send')
 
             if ( this.$listeners.send ) {
-                AWES._store.dispatch('forms/restoreData', {
+                this.$store.dispatch('forms/restoreData', {
                     formName: this.name
                 }).then( data => {
                     this.$emit('send', data)
                 })
             } else {
-                AWES._store.dispatch('forms/sendForm', {
+                this.$store.dispatch('forms/sendForm', {
                     formName: this.name,
                     url: this.replacedUrl,
                     method: this.method
@@ -242,10 +242,10 @@ export default {
     created() {
 
         // get default values
-        let fields = this.storeData ? AWES._store.state[this.storeData] : (this.default || {})
+        let fields = this.storeData ? this.$store.state[this.storeData] : (this.default || {})
 
         // create storage record
-        AWES._store.commit('forms/createForm', {
+        this.$store.commit('forms/createForm', {
             formName: this.name,
             fields
         })
@@ -274,7 +274,7 @@ export default {
 
     destroyed() {
         AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
-        AWES._store.commit('forms/deleteForm', this.name)
+        this.$store.commit('forms/deleteForm', this.name)
     }
 }
 </script>

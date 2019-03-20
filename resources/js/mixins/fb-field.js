@@ -24,11 +24,11 @@ export default {
         formValue: {
 
             get() {
-                return AWES._store.getters['forms/fieldValue'](this.formId, this.realName)
+                return this.$store.getters['forms/fieldValue'](this.formId, this.realName)
             },
 
             set(value) {
-                AWES._store.commit('forms/setFieldValue', {
+                this.$store.commit('forms/setFieldValue', {
                     formName: this.formId,
                     fieldName: this.realName,
                     value
@@ -41,11 +41,11 @@ export default {
         },
 
         error() {
-            return AWES._store.getters['forms/fieldError'](this.formId, this.realName)
+            return this.$store.getters['forms/fieldError'](this.formId, this.realName)
         },
 
         firstErrorField() {
-            return AWES._store.getters['forms/firstErrorField'](this.formId)
+            return this.$store.getters['forms/firstErrorField'](this.formId)
         }
     },
 
@@ -87,7 +87,7 @@ export default {
         },
 
         createStoreInstance() {
-            AWES._store.commit('forms/createField', {
+            this.$store.commit('forms/createField', {
                 formName: this.formId,
                 fieldName: this.realName,
                 value: this.value
@@ -101,7 +101,7 @@ export default {
 
         resetError() {
             this.showTooltip = false;
-            AWES._store.commit('forms/resetError', {
+            this.$store.commit('forms/resetError', {
                 formName: this.formId,
                 fieldName: this.realName
             });
@@ -123,12 +123,12 @@ export default {
             if (typeof this.setFocus === 'function' &&
                 this.firstErrorField === this.realName) {
                 setTimeout(this.setFocus, 0)
-                AWES._store.commit('resetFirstErrorField', this.formId)
+                this.$store.commit('resetFirstErrorField', this.formId)
             }
         },
 
         destroyField() {
-            AWES._store.commit('forms/deleteField', {
+            this.$store.commit('forms/deleteField', {
                 formName: this.formId,
                 fieldName: this.realName
             });

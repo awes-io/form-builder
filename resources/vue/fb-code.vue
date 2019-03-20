@@ -70,7 +70,7 @@ export default {
         },
 
         hasCaptchaError() {
-            return AWES._store.getters['forms/hasCaptchaError'](this.formId)
+            return this.$store.getters['forms/hasCaptchaError'](this.formId)
         }
     },
 
