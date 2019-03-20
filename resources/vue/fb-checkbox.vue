@@ -1,5 +1,5 @@
 <template>
-    <div :class="['fb-checkbox', {'fb-checkbox_error': hasError}, {'fb-checkbox_active': isActive}, {'fb-checkbox_disabled': isDisabled}]">
+    <div :class="['fb-checkbox', 'fb-element', {'fb-checkbox_error': hasError}, {'fb-checkbox_active': isActive}, {'fb-checkbox_disabled': isDisabled}]">
         <label class="fb-checkbox__label" :data-awes="$options.name + '.' + name">
             <fb-error-wrap
                 :open="showTooltip"

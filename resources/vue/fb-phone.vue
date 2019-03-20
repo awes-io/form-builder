@@ -1,5 +1,5 @@
 <template>
-    <div :class="['fb-phone', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': isActive, 'fb-phone_error': hasError, }]">
+    <div :class="['fb-phone', 'fb-element', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': isActive, 'fb-phone_error': hasError, }]">
 
         <fb-error-wrap
             :open="showTooltip"

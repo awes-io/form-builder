@@ -1,5 +1,5 @@
 <template>
-    <div :class="['fb-switcher', {'fb-switcher_error': hasError, 'fb-switcher_active': isActive, 'fb-switcher_disabled': isDisabled}]"
+    <div :class="['fb-switcher', 'fb-element', {'fb-switcher_error': hasError, 'fb-switcher_active': isActive, 'fb-switcher_disabled': isDisabled}]"
         @keyup.space="toggleValue(rangeValue)">
 
         <fb-error-wrap

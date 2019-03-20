@@ -1,5 +1,5 @@
 <template>
-    <div :class="['fb-slider', { 'fb-slider_disabled': isDisabled, 'fb-slider_error': hasError, 'animated shake': shake }]"> <!-- 'fb-slider_active': isActive -->
+    <div :class="['fb-slider', 'fb-element', { 'fb-slider_disabled': isDisabled, 'fb-slider_error': hasError, 'animated shake': shake }]"> <!-- 'fb-slider_active': isActive -->
 
         <fb-error-wrap
             :open="showTooltip"
