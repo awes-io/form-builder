@@ -80,11 +80,11 @@ export default {
         formValue: {
 
             get() {
-                return this.removeDomain( AWES._store.getters['forms/fieldValue'](this.formId, this.realName) )
+                return this.removeDomain( this.$store.getters['forms/fieldValue'](this.formId, this.realName) )
             },
 
             set(value) {
-                AWES._store.commit('forms/setFieldValue', {
+                this.$store.commit('forms/setFieldValue', {
                     formName: this.formId,
                     fieldName: this.realName,
                     value: this.addDomain( this.noramlizeUrl(value) )

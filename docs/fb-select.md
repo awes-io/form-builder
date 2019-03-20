@@ -32,7 +32,7 @@ The component is visualized as follows:
     <fb-select
         name="select"
         label="Select options"
-        :items="[{name: 'Option 1', value:'option_1'}, {name: 'Option 2', value:'option_2'}]"
+        :select-options="[{name: 'Option 1', value:'option_1'}, {name: 'Option 2', value:'option_2'}]"
     ></fb-select>
 </form-builder>
 ```
@@ -49,11 +49,11 @@ The component is visualized as follows:
 | **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
-| **selectOptions**   | `Array, String`    | `[]`                | [Items array](#fbs-items). If the value type is `String`, then it's treated like an url for AJAX-select |
+| **select-options**  | `Array, String`    | `[]`                | [Items array](#fbs-items). If the value type is `String`, then it's treated like an url for AJAX-select |
 | **multiple**        | `Boolean`          | `true`              | You can select multiple items                     |
 | **placeholder-text**| `String`           | `'Pick a value'`    | Text when no item is selected                     |
 | **debounce**        | `String, Number`   | `1000`              | AJAX-request debounce on user input               |
-| **auto-fetch**      | `Boolean`          | `true`              | Fetch no-templated AJAX-options before user starts typing |
+| **auto-fetch**      | `String, Boolean`  | `false`             | Fetch AJAX-options before user starts typing. If a string is provided, it will be injected into AJAX-url template |
 | **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
 | **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
 
@@ -63,10 +63,10 @@ The component is visualized as follows:
 There are two options for displaying the items array:
 
 ```javascript
-const items = ['Item 1', 'Item 2', 'Item 3']
+const selectOptions = ['Item 1', 'Item 2', 'Item 3']
 // In such case, we will get the following result: `<option value="Item 1">Item 1<option>`
 
-const items = [
+const selectOptions = [
     {name: 'Item 1', value: 'val1'},
     {name: 'Item 2', value: 'val2'},
     {name: 'Item 3', value: 'val3'}
@@ -91,4 +91,4 @@ The component may get it's options asyncronously via **GET**-request if the `sel
 
 If you need to filter values depending on user input, you may pass a template to `select-options` property, where `%s` will be replaced with **non-escaped** input text.
 
-By default, if the `select-options` is not a template, options will be auto fetched from api url. To disable this behaviour, provide `:auto-fetch="false"`, then the component will wait for user input
+By default, options will be auto fetched from api url. To disable this behaviour, provide `:auto-fetch="false"`, then the component will wait for user input

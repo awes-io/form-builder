@@ -197,7 +197,7 @@ export default {
         },
 
         toggleFormBlock(status) {
-            AWES._store.commit('setLoading', {
+            this.$store.commit('setLoading', {
                 formName: this.formId,
                 status
             })

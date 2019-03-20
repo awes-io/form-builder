@@ -7,6 +7,7 @@
     <title>Select test</title>
     <script>
         const AWES_CONFIG = {
+            dev: true,
             key: '5cd207e2c94eb723c3307764a5693def'
         }
     </script>
@@ -28,7 +29,7 @@
                 <fb-select name="select2" label="single select" :select-options="[{name:'one', value: 1}, {name:'two', value: 2}]" :multiple="false"></fb-select>
 
                 <h2>Ajax select</h2>
-                <fb-select name="select3" label="AJAX select" select-options="/ajax-options.json?test=%s"></fb-select>
+                <fb-select name="select3" label="AJAX select" select-options="/ajax-options.json?test=%s" auto-fetch></fb-select>
 
                 <h2>Ajax single select</h2>
                 <fb-select name="select4" label="Search field" select-options="/ajax-options.json?test=%s" :multiple="false"></fb-select>

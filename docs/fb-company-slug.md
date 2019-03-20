@@ -58,7 +58,7 @@ This component visually looks like:
 | **maxlength**       | `Number`           | `32`                | Maximum length of the subdomain                   |
 | **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
 | **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
-
+| **debounce**        | `Number`           | `0`                 | Timout before saving data to store on user input  |
 
 ## Component features
 

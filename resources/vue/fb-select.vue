@@ -81,8 +81,8 @@ export default {
         },
 
         autoFetch: {
-            type: Boolean,
-            default: true
+            type: [String, Boolean],
+            default: false
         },
 
         placeholderText: String
@@ -116,10 +116,6 @@ export default {
 
         isAjax() {
             return typeof this.selectOptions === 'string'
-        },
-
-        isTemplateAjax() {
-            return this.isAjax && ~this.selectOptions.indexOf('%s')
         },
 
         defaultPlaceholder() {
@@ -184,7 +180,7 @@ export default {
         },
 
         ajaxSearch(search) {
-            if ( ! search ) return
+            if ( search === false ) return
             clearTimeout(this.__search)
             this.isLoading = true
             this.__search = setTimeout(() => {
@@ -204,8 +200,8 @@ export default {
 
     mounted() {
         this.$nextTick( this.wrapTabEvents )
-        if ( this.isAjax && ! this.isTemplateAjax && this.autoFetch ) {
-            this.ajaxSearch(true)
+        if ( this.isAjax ) {
+            this.ajaxSearch( this.autoFetch )
         }
     }
 }
