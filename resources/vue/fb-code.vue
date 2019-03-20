@@ -1,5 +1,5 @@
 <template>
-<div :class="['fb-keycode', {'animated shake': shake}, { 'fb-keycode_disabled': isDisabled }]">
+<div :class="['fb-keycode', 'fb-element', {'animated shake': shake}, { 'fb-keycode_disabled': isDisabled }]">
     <div class="fb-keycode__block">
 
         <fb-error-wrap :open="showTooltip" :error="error" @clickTooltip="clickTooltip">

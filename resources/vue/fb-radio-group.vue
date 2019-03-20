@@ -1,6 +1,6 @@
 <template>
     <div v-if="items && items.length"
-        class="fc-radio"
+        class="fc-radio fb-element"
         :class="[{'animated shake': shake, 'fc-radio_disabled': isDisabled }]"
     >
 
