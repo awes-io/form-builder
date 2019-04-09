@@ -1,5 +1,5 @@
 <template>
-<div :class="['fb-input', 'fb-element', { 'fb-input_disabled': isDisabled, 'fb-input_active': isActive || autoFilled, 'fb-input_error': hasError, 'animated shake': shake }]">
+<div :class="['fb-input', 'fb-element', { 'fb-input_disabled': isDisabled, 'fb-input_active': isActive || autoFilled, 'fb-input_error': hasError, 'animated shake': shake }, $attrs.type ? 'fb-input_type-' + $attrs.type : '']">
 
     <fb-error-wrap
         :open="showTooltip"

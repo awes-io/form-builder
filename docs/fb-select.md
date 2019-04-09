@@ -50,6 +50,8 @@ The component is visualized as follows:
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
 | **select-options**  | `Array, String`    | `[]`                | [Items array](#fbs-items). If the value type is `String`, then it's treated like an url for AJAX-select |
+| **options-name**    | `String`           | `'name'`            | A key of select's `&lt;option&gt;` text          |
+| **options-value**   | `String`           | `'value'`           | A key of select's `&lt;option&gt;` value attribute |
 | **multiple**        | `Boolean`          | `true`              | You can select multiple items                     |
 | **placeholder-text**| `String`           | `'Pick a value'`    | Text when no item is selected                     |
 | **debounce**        | `String, Number`   | `1000`              | AJAX-request debounce on user input               |
@@ -60,18 +62,20 @@ The component is visualized as follows:
 
 ## Items array
 
-There are two options for displaying the items array:
-
-```javascript
-const selectOptions = ['Item 1', 'Item 2', 'Item 3']
-// In such case, we will get the following result: `<option value="Item 1">Item 1<option>`
-
-const selectOptions = [
+```html
+<!-- with default keys -->
+<fb-select select-options="[
     {name: 'Item 1', value: 'val1'},
     {name: 'Item 2', value: 'val2'},
     {name: 'Item 3', value: 'val3'}
-]
-// And in such case, we will get the following result: `<option value="val1">Item 1<option>`
+]"></fb-select>
+
+<!-- with custom keys (one or both) -->
+<fb-select options-name="label" options-value="val" select-options="[
+    {label: 'Item 1', val: 'val1'},
+    {label: 'Item 2', val: 'val2'},
+    {label: 'Item 3', val: 'val3'}
+]"></fb-select>
 ```
 
 <form-builder url="/api-url">
@@ -91,4 +95,9 @@ The component may get it's options asyncronously via **GET**-request if the `sel
 
 If you need to filter values depending on user input, you may pass a template to `select-options` property, where `%s` will be replaced with **non-escaped** input text.
 
-By default, options will be auto fetched from api url. To disable this behaviour, provide `:auto-fetch="false"`, then the component will wait for user input
+By default, options will not be auto fetched from api url. To enable auto fetching, provide `auto-fetch` prop. You may also inject default value in api url template, like this:
+
+```html
+<fb-select name="select" label="Select option" select-options="/api-url/search?q=%s" auto-fetch="all"></fb-select>
+<!-- on initial render, select will get options from /api-url/search?q=all -->
+```
