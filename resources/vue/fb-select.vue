@@ -16,8 +16,8 @@
                 :loading="isLoading"
                 :value="formId ? convertValue(formValue) : value"
                 :options="usedOptions"
-                label="name"
-                track-by="value"
+                :label="optionsName"
+                :track-by="optionsValue"
                 :disabled="isDisabled"
                 class="fb-select__field"
                 @open="isOpened = true"
@@ -68,6 +68,16 @@ export default {
         selectOptions: {
             type: [String, Array],
             default: () => []
+        },
+
+        optionsName: {
+            type: String,
+            default: 'name'
+        },
+
+        optionsValue: {
+            type: String,
+            default: 'value'
         },
 
         multiple: {
@@ -132,8 +142,8 @@ export default {
 
         formValueHandler(selected) {
             this.formValue = this.multiple ?
-                             selected.map( item => item.value) :
-                             selected.value;
+                             selected.map( item => item[this.optionsValue]) :
+                             selected[this.optionsValue];
             if ( this.error ) this.resetError()
         },
 
@@ -145,12 +155,12 @@ export default {
             if ( this.multiple ) {
                 return Array.isArray(value) ?
                     this.usedOptions.filter( item => {
-                        return value.includes(item.value);
+                        return value.includes(item[this.optionsValue]);
                     }) :
                     value
             } else {
                 return this.usedOptions.find( item => {
-                    return value === item.value;
+                    return value === item[this.optionsValue];
                 })
             }
         },
@@ -179,18 +189,22 @@ export default {
             }
         },
 
-        ajaxSearch(search) {
-            if ( search === false ) return
+        ajaxSearch(search, force) {
+            if ( ! (search || force) ) return
             clearTimeout(this.__search)
             this.isLoading = true
             this.__search = setTimeout(() => {
                 AWES.ajax({}, this.selectOptions.replace('%s', search), 'get')
                     .then( res => {
+                        let data = []
                         if ( res.success === true ) {
-                            this.ajaxOptions = res.data
-                        } else {
-                            this.ajaxOptions = []
+                            if ( Array.isArray(res.data) ) {
+                                data = res.data
+                            } else if ( res.data && Array.isArray(res.data.data) ) {
+                                data = res.data.data
+                            }
                         }
+                        this.ajaxOptions = data
                         this.isLoading = false
                     })
             }, Number(this.debounce) );
@@ -200,8 +214,9 @@ export default {
 
     mounted() {
         this.$nextTick( this.wrapTabEvents )
-        if ( this.isAjax ) {
-            this.ajaxSearch( this.autoFetch )
+        if ( this.isAjax && this.autoFetch.toString() !== 'false' ) {
+            let serach = typeof this.autoFetch === 'string' ? this.autoFetch : ''
+            this.ajaxSearch( serach, true )
         }
     }
 }
