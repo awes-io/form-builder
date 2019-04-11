@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Range test</title>
+    <script>
+        const AWES_CONFIG = {
+            dev: true,
+            key: '5cd207e2c94eb723c3307764a5693def'
+        }
+    </script>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.x.x/js/main.js"></script>
+</head>
+<body>
+    <div id="awes-app">
+        <content-wrapper style="display: block; max-width: 500px; margin: auto">
+            <form-builder url="//httpbin.org/post" disabled-dialog>
+
+                <h2>Input range</h2>
+
+                <fb-slider name="range"></fb-slider>
+            </form-builder>
+        </content-wrapper>
+    </div>
+</body>
+</html>

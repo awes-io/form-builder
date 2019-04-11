@@ -20,10 +20,7 @@
                         :data-awes="$options.name + '.' + name"
                         type="range"
                         :disabled="isDisabled"
-                        :value="formId ? formValue : value"
-                        v-on="{
-                            input: formId ? formValueHandler : vModelHandler,
-                        }"
+                        :value="(formId ? formValue : value ) || 0"
                         @focus="inFocus = true"
                         @blur="inFocus = false"
                         @keydown.enter.prevent="focusNext"
@@ -75,7 +72,7 @@ export default {
         },
 
         percent() {
-            return Math.round( Number(this.formId ? this.formValue : this.value) / Number(this.max) * 100 )
+            return Math.round( Number(this.formId ? this.formValue : this.value) || 0 / Number(this.max) * 100 )
         }
     },
 
@@ -89,7 +86,25 @@ export default {
 
         vModelHandler($event) {
             this.$emit('input', Number($event.target.value))
+        },
+
+
+        toggleListener(on) {
+            let method = (on ? 'add' : 'remove') + 'EventListener'
+            let handler = this.formId ? this.formValueHandler : this.vModelHandler
+            let event = window.MSInputMethodContext ? 'change' : 'input'
+            this.$refs.element[method](event, handler)
         }
+    },
+
+
+    mounted() {
+        this.$nextTick(() => this.toggleListener(true))
+    },
+
+
+    beforeDestroy() {
+        this.toggleListener(false)
     }
 }
 </script>
