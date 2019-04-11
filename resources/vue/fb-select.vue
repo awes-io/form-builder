@@ -8,10 +8,12 @@
         >
             <span class="fb-select__label">{{ label || $lang.FORMS_SELECT_LABEL }}</span>
             <multiselect
+                :taggable="taggable"
                 :show-labels="false"
                 :multiple="multiple"
                 :hide-selected="multiple"
                 :placeholder="placeholderText || defaultPlaceholder"
+                :tag-placeholder="$lang.FORMS_SELECT_ADD_TAG"
                 :internal-search="isAjax ? false : true"
                 :loading="isLoading"
                 :value="formId ? convertValue(formValue) : value"
@@ -22,8 +24,8 @@
                 class="fb-select__field"
                 @open="isOpened = true"
                 @close="isOpened = false"
+                @tag="addOption"
                 v-on="{
-                    'search-change': isAjax ? ajaxSearch : false,
                     'input': formId ? formValueHandler : vModelHandler
                 }"
                 ref="select"
@@ -37,7 +39,7 @@
 <script>
 import fieldMixin from '../js/mixins/fb-field.js';
 
-let _retry = 10 // times
+let _retry = 20 // times
 const AJAX_DEBOUNCE = 1000 // ms
 
 export default {
@@ -85,6 +87,11 @@ export default {
             default: true
         },
 
+        taggable: {
+            type: Boolean,
+            default: false
+        },
+
         debounce: {
             type: [String, Number],
             default: AJAX_DEBOUNCE
@@ -103,7 +110,8 @@ export default {
         return {
             isOpened: false,
             isLoading: false,
-            ajaxOptions: []
+            ajaxOptions: [],
+            addedOptions: []
         }
     },
 
@@ -133,7 +141,7 @@ export default {
         },
 
         usedOptions() {
-            return this.isAjax ? this.ajaxOptions : this.selectOptions
+            return this.addedOptions.concat(this.isAjax ? this.ajaxOptions : this.selectOptions)
         }
     },
 
@@ -180,12 +188,55 @@ export default {
             }
         },
 
+        addOption(usersOption) {
+
+            // create option
+            let opt = {}
+            opt[this.optionsName] = usersOption
+            opt[this.optionsValue] = usersOption
+
+            // add new option
+            this.addedOptions.push(opt)
+
+            // select new option
+            let selected
+            if (this.multiple) {
+                selected = [opt].concat(this.$refs.select.value)
+            } else {
+                selected = opt
+            }
+
+            if ( this.formId ) {
+                this.formValueHandler(selected)
+            } else {
+                this.vModelHandler(selected)
+            }
+        },
+
         wrapTabEvents() {
             try {
                 this.$refs.select.$el.querySelector('.multiselect__input').classList.add('is-focusable')
             } catch(e) {
                 _retry--
                 if (_retry) setTimeout(this.wrapTabEvents, 500)
+            }
+        },
+
+        bindSearch() {
+            try {
+                if ( this.isAjax ) {
+
+                    // bind search
+                    this.$refs.select.$on('search-change', this.ajaxSearch)
+
+                    // fetch data
+                    if ( this.autoFetch.toString() !== 'false' ) {
+                        let serach = typeof this.autoFetch === 'string' ? this.autoFetch : ''
+                        this.ajaxSearch( serach, true )
+                    }
+                }
+            } catch(e) {
+                if (_retry) setTimeout(this.bindSearch, 500)
             }
         },
 
@@ -214,9 +265,13 @@ export default {
 
     mounted() {
         this.$nextTick( this.wrapTabEvents )
-        if ( this.isAjax && this.autoFetch.toString() !== 'false' ) {
-            let serach = typeof this.autoFetch === 'string' ? this.autoFetch : ''
-            this.ajaxSearch( serach, true )
+        this.$nextTick( this.bindSearch )
+    },
+
+
+    beforeDestroy() {
+        if ( this.isAjax ) {
+            this.$refs.select.$off('search-change', this.ajaxSearch)
         }
     }
 }

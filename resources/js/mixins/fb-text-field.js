@@ -53,11 +53,15 @@ export default {
 
 
     mounted() {
-        AWES.on('form-builder:before-send', this.save)
+        if ( this.formId ) {
+            AWES.on(`form-builder::${this.formId}:before-send`, this.save)
+        }
     },
 
 
     beforeDestroy() {
-        AWES.off('form-builder:before-send', this.save)
+        if ( this.formId ) {
+            AWES.off(`form-builder::${this.formId}:before-send`, this.save)
+        }
     },
 }

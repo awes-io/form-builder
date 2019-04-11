@@ -157,7 +157,9 @@ export default {
 
 
     mounted() {
-        AWES.on('form-builder:before-send', this.save)
+        if ( this.formId ) {
+            AWES.on(`form-builder::${this.formId}:before-send`, this.save)
+        }
         this.$nextTick( this.initEditor )
         if ( typeof AWES._theme !== undefined ) {
             AWES.on('theme.change', this._switchThemeAttribute)
@@ -166,7 +168,9 @@ export default {
 
 
     beforeDestroy() {
-        AWES.off('form-builder:before-send', this.save)
+        if ( this.formId ) {
+            AWES.off(`form-builder::${this.formId}:before-send`, this.save)
+        }
         if ( typeof AWES._theme !== undefined ) {
             AWES.off('theme.change', this._switchThemeAttribute)
         }

@@ -164,7 +164,7 @@ export default {
 
             if ( this.isLoading || ! this.isEdited ) return
 
-            AWES.emit('form-builder:before-send')
+            AWES.emit(`form-builder::${this.name}:before-send`)
 
             if ( this.$listeners.send ) {
                 this.$store.dispatch('forms/restoreData', {

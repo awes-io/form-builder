@@ -53,6 +53,7 @@ The component is visualized as follows:
 | **options-name**    | `String`           | `'name'`            | A key of select's `&lt;option&gt;` text          |
 | **options-value**   | `String`           | `'value'`           | A key of select's `&lt;option&gt;` value attribute |
 | **multiple**        | `Boolean`          | `true`              | You can select multiple items                     |
+| **taggable**        | `Boolean`          | `false`             | Ability to add new values by typing in search field |
 | **placeholder-text**| `String`           | `'Pick a value'`    | Text when no item is selected                     |
 | **debounce**        | `String, Number`   | `1000`              | AJAX-request debounce on user input               |
 | **auto-fetch**      | `String, Boolean`  | `false`             | Fetch AJAX-options before user starts typing. If a string is provided, it will be injected into AJAX-url template |

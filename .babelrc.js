@@ -2,7 +2,6 @@ module.exports = {
   presets: [
     ['@babel/preset-env', {
       useBuiltIns: 'usage',
-      // targets: { esmodules: true },
       // debug: true,
       exclude: [
           'web.dom.iterable',
@@ -13,6 +12,8 @@ module.exports = {
           'es7.promise.finally',
           'es6.string.iterator',
           'es6.regexp.to-string',
+          'es6.regexp.split',
+          'es6.regexp.replace',
           'es6.function.name'
       ]
     }]

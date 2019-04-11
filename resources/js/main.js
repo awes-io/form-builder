@@ -1,8 +1,11 @@
+import { name, version } from '../../package.json'
 import plugin from './plugin'
 import lang from './modules/lang'
 import formsModule from './store/forms'
 
 const awesPlugin = {
+
+    name, version,
 
     modules: {
         'vue-shortkey': {
