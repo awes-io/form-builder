@@ -30,7 +30,6 @@
 <script>
 import baseMixin from '../js/mixins/fb-base'
 import triggerEvent from '../js/utils/triggerEvent'
-import { compareFlatObjects } from '../js/modules/helpers'
 
 export default {
 

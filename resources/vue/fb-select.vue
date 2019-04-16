@@ -149,6 +149,7 @@ export default {
     methods: {
 
         formValueHandler(selected) {
+            if ( ! selected ) return
             this.formValue = this.multiple ?
                              selected.map( item => item[this.optionsValue]) :
                              selected[this.optionsValue];
@@ -156,6 +157,7 @@ export default {
         },
 
         vModelHandler(selected) {
+            if ( ! selected ) return
             this.$emit('input', selected)
         },
 
