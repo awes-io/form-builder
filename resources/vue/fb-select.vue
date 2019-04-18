@@ -141,7 +141,9 @@ export default {
         },
 
         usedOptions() {
-            return this.addedOptions.concat(this.isAjax ? this.ajaxOptions : this.selectOptions)
+            let options = this.isAjax ? this.ajaxOptions : this.selectOptions
+            let addedOptions = this.filterValue(this.addedOptions, options)
+            return addedOptions.concat(options)
         }
     },
 
@@ -151,7 +153,7 @@ export default {
         formValueHandler(selected) {
             if ( ! selected ) return
             this.formValue = this.multiple ?
-                             selected.map( item => item[this.optionsValue]) :
+                             selected.map( item => item[this.optionsValue]).sort() :
                              selected[this.optionsValue];
             if ( this.error ) this.resetError()
         },
@@ -167,12 +169,24 @@ export default {
                     this.usedOptions.filter( item => {
                         return value.includes(item[this.optionsValue]);
                     }) :
-                    value
+                    this.usedOptions.filter( item => {
+                        return value === item[this.optionsValue];
+                    })
             } else {
                 return this.usedOptions.find( item => {
                     return value === item[this.optionsValue];
                 })
             }
+        },
+
+        filterValue(value, exclude) {
+            return value.filter(item => {
+                let index = exclude.findIndex(i => {
+                    return i[this.optionsName] === item[this.optionsName] &&
+                           i[this.optionsValue] === item[this.optionsValue]
+                })
+                return index === -1
+            })
         },
 
         resetFormValue( formId ) {
@@ -256,6 +270,12 @@ export default {
                             } else if ( res.data && Array.isArray(res.data.data) ) {
                                 data = res.data.data
                             }
+                        }
+                        // concat with selected options in multiple select
+                        if ( this.multiple && this.hasValue ){
+                            let selected = this.convertValue(this.computedValue)
+                            selected = this.filterValue(selected, data)
+                            data = selected.concat(data)
                         }
                         this.ajaxOptions = data
                         this.isLoading = false
