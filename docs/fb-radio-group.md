@@ -50,6 +50,7 @@ Using this component, you can create a group of radio buttons. It can be located
 | **box**             | `Boolean`          | `false`             | It adds classes for styling with a frame          |
 | **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
 | **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
+| **disabled**        | `Boolean, String`  | `false`             | `true` to disable all inputs, or string value of disabled input, or comma-separated values of multiple inputs |
 
 
 <h2 id="fbrg-items">Array of radio buttons</h2>
