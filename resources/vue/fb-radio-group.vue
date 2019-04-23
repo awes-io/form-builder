@@ -1,7 +1,7 @@
 <template>
     <div v-if="items && items.length"
         class="fc-radio fb-element"
-        :class="[{'animated shake': shake, 'fc-radio_disabled': isDisabled }]"
+        :class="{'animated shake': shake}"
     >
 
         <div class="fc-radio__label" v-if="label">{{ label }}</div>
@@ -16,7 +16,7 @@
                 <label
                     v-for="(item, i) in items"
                     :key="i"
-                    :class="['fc-radio__box', {'is-checked': checkActive(item)}]"
+                    :class="['fc-radio__box', {'is-checked': checkActive(item), 'fc-radio_disabled': isItemDisabled(item)}]"
                 >
 
                     <input
@@ -24,7 +24,7 @@
                         type="radio"
                         :class="['fc-radio__field', {'is-focusable': isFocusable}, {'in-focus': inFocus}]"
                         :data-awes="$options.name + '.' + name"
-                        :disabled="isDisabled"
+                        :disabled="isItemDisabled(item)"
                         :checked="checkActive(item)"
                         v-on="{ input: formId ? formValueHandler : vModelHandler }"
                         :value.prop="item.value ? item.value : item.toString()"
@@ -57,8 +57,14 @@ export default {
 
         items: Array,
 
-        value: String
+        value: String,
+
+        disabled: {
+            type: [String, Boolean],
+            default: false
+        }
     },
+
 
     data() {
         return {
@@ -67,7 +73,25 @@ export default {
     },
 
 
+    computed: {
+
+        disabledItems() {
+            if ( (typeof this.disabled === 'boolean' && this.disabled) ||
+                 this.disabled === '' ) {
+                return this.items.map( item => item.value )
+            } else if ( typeof this.disabled === 'string' ) {
+                return this.disabled.split(',').map(i => i.trim())
+            }
+            return []
+        }
+    },
+
+
     methods: {
+
+        isItemDisabled(item) {
+            return this.disabledItems.indexOf(item.value) > -1
+        },
 
         formValueHandler($event) {
             this.formValue = $event.target.value

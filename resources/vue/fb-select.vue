@@ -244,6 +244,9 @@ export default {
 
                     // bind search
                     this.$refs.select.$on('search-change', this.ajaxSearch)
+                    this.$refs.select.$once('hook:destroyed', () => {
+                        this.$refs.select.$off('search-change', this.ajaxSearch)
+                    })
 
                     // fetch data
                     if ( this.autoFetch.toString() !== 'false' ) {
@@ -288,13 +291,6 @@ export default {
     mounted() {
         this.$nextTick( this.wrapTabEvents )
         this.$nextTick( this.bindSearch )
-    },
-
-
-    beforeDestroy() {
-        if ( this.isAjax ) {
-            this.$refs.select.$off('search-change', this.ajaxSearch)
-        }
     }
 }
 </script>
