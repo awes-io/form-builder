@@ -265,7 +265,7 @@ export default {
     mounted() {
         this.addUnloadHandlers()
         if ( this.autoSubmit ) {
-            this.$watch('fields', this.send )
+            this.$watch('fields', this.send, {deep: true} )
         }
     },
 
