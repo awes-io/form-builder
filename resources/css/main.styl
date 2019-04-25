@@ -6,6 +6,23 @@ vendor-prefixes = official
     *
         box-sizing border-box
 
+
+.tooltip.vue-tooltip-theme
+    border-radius 2px
+    &:before
+        order-top-color: var(--tc_btn_bg, green)
+    .tooltip-inner
+        background: var(--tc_btn_bg, green);
+        color: var(--tc_btn_text, white);
+        padding: 8px 15px
+        border-radius 2px
+    &.is-info 
+        &:before
+            border-top-color: var(--tc_link_dark, blue)
+        .tooltip-inner
+            background: var(--tc_link_dark, blue)
+
+
 .fb-keycode
     &__wrap
         display flex
