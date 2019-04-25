@@ -1,5 +1,5 @@
 <template>
-<div :class="['fb-input', 'fb-element', { 'fb-input_disabled': isDisabled, 'fb-input_active': isActive || autoFilled, 'fb-input_error': hasError, 'animated shake': shake }]">
+<div :class="['fb-input', 'fb-element', { 'fb-input_disabled': isDisabled, 'fb-input_active': isActive || autoFilled, 'fb-input_error': hasError, 'animated shake': shake }, $attrs.type ? 'fb-input_type-' + $attrs.type : '']">
 
     <fb-error-wrap
         :open="showTooltip"
@@ -8,7 +8,23 @@
 
         <label class="fb-input__label fb-input__label_field" :for="'#' + inputId">{{ label }}</label>
 
-        <input
+        <input v-if="mask"
+            v-mask="mask"
+            v-bind="$attrs"
+            :id="inputId"
+            :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}]"
+            :data-awes="$options.name + '.' + name"
+            :type="inputType"
+            :disabled="isDisabled"
+            :value="formId ? formValue : value"
+            v-on="{ input: formId ? formValueHandler : vModelHandler }"
+            @focus="inFocus = true"
+            @blur="save(); inFocus = false"
+            @keydown.enter.prevent="focusNext"
+            @animationstart="autoFillHack"
+            ref="element"
+        >
+        <input v-else
             v-bind="$attrs"
             :id="inputId"
             :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}]"

@@ -15,7 +15,7 @@
                     max="1"
                     step="1"
                     :value="rangeValue"
-                    v-on="{ change: formId ? formValueHandler : vModelHandler }"
+                    v-on="{ input: formId ? formValueHandler : vModelHandler }"
                     v-bind="$attrs"
                     class="fb-switcher__field"
                     :class="{'is-focusable': isFocusable, 'in-focus': inFocus}"
@@ -23,12 +23,13 @@
                     @focus="inFocus = true"
                     @blur="inFocus = false"
                     @keydown.enter.prevent="focusNext"
-                    @mousedown="checkClick(rangeValue)"
+                    @mousedown="oldValue = rangeValue"
+                    @click="toggleValue(oldValue)"
                     ref="element"
                 >
             </div>
 
-            <span class="fb-switcher__label" @click="toggleValue(rangeValue)">{{ label }}</span>
+            <span class="fb-switcher__label" @click.self="toggleValue(rangeValue)">{{ label }}</span>
 
         </fb-error-wrap>
 
@@ -47,6 +48,13 @@ export default {
     mixins: [ checkboxFieldMixin ],
 
 
+    data() {
+        return {
+            oldValue: null
+        }
+    },
+
+
     computed: {
 
         rangeValue() {
@@ -58,12 +66,14 @@ export default {
     methods: {
 
         formValueHandler($event) {
+            this.oldValue = null
             let checked = +$event.target.value
             this.formValue = this.isNumeric ? checked : Boolean(checked)
             if ( this.error ) this.resetError()
         },
 
         vModelHandler($event) {
+            this.oldValue = null
             let response
 
             if (this.vModelArray) {
@@ -84,27 +94,8 @@ export default {
             this.$emit('input', response)
         },
 
-        checkClick(currentValue) {
-            this._clickTimestamp = new Date().getTime()
-            this._value = currentValue
-            window.addEventListener('mouseup', this.mouseReleased, false)
-        },
-
-        mouseReleased() {
-            window.removeEventListener('mouseup', this.mouseReleased, false)
-            let now = new Date().getTime()
-
-            if ( now - this._clickTimestamp < 500 &&
-                this._value === this.rangeValue) {
-                // this is a click, queue switch theme
-                setTimeout(this.toggleValue, 0, this._value)
-            }
-            delete this._clickTimestamp
-            delete this._value
-        },
-
         toggleValue( oldValue ) {
-            if ( this.isDisabled ) return
+            if ( this.isDisabled || oldValue === null ) return
             let _event = { target: {value: oldValue ? 0 : 1} }
             if ( this.formId ) {
                 this.formValueHandler(_event)

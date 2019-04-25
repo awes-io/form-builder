@@ -164,7 +164,7 @@ export default {
 
             if ( this.isLoading || ! this.isEdited ) return
 
-            AWES.emit('form-builder:before-send')
+            AWES.emit(`form-builder::${this.name}:before-send`)
 
             if ( this.$listeners.send ) {
                 this.$store.dispatch('forms/restoreData', {
@@ -179,6 +179,9 @@ export default {
                     method: this.method
                 }).then( res => {
                     this.$emit(res.success ? 'sended' : 'error', res.data)
+                    if ( this.storeData && res.success ) {
+                        this.$store.$set(this.storeData, this.$get(res.data, 'data', {}))
+                    }
                     if ( this.modal && res.success ) this.close()
                 })
             }
@@ -262,7 +265,7 @@ export default {
     mounted() {
         this.addUnloadHandlers()
         if ( this.autoSubmit ) {
-            this.$watch('fields', this.send )
+            this.$watch('fields', this.send, {deep: true} )
         }
     },
 

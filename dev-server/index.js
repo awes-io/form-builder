@@ -84,5 +84,32 @@ app.post('/manager', function (req, res) {
 
 });
 
+const SELECT_OPTIONS = [
+    { foo:'one', bar: 1 },
+    { foo:'two', bar: 2 },
+    { foo:'three', bar: 3 },
+    { foo:'four', bar: 4 },
+    { foo:'five', bar: 5 },
+    { foo:'six', bar: 6 },
+    { foo:'seven', bar: 7 },
+    { foo:'eight', bar: 8 },
+    { foo:'nine', bar: 9 },
+    { foo:'ten', bar: 10 }
+]
+
+app.get('/select', function(req, res){
+
+    let searchBy = req.query.s
+    let found = searchBy && SELECT_OPTIONS.filter( option => {
+        return option.foo.includes(searchBy)
+    })
+
+    res.json({
+        data: searchBy ? found : SELECT_OPTIONS,
+        meta: {},
+        links: []
+    })
+})
+
 app.listen(3030)
 console.log('Dev server running on port 3030')

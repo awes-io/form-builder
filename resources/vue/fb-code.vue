@@ -69,9 +69,9 @@ export default {
             }
         },
 
-        hasCaptchaError() {
-            return this.$store.getters['forms/hasCaptchaError'](this.formId)
-        }
+        // hasCaptchaError() {
+        //     return this.$store.getters['forms/hasCaptchaError'](this.formId)
+        // }
     },
 
 
@@ -93,15 +93,22 @@ export default {
             }
         },
 
-        hasCaptchaError(hasError) {
-            if (!hasError) {
-                this.autoSubmitForm(this.value)
-            }
-        },
+        // hasCaptchaError(hasError) {
+        //     if (!hasError) {
+        //         this.autoSubmitForm(this.value)
+        //     }
+        // },
 
         value(val) {
             if (val.length === this.length) {
                 this.formValue = val
+            }
+        },
+
+        formValue(val) {
+            if ( val !== this.value ) {
+                this.value = val
+                this.setFocus(val.length)
             }
         }
     },

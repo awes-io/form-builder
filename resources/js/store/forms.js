@@ -1,5 +1,4 @@
 import {
-    isEmpty,
     restoreFlattenedObject,
     normalizeArrayIndexes,
     normalizePath,
@@ -41,7 +40,7 @@ export const getters = {
     errorsOrFalse: (state, getters) => name => {
         const form = getters.form(name)
         let errors = form && form.errors || {}
-        return isEmpty(errors) ? false : errors
+        return AWES.utils.object.isEmpty(errors) ? false : errors
     },
 
     hasCaptchaError: (state, getters) => name => {

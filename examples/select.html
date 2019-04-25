@@ -17,7 +17,7 @@
 </head>
 <body>
     <div id="awes-app">
-        <div style="max-width: 500px; margin: auto">
+        <content-wrapper style="display: block; max-width: 500px; margin: auto">
             <form-builder url="//httpbin.org/post" disabled-dialog>
 
                 <h2>Input group</h2>
@@ -32,12 +32,12 @@
                 <fb-select name="select3" label="AJAX select" select-options="/ajax-options.json?test=%s" auto-fetch></fb-select>
 
                 <h2>Ajax single select</h2>
-                <fb-select name="select4" label="Search field" select-options="/ajax-options.json?test=%s" :multiple="false"></fb-select>
+                <fb-select name="select4" label="Search field" options-name="foo" options-value="bar" select-options="/select?s=%s" :multiple="false"></fb-select>
 
                 <h2>Enter skip test</h2>
                 <fb-input name="input" label="label"></fb-input>
             </form-builder>
-        </div>
+        </content-wrapper>
     </div>
 </body>
 </html>

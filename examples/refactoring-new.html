@@ -13,8 +13,6 @@
             key: '5cd207e2c94eb723c3307764a5693def'
         }
     </script>
-
-
     <script src="/js/main.js"></script>
     <link rel="stylesheet" href="/css/main.css">
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/indigo-layout/v1.x.x/js/main.js"></script>
@@ -24,7 +22,7 @@
 </head>
 
 <body>
-    <div id="awes-app" class="mainwrapper" style="padding: 80px 20px">
+    <content-wrapper class="mainwrapper" style="padding: 80px 20px">
         <form-builder disabled-dialog url="/manager" name="manager" :default="{
             active: 1,
             email:'camylle57@example.com',
@@ -71,7 +69,7 @@
                     :disabled="!fields['profile_manager.smtp']"></fb-input> -->
             </template>
         </form-builder>
-    </div>
+    </content-wrapper>
 </body>
 
 </html>
