@@ -56,10 +56,6 @@ const UNLOAD_EVENTS = [
         type: 'beforeunload',
         handler: 'windowUnloadHandler'
     },
-    {
-        type: 'popstate',
-        handler: 'popStateHandler'
-    }
 ];
 
 export default {
@@ -122,7 +118,7 @@ export default {
     provide() {
       return {
         formId: this.name,
-        isModal: !!this.modal
+        isModal: this.modal !== false
       }
     },
 
@@ -209,18 +205,6 @@ export default {
             }
         },
 
-        popStateHandler() {
-            this.removeUnloadHandlers()
-            if ( this.checkCloseAllowed() ) {
-                if ( this.modal ) this.close()
-            } else {
-                const modal = this.modal ? this.modal.hash : ''
-                const url = location.href + modal
-                history.pushState( {modal}, document.title, url )
-                this.addUnloadHandlers()
-            }
-        },
-
         windowUnloadHandler( $event ) {
             if ( this.disabledDialog || ! this.isEdited ) return true
             $event.returnValue = this.$lang.FORMS_CONFIRM
@@ -230,14 +214,15 @@ export default {
         close() {
             if ( this.checkCloseAllowed() ) {
                 this.removeUnloadHandlers()
-                AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
-                AWES.emit(`modal::${this.modal.name}.close`)
+                AWES.off(`modal::${this.modal.name}:before-close`, this.preventModalClose)
+                this.modal.close()
             }
         },
 
         preventModalClose(e) {
-            e.detail.preventClose()
-            this.close()
+            if ( ! this.checkCloseAllowed() ) {
+                e.detail.preventClose()
+            }
         }
     },
 
@@ -256,7 +241,7 @@ export default {
         // set watcher for modal close method
         if ( this.modal ) {
             this.$watch('isEdited', edited => {
-                AWES[edited ? 'on': 'off'](`modal::${this.modal.name}.before-close`, this.preventModalClose)
+                AWES[edited ? 'on': 'off'](`modal::${this.modal.name}:before-close`, this.preventModalClose)
             })
         }
     },
@@ -276,7 +261,7 @@ export default {
 
 
     destroyed() {
-        AWES.off(`modal::${this.modal.name}.before-close`, this.preventModalClose)
+        AWES.off(`modal::${this.modal.name}:before-close`, this.preventModalClose)
         this.$store.commit('forms/deleteForm', this.name)
     }
 }
