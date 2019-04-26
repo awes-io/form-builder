@@ -12,11 +12,11 @@ class FormBuilderServiceProvider extends AwesProvider
     {
         parent::boot();
 
-        Collection::macro('fbSelect', function ($name = 'name') {
-            return $this->map(function ($item) use ($name) {
+        Collection::macro('fbSelect', function ($name = 'name', $value = 'id') {
+            return $this->map(function ($item) use ($name, $value) {
                 return [
                     'name' => $item[$name],
-                    'value' => $item['id']
+                    'value' => $item[$value]
                 ];
             });
         });
