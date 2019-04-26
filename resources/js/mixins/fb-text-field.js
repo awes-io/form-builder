@@ -47,7 +47,9 @@ export default {
 
         save() {
             clearTimeout(this.__debounce)
-            this.formValue = this.$refs.element.value
+            if ( this.$refs.element ) {
+                this.formValue = this.$refs.element.value
+            }
         }
     },
 
