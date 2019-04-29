@@ -49,8 +49,9 @@ The component is visualized as follows:
 | **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
-| **select-options**  | `Array, String`    | `[]`                | [Items array](#fbs-items). If the value type is `String`, then it's treated like an url for AJAX-select |
-| **options-name**    | `String`           | `'name'`            | A key of select's `&lt;option&gt;` text          |
+| **select-options**  | `Array`            | `[]`                | [Items array](#fbs-items). If the value type is `String`, then it's treated like an url for AJAX-select |
+| **url**             | `String`           | `undefined`         | Url for AJAX options                              |
+| **options-name**    | `String`           | `'name'`            | A key of select's `&lt;option&gt;` text           |
 | **options-value**   | `String`           | `'value'`           | A key of select's `&lt;option&gt;` value attribute |
 | **multiple**        | `Boolean`          | `true`              | You can select multiple items                     |
 | **taggable**        | `Boolean`          | `false`             | Ability to add new values by typing in search field |
@@ -88,7 +89,7 @@ The component is visualized as follows:
 
 ```html
 <form-builder url="/api-url">
-    <fb-select name="select" label="Select option" select-options="/api-url/search?q=%s"></fb-select>
+    <fb-select name="select" label="Select option" url="/api-url/search?q=%s"></fb-select>
 </form-builder>
 ```
 
@@ -99,6 +100,13 @@ If you need to filter values depending on user input, you may pass a template to
 By default, options will not be auto fetched from api url. To enable auto fetching, provide `auto-fetch` prop. You may also inject default value in api url template, like this:
 
 ```html
-<fb-select name="select" label="Select option" select-options="/api-url/search?q=%s" auto-fetch="all"></fb-select>
+<fb-select name="select" label="Select option" url="/api-url/search?q=%s" auto-fetch="all"></fb-select>
+<!-- on initial render, select will get options from /api-url/search?q=all -->
+```
+
+Default select options could be combined with AJAX options
+
+```html
+<fb-select name="numbers" label="Select option" select-options="['one', 'two']" url="/other-numbers?q=%s"></fb-select>
 <!-- on initial render, select will get options from /api-url/search?q=all -->
 ```

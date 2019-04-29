@@ -16,10 +16,10 @@
                 :tag-placeholder="$lang.FORMS_SELECT_ADD_TAG"
                 :internal-search="isAjax ? false : true"
                 :loading="isLoading"
-                :value="formId ? formValue : value"
+                :value="formId ? convertValue(formValue) : value"
                 :options="usedOptions"
-                :label="stringOnly ? undefined : optionsName"
-                :track-by="stringOnly ? undefined : optionsValue"
+                :label="optionsName"
+                :track-by="optionsValue"
                 :disabled="isDisabled"
                 class="fb-select__field"
                 @open="isOpened = true"
@@ -143,25 +143,26 @@ export default {
         },
 
         allOptions() {
-            return this.addedOptions.concat(this.selectOptions, this.ajaxOptions)
+            return Array.prototype.concat(this.addedOptions, this.selectOptions, this.ajaxOptions).map( item => {
+                if ( ['string', 'number'].includes( typeof item ) ) {
+                    let _opt = {}
+                    _opt[this.optionsName] = _opt[this.optionsValue] = item
+                    return _opt
+                } else {
+                    return item
+                }
+            })
         },
 
         usedOptions() {
             return this.allOptions.filter( (item, i, arr) => {
+                if ( ! item ) return false
                 let index = arr.findIndex( _item => {
-                    if (this.stringOnly) {
-                        return _item === item
-                    } else {
-                        return _item[this.optionsName] === item[this.optionsName] &&
-                               _item[this.optionsValue] === item[this.optionsValue]
-                    }
+                    return _item[this.optionsName] === item[this.optionsName] &&
+                           _item[this.optionsValue] === item[this.optionsValue]
                 })
                 return index === i
             })
-        },
-
-        stringOnly() {
-            return this.allOptions.every(option => typeof option === 'string')
         }
     },
 
@@ -170,13 +171,31 @@ export default {
 
         formValueHandler(selected) {
             if ( ! selected ) return
-            this.formValue = selected
+            this.formValue = Array.isArray(selected) ?
+                             selected.map(item => item[this.optionsValue]) :
+                             selected[this.optionsValue]
             if ( this.error ) this.resetError()
         },
 
         vModelHandler(selected) {
             if ( ! selected ) return
             this.$emit('input', selected)
+        },
+
+        convertValue(value) {
+            if ( this.multiple ) {
+                return Array.isArray(value) ?
+                    this.usedOptions.filter( item => {
+                        return value.includes(item[this.optionsValue]);
+                    }) :
+                    this.usedOptions.filter( item => {
+                        return value === item[this.optionsValue];
+                    })
+            } else {
+                return this.usedOptions.find( item => {
+                    return value === item[this.optionsValue];
+                })
+            }
         },
 
         resetFormValue( formId ) {
@@ -196,20 +215,17 @@ export default {
 
         addOption(usersOption) {
 
-            // create option
-            let opt = {}
-            opt[this.optionsName] = usersOption
-            opt[this.optionsValue] = usersOption
-
             // add new option
-            this.addedOptions.push(opt)
+            let _opt = {}
+            _opt[this.optionsName] = _opt[this.optionsValue] = usersOption
+            this.addedOptions.push(_opt)
 
             // select new option
             let selected
             if (this.multiple) {
-                selected = [opt].concat(this.$refs.select.value)
+                selected = [_opt].concat(this.$refs.select.value)
             } else {
-                selected = opt
+                selected = _opt
             }
 
             if ( this.formId ) {
@@ -268,6 +284,33 @@ export default {
                         this.isLoading = false
                     })
             }, Number(this.debounce) );
+        }
+    },
+
+
+    created() {
+        if ( this.formId && this.formValue ) {
+            // noramlize initial value
+            let _values = Array.isArray(this.formValue) ? this.formValue : [this.formValue],
+                _normalized = [],
+                _added = [];
+
+            _values.forEach( (item, i) => {
+                if ( typeof item === 'object' ) {
+                    _added.push(Object.assign({}, item))
+                    _normalized.push(item[this.optionsValue])
+                } else {
+                    _normalized.push(item)
+                    let _idx = this.usedOptions.findIndex(i => i[this.optionsValue] === item)
+                    if ( _idx === -1) {
+                        let _opt = {}
+                        _opt[this.optionsName] = _opt[this.optionsValue] = item
+                        _added.push(_opt)
+                    }
+                }
+            });
+            this.addedOptions = _added
+            this.formValue = _normalized
         }
     },
 

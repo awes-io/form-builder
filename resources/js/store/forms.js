@@ -81,6 +81,7 @@ export const mutations = {
             fields: {},
             errors: {},
             multiblocks: {},
+            // selectValues: {},
             isLoading: false,
             isEdited: false,
             firstErrorField: null
@@ -168,7 +169,16 @@ export const mutations = {
         let index = ids.findIndex( _id => _id === id )
         ids.splice(index, 1)
         checkEdited(form)
-    }
+    },
+
+    // setSelectValue(state, { formName, selectName, value }) {
+    //     const form = state[formName]
+    //     if ( value !== null ) {
+    //         Vue.set(form.selectValues, selectName, value)
+    //     } else {
+    //         Vue.delete(form.selectValues, selectName)
+    //     }
+    // }
 }
 
 export const actions = {
