@@ -16,10 +16,10 @@
                 :tag-placeholder="$lang.FORMS_SELECT_ADD_TAG"
                 :internal-search="isAjax ? false : true"
                 :loading="isLoading"
-                :value="formId ? convertValue(formValue) : value"
+                :value="formId ? formValue : value"
                 :options="usedOptions"
-                :label="optionsName"
-                :track-by="optionsValue"
+                :label="stringOnly ? undefined : optionsName"
+                :track-by="stringOnly ? undefined : optionsValue"
                 :disabled="isDisabled"
                 class="fb-select__field"
                 @open="isOpened = true"
@@ -68,9 +68,11 @@ export default {
         value: {},
 
         selectOptions: {
-            type: [String, Array],
+            type: Array,
             default: () => []
         },
+
+        url: String,
 
         optionsName: {
             type: String,
@@ -133,17 +135,33 @@ export default {
         },
 
         isAjax() {
-            return typeof this.selectOptions === 'string'
+            return typeof this.url !== 'undefined'
         },
 
         defaultPlaceholder() {
             return this.$lang[this.isAjax ? 'FORMS_SELECT_AJAX_PLACEHOLDER' : 'FORMS_SELECT_PLACEHOLDER']
         },
 
+        allOptions() {
+            return this.addedOptions.concat(this.selectOptions, this.ajaxOptions)
+        },
+
         usedOptions() {
-            let options = this.isAjax ? this.ajaxOptions : this.selectOptions
-            let addedOptions = this.filterValue(this.addedOptions, options)
-            return addedOptions.concat(options)
+            return this.allOptions.filter( (item, i, arr) => {
+                let index = arr.findIndex( _item => {
+                    if (this.stringOnly) {
+                        return _item === item
+                    } else {
+                        return _item[this.optionsName] === item[this.optionsName] &&
+                               _item[this.optionsValue] === item[this.optionsValue]
+                    }
+                })
+                return index === i
+            })
+        },
+
+        stringOnly() {
+            return this.allOptions.every(option => typeof option === 'string')
         }
     },
 
@@ -152,41 +170,13 @@ export default {
 
         formValueHandler(selected) {
             if ( ! selected ) return
-            this.formValue = this.multiple ?
-                             selected.map( item => item[this.optionsValue]).sort() :
-                             selected[this.optionsValue];
+            this.formValue = selected
             if ( this.error ) this.resetError()
         },
 
         vModelHandler(selected) {
             if ( ! selected ) return
             this.$emit('input', selected)
-        },
-
-        convertValue(value) {
-            if ( this.multiple ) {
-                return Array.isArray(value) ?
-                    this.usedOptions.filter( item => {
-                        return value.includes(item[this.optionsValue]);
-                    }) :
-                    this.usedOptions.filter( item => {
-                        return value === item[this.optionsValue];
-                    })
-            } else {
-                return this.usedOptions.find( item => {
-                    return value === item[this.optionsValue];
-                })
-            }
-        },
-
-        filterValue(value, exclude) {
-            return value.filter(item => {
-                let index = exclude.findIndex(i => {
-                    return i[this.optionsName] === item[this.optionsName] &&
-                           i[this.optionsValue] === item[this.optionsValue]
-                })
-                return index === -1
-            })
         },
 
         resetFormValue( formId ) {
@@ -264,7 +254,7 @@ export default {
             clearTimeout(this.__search)
             this.isLoading = true
             this.__search = setTimeout(() => {
-                AWES.ajax({}, this.selectOptions.replace('%s', search), 'get')
+                AWES.ajax({}, this.url.replace('%s', search), 'get')
                     .then( res => {
                         let data = []
                         if ( res.success === true ) {
@@ -273,12 +263,6 @@ export default {
                             } else if ( res.data && Array.isArray(res.data.data) ) {
                                 data = res.data.data
                             }
-                        }
-                        // concat with selected options in multiple select
-                        if ( this.multiple && this.hasValue ){
-                            let selected = this.convertValue(this.computedValue)
-                            selected = this.filterValue(selected, data)
-                            data = selected.concat(data)
                         }
                         this.ajaxOptions = data
                         this.isLoading = false

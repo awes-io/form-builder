@@ -1,6 +1,6 @@
 {
     "name": "form-builder",
-    "version": "1.3.23",
+    "version": "1.4.0",
     "description": "Dynamic forms package",
     "main": "dist/js/main.js",
     "module": "src/js/plugin.js",
