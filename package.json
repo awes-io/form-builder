@@ -1,7 +1,7 @@
 {
     "name": "form-builder",
-    "version": "1.4.1",
-    "description": "Dynamic forms package",
+    "version": "1.4.2",
+    "description": "A component that allows creating forms with two-way binding from data object with default HTML fields and custom, like multi-block or AJAX-select.",
     "main": "dist/js/main.js",
     "module": "src/js/plugin.js",
     "files": [
@@ -25,10 +25,17 @@
     },
     "repository": {
         "type": "git",
-        "url": "git@git.awescode.com:awes-io/form-builder.git"
+        "url": "git@github.com:awes-io/form-builder.git"
     },
-    "author": "AwesCode (https://www.awescode.de/)",
-    "license": "ISC",
+    "keywords": [
+        "form",
+        "form builder",
+        "vue",
+        "vuejs",
+        "form-builder"
+    ],
+    "author": "Awescode GmbH",
+    "license": "MIT",
     "devDependencies": {
         "@babel/core": "^7.2.2",
         "@babel/preset-env": "^7.3.1",

@@ -1,8 +1,8 @@
 {
     "name": "awes-io/form-builder",
-    "description": ":description",
+    "description": "A component that allows creating forms with two-way binding from data object with default HTML fields and custom, like multi-block or AJAX-select.",
     "type": "library",
-    "license": "GPL-3.0-only",
+    "license": "MIT",
 	"authors": [
 		{
 			"name": "Awescode GmbH",
@@ -17,10 +17,10 @@
         }
 	],
 	"support": {
-		"email": "support@awescode.de"
+		"email": "contact@awes.io"
 	},
-	"homepage": "https://github.com/awesio/formbuilder",
-	"keywords": ["Laravel", "FormBuilder"],
+	"homepage": "https://github.com/awes-io/form-builder",
+	"keywords": ["Laravel", "Form Builder", "ui forms", "Awes.io"],
     "require": {
         "illuminate/support": "~5"
     },

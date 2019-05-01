@@ -1,17 +1,55 @@
-# FormBuilder
+<p align="center">
+    <a href="https://www.awes.io/?utm_source=github&utm_medium=indigo-layout" target="_blank" rel="noopener noreferrer">
+        <img width="100" src="https://static.awes.io/promo/Logo_sign_color.svg" alt="Awes.io logo">
+    </a>
+</p>
 
-[![Coverage report](http://gitlab.awescode.com/awes-io/form-builder/badges/master/coverage.svg)](https://www.awes.io/)
-[![Build status](http://gitlab.awescode.com/awes-io/form-builder/badges/master/build.svg)](https://www.awes.io/)
-[![Composer Ready](https://www.awc.wtf/awes-io/form-builder/status.svg)](https://www.awes.io/)
-[![Downloads](https://www.awc.wtf/awes-io/form-builder/downloads.svg)](https://www.awes.io/)
-[![Last version](https://www.awc.wtf/awes-io/form-builder/version.svg)](https://www.awes.io/) 
+<h1 align="center">From Builder</h1>
+
+<p align="center">A component that allows creating forms with two-way binding from data object with default HTML fields and custom, like multi-block or AJAX-select.</p>
 
 
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
+<p align="center">
+    <a href="https://www.awes.io/?utm_source=github&amp;utm_medium=shields">
+        <img src="https://www.pkgkit.com/4GBWO/awes-io/form-builder/version.svg" alt="Last version" >
+    </a>
+    <a href="https://www.awes.io/?utm_source=github&amp;utm_medium=shields">
+        <img src="https://www.pkgkit.com/4GBWO/awes-io/form-builder/downloads.svg" alt="Downloads" >
+    </a>
+    <a href="https://www.awes.io/?utm_source=github&amp;utm_medium=shields">
+        <img src="https://img.shields.io/github/license/awes-io/form-builder.svg" alt="License" />
+    </a>
+    <a href="https://www.awes.io/?utm_source=github&amp;utm_medium=shields">
+        <img src="https://www.pkgkit.com/4GBWO/awes-io/form-builder/status.svg" alt="CDN Ready" /> 
+    </a>
+    <a href="https://www.awes.io/?utm_source=github&amp;utm_medium=shields" target="_blank">
+        <img src="https://static.pkgkit.com/badges/vuejs.svg" alt="vue" />
+    </a>
+    <a href="https://www.awes.io/?utm_source=github&amp;utm_medium=shields">
+        <img src="https://img.shields.io/github/last-commit/awes-io/indigo-layout.svg" alt="Last commit" />
+    </a>
+    <a href="https://github.com/awes-io/awes-io">
+        <img src="https://ga-beacon.appspot.com/UA-134431636-1/awes-io/form-builder" alt="Analytics" />
+    </a>
+    <a href="https://www.pkgkit.com/?utm_source=github&amp;utm_medium=shields">
+        <img src="https://www.pkgkit.com/badges/hosted.svg" alt="Hosted by Package Kit" />
+    </a>
+    <a href="https://www.patreon.com/join/awesdotio">
+        <img src="https://static.pkgkit.com/badges/patreon.svg" alt="Patreon" />
+    </a>
+</p>
+
+##
+<p align="center">
+    <img src="https://static.awes.io/github/form-buider.gif" alt="form builder" />
+</p>
+
+## Demo
+You can check it online: [Online Demo](https://demo.awes.io/?utm_source=github&utm_medium=form-builder)
 
 ## Documentation
 
-[Russian](./docs/index.md)
+[Documentation](https://www.awes.io/documentation/components/form-builder/)
 
 ## NPM scripts
 
@@ -29,82 +67,20 @@ $ composer require awes-io/form-builder
 
 The package will automatically register itself.
 
-You can publish the migration with:
-
-```bash
-php artisan vendor:publish --provider="AwesIO\FormBuilder\Providers\FormBuilderServiceProvider" --tag="migrations"
-```
-
-After the migration has been published you can create the table for FormBuilder by running the migrations:
-
-```bash
-php artisan migrate
-```
-
 You can publish the config file with:
 
 ```bash
 php artisan vendor:publish --provider="AwesIO\FormBuilder\Providers\FormBuilderServiceProvider" --tag="config"
 ```
 
+## Support Us
 
-## Examples of use
-
-```php
-use AwesIO\FormBuilder\Facades\FormBuilder;
-
-FormBuilder::lowerStr('Some String'); // 'some string'
-
-FormBuilder::count(); // 1
-```
-
-## Methods
-
-#### example()
-
-Description some example.
-
-#### count()
-
-Description some count.
-
-#### validate(string $email)
-
-Throws an `InvalidArgumentException` is email is invalid.
-
-## Testing
-
-You can run the tests with:
-
-```bash
-composer test
-```
-
-## Contributing
-
-Please see [contributing.md](contributing.md) for details and a todolist.
-
-## Security
-
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
-
-## Credits
-
-- [:author_name][link-author]
-- [All Contributors][link-contributors]
+<p align="center">
+    <a href="https://www.patreon.com/awesdotio" target="_blank">
+        <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon">
+    </a>
+</p>
 
 ## License
 
-GNU General Public License v3.0. Please see the [license file](license.md) for more information.
-
-[ico-version]: https://img.shields.io/packagist/v/awesio/formbuilder.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/awesio/formbuilder.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/awesio/formbuilder/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
-
-[link-packagist]: https://packagist.org/packages/awesio/formbuilder
-[link-downloads]: https://packagist.org/packages/awesio/formbuilder
-[link-travis]: https://travis-ci.org/awesio/formbuilder
-[link-styleci]: https://styleci.io/repos/12345678
-[link-author]: https://github.com/awesio
-[link-contributors]: ../../contributors]
+[MIT](http://opensource.org/licenses/MIT)
