@@ -14,7 +14,7 @@ const awesPlugin = {
             cb() { Vue.use(VueShortkey) }
         },
         'v-tooltip': {
-            src: 'https://unpkg.com/v-tooltip/dist/v-tooltip.min.js',
+            src: 'https://unpkg.com/v-tooltip@2/dist/v-tooltip.min.js',
             deps: ['vue'],
             cb() {
                 VTooltip.default.options.popover = Object.assign(VTooltip.default.options.popover, {
