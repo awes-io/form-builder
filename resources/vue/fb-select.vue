@@ -193,7 +193,7 @@ export default {
                     })
             } else {
                 return this.usedOptions.find( item => {
-                    return value === item[this.optionsValue];
+                    return (Array.isArray(value) ? value[0] : value) === item[this.optionsValue];
                 })
             }
         },
