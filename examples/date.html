@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Date range test</title>
+    <script>
+        const AWES_CONFIG = {
+            dev: true,
+            key: '5cd207e2c94eb723c3307764a5693def'
+        }
+    </script>
+    <script src="/js/main.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/indigo-layout/v1.x.x/css/main.css"> -->
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.x.x/js/main.js"></script>
+</head>
+<body>
+    <div class="mainwrapper">
+        <content-wrapper style="display: block; max-width: 600px; margin: auto">
+            <form-builder url="//httpbin.org/post" :default="{period_start: '02/16/2019', period_end: '02/20/2019'}" disabled-dialog>
+
+                <h2>Date picker</h2>
+
+                <fb-date-range name="period"></fb-date-range>
+                <fb-date label="Choose date and time" name="date"></fb-date>
+            </form-builder>
+        </content-wrapper>
+    </div>
+</body>
+</html>

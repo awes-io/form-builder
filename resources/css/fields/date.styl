@@ -1,0 +1,75 @@
+@import '../../../node_modules/tiny-date-picker/tiny-date-picker.css'
+@import '../../../node_modules/tiny-date-picker/date-range-picker.css'
+
+db_breakpoint_w = 617px
+dp_breakpoint_h = 481px
+
+dp-min()
+    @media (min-width db_breakpoint_w) and (min-height dp_breakpoint_h)
+        {block}
+
+dp-max()
+    @media (max-width (db_breakpoint_w - 1px)), (max-height (dp_breakpoint_h - 1px))
+        {block}
+
+.fb-date
+    position relative
+    
+    +dp-min()
+    
+        &.is-range
+            display flex
+    
+    &__picker
+        display flex
+        margin-top 5px
+        absolute top 100% left 0
+        z-index 1
+        opacity 0
+        width 300px
+        visibility hidden
+        transition 200ms opacity, 0ms visibility 200ms
+        
+        &.is-opened
+            visibility visible
+            opacity 1
+            transition 200ms opacity, 0ms visibility
+
+        +dp-min()
+            ^[0].is-range &
+                width 600px
+
+
+    &__fb-input
+        display block
+        
+        ^[0].is-range &
+            flex-basis 50%
+
+
+        ^[0].is-range & + &
+            +dp-max()
+                margin-top 10px
+        
+            +dp-min()
+                margin-left 10px
+                
+
+    &__time-range
+        
+        .time-range
+            
+            &__intervals
+                max-height 325px
+                overflow auto
+            
+                display flex
+                flex-direction column
+                height 100%
+            
+            &__interval
+                flex-grow 1
+            
+            &__button
+                min-height 32.5px
+                height 100%

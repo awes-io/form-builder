@@ -17,7 +17,7 @@
             :type="inputType"
             :disabled="isDisabled"
             :value="formId ? formValue : value"
-            v-on="{ input: formId ? formValueHandler : vModelHandler }"
+            v-on="mergedListeners"
             @focus="inFocus = true"
             @blur="save(); inFocus = false"
             @keydown.enter.prevent="focusNext"
@@ -32,7 +32,7 @@
             :type="inputType"
             :disabled="isDisabled"
             :value="formId ? formValue : value"
-            v-on="{ input: formId ? formValueHandler : vModelHandler }"
+            v-on="mergedListeners"
             @focus="inFocus = true"
             @blur="save(); inFocus = false"
             @keydown.enter.prevent="focusNext"
@@ -92,6 +92,12 @@ export default {
 
         inputId() {
             return 'input-' + _inputsId++
+        },
+
+        mergedListeners() {
+            return Object.assign({}, this.$listeners, {
+                input: this.formId ? this.formValueHandler : this.vModelHandler
+            })
         }
     },
 

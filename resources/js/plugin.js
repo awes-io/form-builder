@@ -15,6 +15,8 @@ import fbPhone from '../vue/fb-phone.vue'
 import fbUploader from '../vue/fb-uploader.vue'
 import fbEditor from '../vue/fb-editor.vue'
 import fbSwitcher from '../vue/fb-switcher.vue'
+import fbDate from '../vue/fb-date.vue'
+import fbDateRange from '../vue/fb-date-range.vue'
 import { loadEditor } from '../js/utils/codeEditors.js'
 
 export function install(Vue) {
@@ -52,6 +54,8 @@ export function install(Vue) {
     Vue.component('fb-editor', resolve => {
         loadEditor().then( () => { resolve(fbEditor) })
     })
+    Vue.component('fb-date', fbDate)
+    Vue.component('fb-date-range', fbDateRange)
 }
 
 export default {
