@@ -17,5 +17,27 @@ export default {
     FORMS_UPLOADER_EXTENSION_ERROR: 'File %s has wrong extension',
     FORMS_UPLOADER_SIZE_ERROR: 'File %s is too big',
     FORMS_EDITOR_VISUAL: 'Visual',
-    FORMS_EDITOR_CODE: 'Code'
+    FORMS_EDITOR_CODE: 'Code',
+    FORMS_DATERANGE_START_LABEL: 'Start date',
+    FORMS_DATERANGE_END_LABEL: 'End date',
+    FORMS_DATEPICKER: {
+        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        months: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ],
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Close'
+    }
 }
