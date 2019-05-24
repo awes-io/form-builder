@@ -1,6 +1,6 @@
 {
     "name": "form-builder",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "description": "A component that allows creating forms with two-way binding from data object with default HTML fields and custom, like multi-block or AJAX-select.",
     "main": "dist/js/main.js",
     "module": "src/js/plugin.js",
