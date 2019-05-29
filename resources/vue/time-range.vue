@@ -9,9 +9,9 @@
                 <button
                     type="button"
                     class="time-range__button"
-                    :class="{'is-current': value === interval}"
+                    :class="{'is-current': value === interval, 'is-disabled': _isDisabled(interval)}"
                     :disabled="_isDisabled(interval)"
-                    @click="$emit('input', interval)"
+                    @click="_isDisabled(interval) ? null : $emit('input', interval)"
                 >
                     {{ interval }}
                 </button>

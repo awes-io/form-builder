@@ -10,6 +10,8 @@ The `input[type="range"]`-based switcher 0/1. It can be located within the &lt;f
 * [Checkbox](./fb-checkbox.md)
 * [Code](./fb-code.md)
 * [Company Slug](./fb-company-slug.md)
+* [Date](./fb-date.md)
+* [Date range](./fb-date-range.md)
 * [Editor](./fb-editor.md)
 * [Input](./fb-input.md)
 * [Multi block](./fb-multi-block.md)

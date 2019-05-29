@@ -10,6 +10,8 @@ It is a component for writing and changing code. You paste your code in the wind
 * [Checkbox](./fb-checkbox.md)
 * [Code](./fb-code.md)
 * [Company Slug](./fb-company-slug.md)
+* [Date](./fb-date.md)
+* [Date range](./fb-date-range.md)
 * **Editor**
 * [Input](./fb-input.md)
 * [Multi block](./fb-multi-block.md)

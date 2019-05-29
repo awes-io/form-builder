@@ -10,6 +10,8 @@ It is a text field component. It can be located within the &lt;form-builder&gt; 
 * [Checkbox](./fb-checkbox.md)
 * [Code](./fb-code.md)
 * [Company Slug](./fb-company-slug.md)
+* [Date](./fb-date.md)
+* [Date range](./fb-date-range.md)
 * [Editor](./fb-editor.md)
 * **Input**
 * [Multi block](./fb-multi-block.md)

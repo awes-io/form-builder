@@ -140,6 +140,10 @@ export default {
 
         timeRangeOptions() {
             return AWES.utils.object.isObject( this.timeRange ) ? this.timeRange : {}
+        },
+
+        isDisabled() {
+            return this.formLoading || this.isMultiblockDisabled || ! Array.isArray(this.disabled) && this.disabled
         }
     },
 

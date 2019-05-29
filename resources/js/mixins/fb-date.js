@@ -1,3 +1,5 @@
+import { parse } from 'date-fns'
+
 export default {
 
     props: {
@@ -25,6 +27,11 @@ export default {
             default: 'MM/DD/YYYY'
         },
 
+        disabled: {
+            type: [Boolean, Array],
+            default: false
+        },
+
         lang: Object
     },
 
@@ -33,6 +40,20 @@ export default {
         return {
             picker: null,
             isOpened: false
+        }
+    },
+
+
+    computed: {
+
+        isDisabledArray() {
+            return Array.isArray(this.disabled)
+        },
+
+        disabledDates() {
+            return this.isDisabledArray ?
+                this.disabled.map( str => new Date(str).setHours(0,0,0,0) ) :
+                []
         }
     },
 
@@ -53,7 +74,17 @@ export default {
                 min,
                 max,
                 dayOffset: this.dayOffset,
-                lang: Object.assign({}, this.$lang.FORMS_DATEPICKER, this.lang)
+                lang: Object.assign({}, this.$lang.FORMS_DATEPICKER, this.lang),
+                dateClass: currentDate => {
+                    // check disabled
+                    if ( this.disabled !== false && this.isDisabledArray ) {
+                        return this.disabledDates.includes( currentDate.getTime() ) ? 'dp-day-disabled' : ''
+                    } else if ( this.disabled ) {
+                        return 'dp-day-disabled'
+                    } else {
+                        return ''
+                    }
+                },
             }
         },
 
