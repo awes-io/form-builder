@@ -12,6 +12,8 @@ It uploads files according to the specified `url` property and sends paths to th
 * [Checkbox](./fb-checkbox.md)
 * [Code](./fb-code.md)
 * [Company Slug](./fb-company-slug.md)
+* [Date](./fb-date.md)
+* [Date range](./fb-date-range.md)
 * [Editor](./fb-editor.md)
 * [Input](./fb-input.md)
 * [Multi block](./fb-multi-block.md)

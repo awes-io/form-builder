@@ -14,6 +14,8 @@ The component is visualized as follows:
 * [Checkbox](./fb-checkbox.md)
 * [Code](./fb-code.md)
 * [Company Slug](./fb-company-slug.md)
+* [Date](./fb-date.md)
+* [Date range](./fb-date-range.md)
 * [Editor](./fb-editor.md)
 * [Input](./fb-input.md)
 * [Multi block](./fb-multi-block.md)
