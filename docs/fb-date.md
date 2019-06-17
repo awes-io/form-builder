@@ -48,10 +48,10 @@ The component uses [Tiny Date Picker](https://github.com/chrisdavies/tiny-date-p
 | **label**           | `String`           | `''`                | Text in the &lt;label&gt; element                 |
 | **min**             | `String`, `Number`, `Object` | calculated according to **yearRange** prop and current date | Minimal selectable date |
 | **max**             | `String`, `Number`, `Object` | calculated according to **yearRange** prop and current date | Maximal selectable date |
-| **yearRange**       | `Number`           | `4`                 | Max year offset back and forth from current day, if **min** or **max** is not provided |
-| **dayOffset**       | `Number`           | `1`                 | Set this to 0 for Sunday. 1 is for Monday         |
+| **year-range**      | `Number`           | `4`                 | Max year offset back and forth from current day, if **min** or **max** is not provided |
+| **day-offset**      | `Number`           | `1`                 | Set this to 0 for Sunday. 1 is for Monday         |
 | **value**           | `String`           | `undefined`         | Selected date (only stringified Date object)      |
-| **timeRange**       | `Boolean`, `Object`| `true`              | See [time range](#time-range-props) props         |
+| **time-range**      | `Boolean`, `Object`| `true`              | See [time range](#time-range-props) props         |
 | **format**          | `String`           | 'MM/DD/YYYY' or 'MM/DD/YYYY HH:mm' with time range | Date format for input field |
 | **disabled**        | `Boolean`, `Array` | `false`             | `Boolean` to disable whole field and `Array` of dates to disable specific date |
 | **lang**            | `Object`           | see [lang object](#date-lang-object) | Language strings for current instance. Will be merged with defaults |
@@ -81,40 +81,49 @@ To set time, it should be passed to the **value** prop of `fb-`
 Picking specific interval
 
 ```html
-<!-- setting min and max dates -->
-<fb-date label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20"></fb-date>
+<form-builder url="http://httpbin.org/post">
 
-<!-- disabling specific dates -->
-<fb-date label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20" :disabled="['2019-05-22', '2019-05-23']"></fb-date>
+    <!-- setting min and max dates -->
+    <fb-date name="date-minmax" label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20"></fb-date>
+
+    <!-- disabling specific dates -->
+    <fb-date name="date-disabled" label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20" :disabled="['2019-05-22', '2019-05-23']"></fb-date>
+
+</form-builder>
 ```
 <div class="vue-example">
     <form-builder url="http://httpbin.org/post" disabled-dialog>
-        <fb-date label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20"></fb-date>
-        <fb-date label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20" :disabled="['2019-05-22', '2019-05-23']"></fb-date>
+        <fb-date name="date1" label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20"></fb-date>
+        <fb-date name="date2" label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20" :disabled="['2019-05-22', '2019-05-23']"></fb-date>
     </form-builder>
 </div>
 
 Configuring time range
 
 ```html
-<!-- not rendered entirely -->
-<fb-date label="No time" :time-range="false"></fb-date>
+<form-builder url="http://httpbin.org/post">
 
-<!-- configuring time range -->
-<fb-date label="Configured time range" :time-range="{min: '09:00', max: '10:20', step: 10}"></fb-date>
+    <!-- not rendered entirely -->
+    <fb-date name="no-time" label="No time" :time-range="false"></fb-date>
 
-<!-- setting specific time buttons to disabled state -->
-<fb-date label="Disabled time" :time-range="{ disabled: ['09:10', '10:00'] }"></fb-date>
+    <!-- configuring time range -->
+    <fb-date name="time-minmax" label="Configured time range" :time-range="{min: '09:00', max: '10:20', step: 10}"></fb-date>
 
-<!-- setting time on current date (only stringified date is accepted) -->
-<fb-date label="Selected time" :value="new Date(new Date().setHours(9, 30)).toUTCString()" :time-range="{min: '08:00'}"></fb-date>
+    <!-- setting specific time buttons to disabled state -->
+    <fb-date name="time-disabled" label="Disabled time" :time-range="{ disabled: ['09:30', '10:00'] }"></fb-date>
+
+    <!-- setting time on current date (only stringified date is accepted) -->
+    <fb-date name="time-selected" label="Selected time" :value="new Date(new Date().setHours(9, 30)).toUTCString()" :time-range="{min: '08:00'}"></fb-date>
+
+</form-builder>
 ```
 
 <div class="vue-example">
     <form-builder url="http://httpbin.org/post" disabled-dialog>
-        <fb-date label="Pick a date" min="2019-05-09" max="2019-06-20" value="2019-05-20"></fb-date>
-        <fb-date label="Configured time range" :time-range="{min: '09:00', max: '10:20', step: 10, value}"></fb-date>
-        <fb-date label="Disabled time" :time-range="{ disabled: ['09:10', '10:00'] }"></fb-date>
+        <fb-date name="no-time" label="No time" :time-range="false"></fb-date>
+        <fb-date name="time-minmax" label="Configured time range" :time-range="{min: '09:00', max: '10:20', step: 10}"></fb-date>
+        <fb-date name="time-disabled" label="Disabled time" :time-range="{ disabled: ['09:30', '10:00'] }"></fb-date>
+        <fb-date name="time-selected" label="Selected time" :value="new Date(new Date().setHours(9, 30)).toUTCString()" :time-range="{min: '08:00'}"></fb-date>
     </form-builder>
 </div>
 
