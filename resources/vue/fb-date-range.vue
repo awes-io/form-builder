@@ -55,10 +55,12 @@
 
         <fb-input
             :name="startName"
+            :value="valueStart"
             type="hidden"
         />
         <fb-input
             :name="endName"
+            :value="valueEnd"
             type="hidden"
         />
     </div>

@@ -45,14 +45,14 @@ The component uses [Tiny Date Range Picker](https://github.com/chrisdavies/tiny-
 |---------------------|:------------------:|:-------------------:|---------------------------------------------------|
 | **name**            | `String`           | `undefined`         | Field identifier in the data object               |
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
-| **labelStart**      | `String`           | `'Start date'`      | Text in the &lt;label&gt; element for 1st field   |
-| **labelEnd**        | `String`           | `'End date'`        | Text in the &lt;label&gt; element for 2nd field   |
+| **label-start**     | `String`           | `'Start date'`      | Text in the &lt;label&gt; element for 1st field   |
+| **label-end**       | `String`           | `'End date'`        | Text in the &lt;label&gt; element for 2nd field   |
 | **min**             | `String`, `Number`, `Object` | calculated according to **yearRange** prop and current date | Minimal selectable date |
 | **max**             | `String`, `Number`, `Object` | calculated according to **yearRange** prop and current date | Maximal selectable date |
-| **yearRange**       | `Number`           | `4`                 | Max year offset back and forth from current day, if **min** or **max** is not provided |
-| **dayOffset**       | `Number`           | `1`                 | Set this to 0 for Sunday. 1 is for Monday         |
-| **valueStart**      | `String`           | `undefined`         | Selected start date                               |
-| **valueEnd**        | `String`           | `undefined`         | Selected end date                                 |
+| **year-range**      | `Number`           | `4`                 | Max year offset back and forth from current day, if **min** or **max** is not provided |
+| **day-offset**      | `Number`           | `1`                 | Set this to 0 for Sunday. 1 is for Monday         |
+| **value-start**     | `String`           | `undefined`         | Selected start date                               |
+| **value-end**       | `String`           | `undefined`         | Selected end date                                 |
 | **format**          | `String`           | 'MM/DD/YYYY'        | Date format for input fields                      |
 | **disabled**        | `Boolean`          | `false`             | Are the inputs disabled                           |
 | **lang**            | `Object`           | see [lang object](#date-lang-object) | Language strings for current instance. Will be merged with defaults |
@@ -65,16 +65,20 @@ The **value** property could only be a date in ISO String format
 ## Usage examples
 
 ```html
-<!-- setting min and max dates -->
-<fb-date-range min="2019-05-09" max="2019-06-20" value-start="2019-05-15" value-end="2019-06-06"></fb-date-range>
+<form-builder url="http://httpbin.org/post" disabled-dialog>
 
-<!-- disabling inputs -->
-<fb-date-range min="2019-05-09" max="2019-06-20" disabled></fb-date-range>
+    <!-- setting min and max dates -->
+    <fb-date-range name="range" min="2019-05-09" max="2019-06-20" value-start="2019-05-15" value-end="2019-06-06"></fb-date-range>
+
+    <!-- disabling inputs -->
+    <fb-date-range name="range-disabled" min="2019-05-09" max="2019-06-20" disabled></fb-date-range>
+
+</form-builder>
 ```
 <div class="vue-example">
     <form-builder url="http://httpbin.org/post" disabled-dialog>
-        <fb-date-range name="one" min="2019-05-09" max="2019-06-20" value-start="2019-05-15" value-end="2019-06-06"></fb-date-range>
-        <fb-date-range name="two" min="2019-05-09" max="2019-06-20" disabled></fb-date-range>
+        <fb-date-range name="range" min="2019-05-09" max="2019-06-20" value-start="2019-05-15" value-end="2019-06-06"></fb-date-range>
+        <fb-date-range name="range-disabled" min="2019-05-09" max="2019-06-20" disabled></fb-date-range>
     </form-builder>
 </div>
 
