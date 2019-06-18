@@ -12,7 +12,7 @@
             v-mask="mask"
             v-bind="$attrs"
             :id="inputId"
-            :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}]"
+            :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}, {'has-label': label}]"
             :data-awes="$options.name + '.' + name"
             :type="inputType"
             :disabled="isDisabled"
@@ -27,7 +27,7 @@
         <input v-else
             v-bind="$attrs"
             :id="inputId"
-            :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}]"
+            :class="['fb-input__field', {'is-focusable': isFocusable}, {'in-focus': inFocus }, {'fb-input__field_password': $attrs.type === 'password'}, {'has-label': label}]"
             :data-awes="$options.name + '.' + name"
             :type="inputType"
             :disabled="isDisabled"

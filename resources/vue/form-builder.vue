@@ -9,12 +9,12 @@
 
         <slot v-bind="fields"></slot>
 
-        <div v-if="! autoSubmit"
-            :class="modal ? 'line-btns' : null">
-            <div :class="modal ? 'line-btns__wrap' : 'line-btns'">
+        <div v-show="! autoSubmit" class="line-btns">
+            <!-- :class="modal ? 'line-btns' : null">
+            <div :class="modal ? 'line-btns__wrap' : 'line-btns'"> -->
 
                 <button
-                    class="btn btn-send has-wave"
+                    class="form-builder__send btn has-wave"
                     :class="{ 'loading-inline': isLoading }"
                     :disabled="!isEdited || isLoading"
                     :data-loading="$lang.FORMS_LOADING"
@@ -28,8 +28,7 @@
                 </button>
 
                 <button v-if="modal || $listeners.cancel"
-                    class="btn has-wave"
-                    :class="{'btn_transparent': $listeners.cancel}"
+                    class="form-builder__cancel btn btn_transparent has-wave"
                     type="button"
                     v-shortkey="['esc']"
                     v-on="{
@@ -42,7 +41,7 @@
                 </button>
 
                 <slot name="buttons-after"></slot>
-            </div>
+            <!-- </div> -->
         </div>
     </form>
 </template>
