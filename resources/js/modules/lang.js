@@ -22,6 +22,7 @@ export default {
     FORMS_DATERANGE_END_LABEL: 'End date',
     FORMS_DATEPICKER: {
         days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        daysFull: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thirsday', 'Friday', 'Saturday'],
         months: [
           'January',
           'February',
@@ -39,5 +40,5 @@ export default {
         today: 'Today',
         clear: 'Clear',
         close: 'Close'
-    }
+    } 
 }

@@ -17,6 +17,7 @@ import fbEditor from '../vue/fb-editor.vue'
 import fbSwitcher from '../vue/fb-switcher.vue'
 import fbDate from '../vue/fb-date.vue'
 import fbDateRange from '../vue/fb-date-range.vue'
+import fbReservation from '../vue/fb-reservation.vue'
 import { loadEditor } from '../js/utils/codeEditors.js'
 
 export function install(Vue) {
@@ -56,6 +57,7 @@ export function install(Vue) {
     })
     Vue.component('fb-date', fbDate)
     Vue.component('fb-date-range', fbDateRange)
+    Vue.component('fb-reservation', fbReservation)
 }
 
 export default {
