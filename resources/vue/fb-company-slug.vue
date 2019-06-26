@@ -129,7 +129,7 @@ export default {
         },
 
         noramlizeUrl( value ) {
-            return value && this.$toUrl(value).substr(0, +this.maxlength)
+            return value && this.$url.urlify(value).substr(0, +this.maxlength)
         },
 
         addDomain( value ) {
@@ -144,7 +144,6 @@ export default {
 
     beforeCreate() {
         this._config = Object.assign({}, _config.companySlug, window.AWES._config.companySlug)
-        this.$toUrl = Urlify.create(this._config.ulrifyOptions)
     }
 }
 </script>

@@ -259,7 +259,7 @@ export default {
             AWES.on('core:ajax', this._showLoader)
 
             let range_start = dayjs(new Date(this.year, this.month)).set('date', 1)
-            let range_end = range_start.add(1, 'month').set('date', 0)
+            let range_end = range_start.add(1, 'month')
             range_start = this._formatDatestring(range_start)
             range_end = this._formatDatestring(range_end)
 
