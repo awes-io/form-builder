@@ -17,7 +17,7 @@
 
             <input
                 class="fb-input__field"
-                :class="{ 'is-focusable': isFocusable, 'in-focus': inFocus }"
+                :class="{ 'is-focusable': isFocusable, 'in-focus': inFocus, 'has-label': label }"
                 :disabled="isDisabled"
                 :value="dateFormatted"
                 readonly

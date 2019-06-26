@@ -38,6 +38,7 @@
 
 <script>
 import fieldMixin from '../js/mixins/fb-field.js';
+import Multiselect from 'vue-multiselect'
 
 let _retry = 20 // times
 const AJAX_DEBOUNCE = 1000 // ms
@@ -51,16 +52,7 @@ export default {
     mixins: [ fieldMixin ],
 
     components: {
-        Multiselect: resolve => {
-            AWES.utils.loadModules({
-                'vue-multiselect': {
-                    src: ['https://unpkg.com/vue-multiselect@2.1.3/dist/vue-multiselect.min.js',
-                          'https://unpkg.com/vue-multiselect@2.1.3/dist/vue-multiselect.min.css'],
-                    deps: ['vue'],
-                    cb() { resolve(window.VueMultiselect.default) }
-                },
-            })
-        }
+        Multiselect
     },
 
     props: {
