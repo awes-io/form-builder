@@ -1,5 +1,15 @@
 <template>
-    <div class="fb-reservation fb-element" tabindex="0">
+    <div
+        class="fb-reservation fb-element"
+        :class="{'has-error': hasError}"
+        tabindex="0"
+    >
+        <fb-error-wrap
+            class="fb-reservation__error"
+            :open="showTooltip"
+            :error="error"
+            @clickTooltip="clickTooltip"
+        ></fb-error-wrap>
 
         <slot name="title"></slot>
 
@@ -109,7 +119,11 @@
         </div>
 
         <!-- input field -->
-        <fb-input :name="realName" type="hidden"></fb-input>
+        <fb-input
+            :name="realName"
+            type="hidden"
+            @error="_handleError"
+        ></fb-input>
 
         <!-- loading overlay -->
         <div class="fb-reservation__loading" v-show="isLoading">
@@ -127,6 +141,7 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import uiCalendar from '@awes-io/utilities/resources/vue/components/calendar.vue'
 import baseMixin from '../js/mixins/fb-base.js'
+import errorMixin from '../js/mixins/fb-error.js'
 
 dayjs.extend(customParseFormat)
 
@@ -135,7 +150,7 @@ export default {
     name: 'fb-reservation',
 
 
-    mixins: [ baseMixin ],
+    mixins: [ baseMixin, errorMixin ],
 
 
     components: { uiCalendar },
@@ -163,7 +178,8 @@ export default {
             time: null,
             showTime: false,
             is24hFormat: true,
-            days: []
+            days: [],
+            inputError: undefined
         }
     },
 
@@ -321,7 +337,18 @@ export default {
                     this.month = month
             }
             this.fetchData()
-        }
+        },
+
+        _handleError(err) {
+            if ( ! AWES.utils.object.isEmpty(err) ) {
+                this.inputError = err
+            }
+        },
+
+        clickTooltip() {
+            this.showTooltip = false
+            this.inputError = undefined
+        },
     },
 
 

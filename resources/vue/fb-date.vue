@@ -4,28 +4,35 @@
         @focusout="_focusoutHandler"
     >
         
-        <label
-            class="fb-input fb-date__fb-input"
-            :class="{ 'fb-input_disabled': isDisabled, 'fb-input_active': dateFormatted }"
+        <fb-error-wrap
+            :open="showTooltip"
+            :error="error"
+            @clickTooltip="clickTooltip"
         >
-
-            <span
-                class="fb-input__label fb-input__label_field"
+            <label
+                class="fb-input fb-date__fb-input"
+                :class="{ 'fb-input_disabled': isDisabled, 'fb-input_active': dateFormatted, 'fb-input_error': hasError, 'animated shake': shake }"
             >
-                {{ label }}
-            </span>
 
-            <input
-                class="fb-input__field"
-                :class="{ 'is-focusable': isFocusable, 'in-focus': inFocus, 'has-label': label }"
-                :disabled="isDisabled"
-                :value="dateFormatted"
-                readonly
-                @focus="showPicker"
-                @blur="_focusoutHandler"
-                ref="element"
-            >
-        </label>
+                <span
+                    class="fb-input__label fb-input__label_field"
+                >
+                    {{ label }}
+                </span>
+            
+            
+                <input
+                    class="fb-input__field"
+                    :class="{ 'is-focusable': isFocusable, 'in-focus': inFocus, 'has-label': label }"
+                    :disabled="isDisabled"
+                    :value="dateFormatted"
+                    readonly
+                    @focus="showPicker"
+                    @blur="_focusoutHandler"
+                    ref="element"
+                >
+            </label>
+        </fb-error-wrap>
 
         <div
             class="fb-date__picker"
@@ -48,6 +55,7 @@
         <fb-input
             :name="realName"
             type="hidden"
+            @error="err => inputError = err"
         />
     </div>
 </template>
@@ -90,6 +98,13 @@ export default {
                 }
                 return 'MM/DD/YYYY HH:mm'
             }
+        }
+    },
+
+
+    data() {
+        return {
+            inputError: undefined
         }
     },
 
@@ -144,6 +159,10 @@ export default {
 
         isDisabled() {
             return this.formLoading || this.isMultiblockDisabled || ! Array.isArray(this.disabled) && this.disabled
+        },
+
+        error() {
+            return this.inputError
         }
     },
 
