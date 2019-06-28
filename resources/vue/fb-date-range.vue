@@ -4,11 +4,16 @@
         @focusout="_focusoutHandler"
     >
         
-        <!-- start date -->
+        <!-- start date -->        
         <label
             class="fb-input fb-date__fb-input"
-            :class="{ 'fb-input_disabled': isDisabled, 'fb-input_active': startDateFormatted }"
+            :class="{ 'fb-input_disabled': isDisabled, 'fb-input_active': startDateFormatted, 'fb-input_error': hasError && error[0], 'animated shake': shake && error[0] }"
         >
+            <fb-error-wrap
+                :open="showTooltip && !!error[0]"
+                :error="error[0]"
+                @clickTooltip="clickTooltip"
+            ></fb-error-wrap>
 
             <span
                 class="fb-input__label fb-input__label_field"
@@ -17,10 +22,11 @@
             </span>
 
             <input
-                class="fb-input__field"
+                class="fb-input__field has-label"
                 :disabled="isDisabled"
                 :value="startDateFormatted"
                 readonly
+                ref="element"
                 @focus="showPicker"
                 @blur="_focusoutHandler"
             >
@@ -29,8 +35,15 @@
         <!-- end date -->
         <label
             class="fb-input fb-date__fb-input"
-            :class="{ 'fb-input_disabled': isDisabled, 'fb-input_active': endDateFormatted }"
+            :class="{ 'fb-input_disabled': isDisabled, 'fb-input_active': endDateFormatted, 'fb-input_error': hasError && error[1], 'animated shake': shake && error[1] }"
         >
+
+            <fb-error-wrap
+                :open="showTooltip && !!error[1]"
+                :error="error[1]"
+                @clickTooltip="clickTooltip"
+            ></fb-error-wrap>
+
             <span
                 class="fb-input__label fb-input__label_field"
             >
@@ -38,7 +51,7 @@
             </span>
 
             <input
-                class="fb-input__field"
+                class="fb-input__field has-label"
                 :disabled="isDisabled"
                 :value="endDateFormatted"
                 readonly
@@ -57,11 +70,13 @@
             :name="startName"
             :value="valueStart"
             type="hidden"
+            @error="err => startError = err"
         />
         <fb-input
             :name="endName"
             :value="valueEnd"
             type="hidden"
+            @error="err => endError = err"
         />
     </div>
 </template>
@@ -72,12 +87,13 @@ import { DateRangePicker } from 'tiny-date-picker/src/date-range-picker'
 import { parse, format } from 'date-fns'
 import baseMixin from '../js/mixins/fb-base.js'
 import dateMixin from '../js/mixins/fb-date.js'
+import errorMixin from '../js/mixins/fb-error.js'
 
 export default {
 
     name: 'fb-date-range',
 
-    mixins: [ baseMixin, dateMixin ],
+    mixins: [ baseMixin, dateMixin, errorMixin ],
 
 
     props: {
@@ -89,6 +105,14 @@ export default {
         valueStart: String,
 
         valueEnd: String
+    },
+
+
+    data() {
+        return {
+            startError: null,
+            endError: null
+        }
     },
 
 
@@ -146,6 +170,10 @@ export default {
 
         endDateFormatted() {
             return this.endDate && format(this.endDate, this.format) || ''
+        },
+
+        error() {
+            return [this.startError, this.endError]
         }
     },
 
@@ -182,6 +210,16 @@ export default {
                 fieldName,
                 value
             })
+        },
+
+        setFocus(state) {
+            try {
+                let useMethod = (state !== false) ? 'focus' : 'blur';
+                this.$refs.element[useMethod]()
+            } catch (e) {
+                console.warn('Error while setting focus');
+                console.error(e)
+            }
         }
     },
 

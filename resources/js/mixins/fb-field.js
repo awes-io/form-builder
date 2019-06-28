@@ -1,21 +1,14 @@
 import baseMixin from './fb-base'
 import focusMixin from './fb-focus';
+import errorMixin from './fb-error'
 
 export default {
 
-    mixins: [ baseMixin, focusMixin ],
+    mixins: [ baseMixin, focusMixin, errorMixin ],
 
     props: {
 
         label: String
-    },
-
-
-    data() {
-        return {
-            showTooltip: false,
-            hasError: false
-        }
     },
 
 
@@ -34,37 +27,6 @@ export default {
                     value
                 });
             }
-        },
-
-        shake() {
-            return !this.formLoading && this.showTooltip;
-        },
-
-        error() {
-            return this.$store.getters['forms/fieldError'](this.formId, this.realName)
-        },
-
-        firstErrorField() {
-            return this.$store.getters['forms/firstErrorField'](this.formId)
-        }
-    },
-
-
-    watch: {
-
-        error: {
-            handler(errors) {
-                if (errors) {
-                    this.showTooltip = true;
-                    this.hasError = true;
-                    this.checkFocus()
-                } else {
-                    this.showTooltip = false;
-                    this.hasError = false;
-                    this.resetInputWatcher();
-                }
-            },
-            immediate: true
         }
     },
 
@@ -94,37 +56,9 @@ export default {
             });
         },
 
-        clickTooltip() {
-            this.showTooltip = false;
-            if (typeof this.setFocus === 'function') this.setFocus();
-        },
-
-        resetError() {
-            this.showTooltip = false;
-            this.$store.commit('forms/resetError', {
-                formName: this.formId,
-                fieldName: this.realName
-            });
-            this.resetInputWatcher();
-        },
-
-        resetInputWatcher() {
-            if (this.$refs.element) {
-                this.$refs.element.removeEventListener('input', this.resetError)
-            }
-        },
-
         resetFormValue(formId) {
             if (this.formId !== formId) return
             this.formValue = AWES.utils.object.get(this.$options, 'props.value.default')
-        },
-
-        checkFocus() {
-            if (typeof this.setFocus === 'function' &&
-                this.firstErrorField === this.realName) {
-                setTimeout(this.setFocus, 0)
-                this.$store.commit('resetFirstErrorField', this.formId)
-            }
         },
 
         destroyField() {
