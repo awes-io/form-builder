@@ -1,18 +1,30 @@
 <template>
-    <div :class="['fb-phone', 'fb-element', { 'fb-phone_disabled': isDisabled, 'animated shake': shake, 'fb-phone_active': isActive, 'fb-phone_error': hasError, }]">
+    <div :class="[isReady ? 'fb-phone' : 'fb-input', 'fb-element', { 'fb-phone_disabled': isDisabled, 'fb-phone_disabled': !isReady && isDisabled, 'animated shake': shake, 'fb-phone_active': isActive, 'fb-phone_error': hasError, 'fb-input_active': !isReady && isActive }]">
 
         <fb-error-wrap
             :open="showTooltip"
             :error="error"
             @clickTooltip="clickTooltip"
         >
-            <span class="fb-phone__label">{{ label }}</span>
-            <vue-tel-input
+            <span :class="isReady ? 'fb-phone__label' : 'fb-input__label'">{{ label }}</span>
+            <input
+                v-if="! isReady"
+                :class="['fb-input__field', {'is-focusable': isFocusable, 'in-focus': inFocus, 'has-label': label}]"
                 :value="formId ? formValue : value"
+                :disabled="isDisabled"
+                v-on="{ input: ({ target }) => formId ? formValueHandler(target.value) : vModelHandler(target.value) }"
+                @blur="inFocus = false"
+                @focus="inFocus = true"
+                type="tel"
+            >
+            <vue-tel-input
+                :class="{'has-label': label}"
+                :value="String(formId ? formValue : value)"
                 v-on="{ input: formId ? formValueHandler : vModelHandler }"
                 :disabled="isDisabled"
                 @onBlur="save(); inFocus = false"
                 @onInput="checkFocus"
+                @ready="isReady = true"
                 ref="tel"
             ></vue-tel-input>
 
@@ -24,7 +36,12 @@
 import fieldMixin from '../js/mixins/fb-field.js';
 
 const ERR_COUNTER_MAX = 20
+const VueTelInputSrc = [
+    'https://unpkg.com/vue-tel-input@2.0.13/dist/vue-tel-input.js',
+    'https://unpkg.com/vue-tel-input@2.0.13/dist/vue-tel-input.css'
+]
 let errCounter = ERR_COUNTER_MAX
+let unwatch
 
 export default {
 
@@ -34,12 +51,21 @@ export default {
 
     components: {
         VueTelInput: resolve => {
-            const src = [
-                'https://unpkg.com/vue-tel-input@2.0.13/dist/vue-tel-input.js',
-                'https://unpkg.com/vue-tel-input@2.0.13/dist/vue-tel-input.css'
-            ]
-            return AWES.utils.loadModule('vue-tel-input', src, () => {
-                resolve(VueTelInput.default)
+            return AWES.utils.loadModule('vue-tel-input', VueTelInputSrc, () => {
+                const _cmp = VueTelInput.default
+                const _mounted = function() { this.$emit('ready') }
+                if ( _cmp.mounted ) {
+                    if ( Array.isArray(_cmp.mounted) ) {
+                        _cmp.mounted.push( _mounted )
+                    } else {
+                        let _old = _cmp.mounted
+                        _cmp.mounted = [ _old, _mounted ]
+                    }
+                } else {
+                    _cmp.mounted = _mounted
+                }
+                errCounter = ERR_COUNTER_MAX
+                resolve(_cmp)
             })
         }
     },
@@ -62,6 +88,7 @@ export default {
     data() {
         return {
             nativeTelInput: false,
+            isReady: false
         }
     },
 
@@ -81,7 +108,7 @@ export default {
                 clearTimeout(this.__debounce)
                 this.__debounce = setTimeout(() => {
                     this.formValue = value
-                }, Number(this.debounce))
+                }, this.isReady ? Number(this.debounce) : 0)
             } else {
                 this.formValue = value
                 this.resetError()
@@ -141,6 +168,7 @@ export default {
     watch: {
 
         inFocus() {
+            if ( ! this.isReady ) return
             try {
                 this.setFocusClass()
             } catch(e) {
@@ -152,6 +180,7 @@ export default {
         },
 
         isFocusable() {
+            if ( ! this.isReady ) return
             try {
                 this.setFocusableClass()
             } catch(e) {
@@ -165,12 +194,21 @@ export default {
 
 
     mounted() {
-        this.setFocusWatcher()
+        unwatch = this.$watch('isReady', ready => {
+            this.setFocusWatcher()
+            unwatch()
+            unwatch = null
+        })
     },
 
 
     updated() {
         if ( ! this.nativeTelInput ) this.setFocusWatcher()
+    },
+
+
+    beforeDestroy() {
+        if ( typeof unwatch === 'function' ) unwatch()
     }
 }
 </script>
