@@ -12,8 +12,9 @@
                     v-bind="$attrs"
                     :class="{'is-focusable': isFocusable, 'in-focus': inFocus}"
                     :disabled="isDisabled"
+                    :value="isActive"
                     :value.prop="computedValue"
-                    :checked="formId ? formValue : vModelChecked"
+                    :checked="isActive"
                     v-on="{ change: formId ? formValueHandler : vModelHandler }"
                     @focus="inFocus = true"
                     @blur="inFocus = false"
@@ -46,8 +47,19 @@ export default {
     methods: {
 
         formValueHandler($event) {
-            let checked = $event.target.checked
-            this.formValue = this.isNumeric ? Number(checked) : checked
+            if ( this.isMultiple ) {
+                let _value = Array.isArray(this.formValue) && this.formValue.slice() || []
+                if ( _value.includes(this.computedValue) ) {
+                    let index = _value.indexOf(this.computedValue)
+                    _value.splice(index, 1)
+                } else {
+                    _value.push( this.computedValue )
+                }
+                this.formValue = _value
+            } else {
+                this.formValue = this.isNumeric ? Number(checked) : checked
+            }
+
             if ( this.error ) this.resetError()
         },
 
