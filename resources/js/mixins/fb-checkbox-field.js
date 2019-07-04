@@ -31,7 +31,13 @@ export default {
     computed: {
 
         isActive() {
-            return !!(this.formId ? this.formValue : this.vModelChecked)
+            if ( this.formId ) {
+                return this.isMultiple ?
+                    Array.isArray(this.formValue) && this.formValue.includes(this.computedValue) :
+                    !!this.formValue
+            } else {
+                return this.vModelChecked
+            }
         },
 
         vModelArray() {
@@ -44,7 +50,32 @@ export default {
 
         computedValue() {
             return this.defaultValue || this.label.replace(/ /g, '_').toLowerCase()
+        },
+
+        isMultiple() {
+            return !!this.defaultValue && this.defaultValue !== 'on'
         }
+    },
+
+
+    methods: {
+
+        createStoreInstance() {
+
+            if ( this.isMultiple && ! Array.isArray(this.formValue) ) {
+                this.$store.commit('forms/createField', {
+                    formName: this.formId,
+                    fieldName: this.realName,
+                    value: []
+                });
+            } else {
+                this.$store.commit('forms/createField', {
+                    formName: this.formId,
+                    fieldName: this.realName,
+                    value: this.value
+                });
+            }
+        },
     },
 
 
