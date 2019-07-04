@@ -94,7 +94,6 @@ export default {
 
         hidePicker() {
             this.isOpened = false
-            this.isTouch = false
         },
 
         _focusoutHandler($event) {
