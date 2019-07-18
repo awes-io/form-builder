@@ -49,3 +49,4 @@ It can be located within the &lt;form-builder&gt; component, then it requires `n
 | **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
 | **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
 | **debounce**        | `Number`           | `300`               | Timout before saving data to store on user input  |
+| **default-country** | `String`           | `''`                | Default country, will override the country fetched from IP address of user  |

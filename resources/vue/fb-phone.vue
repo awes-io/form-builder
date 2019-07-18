@@ -22,6 +22,7 @@
                 :value="String(formId ? formValue : value)"
                 v-on="{ input: formId ? formValueHandler : vModelHandler }"
                 :disabled="isDisabled"
+                :defaultCountry="defaultCountry"
                 @onBlur="save(); inFocus = false"
                 @onInput="checkFocus"
                 @ready="isReady = true"
@@ -81,6 +82,11 @@ export default {
         debounce: {
             type: [String, Number],
             default: 300
+        },
+
+        defaultCountry: {
+            type: String,
+            default: ''
         }
     },
 
