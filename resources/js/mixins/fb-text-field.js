@@ -10,11 +10,6 @@ export default {
         value: {
             type: String,
             default: ''
-        },
-
-        debounce: {
-            type: [String, Number],
-            default: 300
         }
     },
 
@@ -30,40 +25,16 @@ export default {
     methods: {
 
         formValueHandler($event) {
-            if ( ! this.error ) {
-                clearTimeout(this.__debounce)
-                this.__debounce = setTimeout(() => {
-                    this.formValue = $event.target.value
-                }, Number(this.debounce))
-            } else {
-                this.formValue = $event.target.value
-                this.resetError()
+
+            this.formValue = $event.target.value
+
+            if ( this.error ) {
+               this.resetError()
             }
         },
 
         vModelHandler($event) {
             this.$emit('input', $event.target.value)
-        },
-
-        save() {
-            clearTimeout(this.__debounce)
-            if ( this.$refs.element ) {
-                this.formValue = this.$refs.element.value
-            }
         }
-    },
-
-
-    mounted() {
-        if ( this.formId ) {
-            AWES.on(`form-builder::${this.formId}:before-send`, this.save)
-        }
-    },
-
-
-    beforeDestroy() {
-        if ( this.formId ) {
-            AWES.off(`form-builder::${this.formId}:before-send`, this.save)
-        }
-    },
+    }
 }

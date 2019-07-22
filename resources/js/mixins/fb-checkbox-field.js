@@ -12,7 +12,7 @@ export default {
             default: 0
         },
 
-        defaultValue: String,
+        defaultValue: [String, Number],
 
         label: {
             type: String,
@@ -49,11 +49,11 @@ export default {
         },
 
         computedValue() {
-            return this.defaultValue || this.label.replace(/ /g, '_').toLowerCase()
+            return typeof this.defaultValue !== 'undefined' ? this.defaultValue : this.label.replace(/ /g, '_').toLowerCase()
         },
 
         isMultiple() {
-            return !!this.defaultValue && this.defaultValue !== 'on'
+            return typeof this.defaultValue !== 'undefined' && this.defaultValue !== 'on'
         }
     },
 

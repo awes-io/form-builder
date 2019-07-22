@@ -20,6 +20,7 @@
 
         <button
             class="fb-multiblock__add"
+            type="button"
             @click.prevent="addField"
         >
             {{ label || $lang.FORMS_MULTIBLOCK_ADD }}

@@ -163,7 +163,10 @@ export default {
             required: true
         },
 
-        firstDay: Number,
+        firstDay: {
+            type: Number,
+            default: 1
+        }
     },
 
 

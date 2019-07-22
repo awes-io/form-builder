@@ -17,7 +17,7 @@
                 :value="formId ? formValue : value"
                 v-on="{ input: formId ? formValueHandler : vModelHandler }"
                 @focus="inFocus = true"
-                @blur="save(); inFocus = false"
+                @blur="inFocus = false"
                 ref="element"
             ></textarea>
 
