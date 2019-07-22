@@ -84,6 +84,17 @@ app.post('/manager', function (req, res) {
 
 });
 
+app.post('/returner', express.json(), function(req, res){
+
+    setTimeout(function(){
+        res.json({
+            message: 'The data was successfully updated',
+            success: true,
+            data: req.body
+        });
+    }, 1200)
+})
+
 const SELECT_OPTIONS = [
     { foo:'one', bar: 1 },
     { foo:'two', bar: 2 },

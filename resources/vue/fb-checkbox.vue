@@ -57,6 +57,7 @@ export default {
                 }
                 this.formValue = _value
             } else {
+                let checked = $event.target.checked
                 this.formValue = this.isNumeric ? Number(checked) : checked
             }
 

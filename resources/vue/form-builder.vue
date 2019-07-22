@@ -20,7 +20,7 @@
                     :data-loading="$lang.FORMS_LOADING"
                     type="submit"
                     data-awes="modal_button_ok"
-                    v-shortkey="['ctrl', 'enter']"
+                    v-shortkey="{ctrlEnter: ['ctrl', 'enter'], cmdEnter: ['meta', 'enter'], ctrlS: ['ctrl', 's'], cmdS: ['meta', 's']}"
                     @shortkey="send"
                 >
                     {{ sendText || $lang.FORMS_SEND }}
@@ -102,6 +102,11 @@ export default {
         autoSubmit: {
             type: Boolean,
             default: false
+        },
+
+        debounce: {
+            type: [String, Number],
+            default: 400
         }
     },
 
@@ -159,6 +164,8 @@ export default {
 
             if ( this.isLoading || ! this.isEdited ) return
 
+            this._returnFocus = document.activeElement
+
             AWES.emit(`form-builder::${this.name}:before-send`)
 
             if ( this.$listeners.send ) {
@@ -177,9 +184,24 @@ export default {
                     if ( this.storeData && res.success ) {
                         this.$store.$set(this.storeData, this.$get(res.data, 'data', {}))
                     }
+
+                    if ( this._returnFocus && typeof this._returnFocus.focus === 'function' ) {
+                        this._returnFocus.focus()
+                        delete this._returnFocus
+                    }
+
                     if ( this.modal && res.success ) this.close()
                 })
             }
+        },
+
+        autoSubmitSend() {
+
+            if ( this.isLoading ) return
+
+            clearTimeout(this.__debounce)
+
+            this.__debounce = setTimeout(this.send, Number(this.debounce))
         },
 
         addUnloadHandlers() {
@@ -249,12 +271,13 @@ export default {
     mounted() {
         this.addUnloadHandlers()
         if ( this.autoSubmit ) {
-            this.$watch('fields', this.send, {deep: true} )
+            this.$watch('fields', this.autoSubmitSend, {deep: true} )
         }
     },
 
 
     beforeDestroy() {
+        delete this._returnFocus
         this.removeUnloadHandlers()
     },
 

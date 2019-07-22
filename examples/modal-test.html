@@ -17,13 +17,13 @@
     <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.x.x/js/main.js"></script>
 </head>
 <body>
-    <div id="awes-app">
+    <content-wrapper id="awes-app">
         <modal-window name="form">
-            <form-builder url="//httpbin.org/post" @sended="AWES.notify({status: 'success', message:'Sended!'})">
+            <form-builder url="//httpbin.org/post" @sended="AWES.notify({status: 'success', message:'Sended!'})" disabled-dialog>
                 <fb-input name="test" label="test"></fb-input>
             </form-builder>
         </modal-window>
-        <button @click="AWES.emit('modal::form.open')">Open modal</button>
-    </div>
+        <button class="btn" @click="AWES.emit('modal::form:open')">Open modal</button>
+    </content-wrapper>
 </body>
 </html>

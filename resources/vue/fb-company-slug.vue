@@ -15,7 +15,7 @@
                         v-on="{ input: formId ? formValueHandler : vModelHandler }"
                         @input="toggleWatcher"
                         @focus="inFocus = true"
-                        @blur="save(); inFocus = false"
+                        @blur="inFocus = false"
                         @keydown.enter.prevent="focusNext"
                         ref="element">
                 </span>
@@ -43,11 +43,6 @@ export default {
             default() {
                 return this._config.domain
             }
-        },
-
-        debounce: {
-            type: [String, Number],
-            default: 0
         },
 
         input: {

@@ -19,11 +19,11 @@
             >
             <vue-tel-input
                 :class="{'has-label': label}"
-                :value="String(formId ? formValue : value)"
+                :value="formId ? String(formValue || '') : value"
                 v-on="{ input: formId ? formValueHandler : vModelHandler }"
                 :disabled="isDisabled"
                 :defaultCountry="defaultCountry"
-                @onBlur="save(); inFocus = false"
+                @onBlur="inFocus = false"
                 @onInput="checkFocus"
                 @ready="isReady = true"
                 ref="tel"
@@ -79,11 +79,6 @@ export default {
             default: ''
         },
 
-        debounce: {
-            type: [String, Number],
-            default: 300
-        },
-
         defaultCountry: {
             type: String,
             default: ''
@@ -110,13 +105,10 @@ export default {
     methods: {
 
         formValueHandler(value) {
-            if ( ! this.error ) {
-                clearTimeout(this.__debounce)
-                this.__debounce = setTimeout(() => {
-                    this.formValue = value
-                }, this.isReady ? Number(this.debounce) : 0)
-            } else {
-                this.formValue = value
+
+            this.formValue = value
+
+            if ( this.error ) {
                 this.resetError()
             }
         },
@@ -162,11 +154,6 @@ export default {
 
         checkFocus() {
             if ( ! this.inFocus ) this.setFocus()
-        },
-
-        save() {
-            clearTimeout(this.__debounce)
-            this.formValue = this.nativeTelInput.value;
         }
     },
 

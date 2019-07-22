@@ -47,7 +47,6 @@ It is a text field component. It can be located within the &lt;form-builder&gt; 
 | **mask**            | `String`           | `undefined`         | Mask for the `v-mask` directive. Click [here](https://github.com/vuejs-tips/vue-the-mask#tokens) for more information |
 | **enter-skip**      | `Boolean`          | `false`             | Skip field when switching by the <kbd>enter</kbd> button |
 | **focus**           | `Boolean`          | `false`             | Set focus on this field when loading a page       |
-| **debounce**        | `Number`           | `300`               | Timout before saving data to store on user input  |
 
 
 ## Component features

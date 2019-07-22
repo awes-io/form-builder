@@ -41,6 +41,7 @@ external data which are specified via the `store-data` parameter are extracted f
 | **store-data**      | `String`  | `undefined`         | Name of the data field in global `$store`           |
 | **disabled-dialog** | `Boolean` | `false`             | Disable window closing check                      |
 | **auto-submit**     | `Boolean` | `false`             | Automatic form submission                         |
+| **debounce**        | `Number`, `String`  | `400`     | Timeout before sending data to server on user input  |
 | **send-text**       | `String`  | `'Send'`            | Text in the “Send” button                         |
 | **cancel-text**     | `String`  | `'Cancel'`          | Text in the “Cancel” button                       |
 | **loading-text**    | `String`  | `'Loading...'`      | Text in the “Send” button while sending           |
