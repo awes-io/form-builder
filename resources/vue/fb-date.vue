@@ -62,16 +62,10 @@
 
 <script>
 import { TinyDatePicker } from 'tiny-date-picker/src/date-range-picker'
-import { parse, format } from 'date-fns'
 import { timeArrayToString, stringToTimeArray } from '../js/modules/time'
 import fieldMixin from '../js/mixins/fb-field.js'
 import dateMixin from '../js/mixins/fb-date.js'
 import TimeRange from './time-range.vue'
-
-function parseOrNow(input) {
-    let output = parse(input)
-    return output.getTime() ? output : new Date()
-}
 
 export default {
 
@@ -123,7 +117,8 @@ export default {
             },
 
             set(value) {
-                value = value && value.toISOString()
+                value = this.$dayjs(value)
+                value = value.isValid() ? value.format(!this.hasTime && 'YYYY-MM-DD') : ''
                 if ( this.formId ) {
                     this.formValue = value
                 } else {
@@ -135,18 +130,18 @@ export default {
         time: {
 
             get() {
-                let current = parse(this.date)
+                let current = this.parse(this.date)
                 return timeArrayToString([current.getHours(), current.getMinutes()])
             },
 
             set(time) {
-                let date = this._addTime( parseOrNow(this.date), time )
+                let date = this._addTime( this.parseOrNow(this.date), time )
                 this.date = date
             }
         },
 
         dateFormatted() {
-            return this.date && format(this.date, this.format) || ''
+            return this.date && this.$dayjs(this.date).format(this.format) || ''
         },
 
         hasTime() {
@@ -177,7 +172,7 @@ export default {
 
             this.$watch('date', {
                 handler() {
-                    let selectedDate = parse(this.date)
+                    let selectedDate = this.parse(this.date)
                     selectedDate.setHours(0,0,0,0)
                     this.picker.setState({ selectedDate })
                 },
@@ -187,9 +182,18 @@ export default {
             this.picker.on('select', this._setDate)
         },
 
+        parse(input) {
+            return this.$dayjs(input).toDate()
+        },
+
+        parseOrNow(input) {
+            let _parsed = this.$dayjs(input)
+            return _parsed.isValid() ? _parsed.toDate() : new Date()
+        },
+
         _addTime(date, timeString) {
             let timeArray = stringToTimeArray(timeString)
-            date = parse(date)
+            date = this.parse(date)
             date.setHours(...timeArray)
             return date
         },

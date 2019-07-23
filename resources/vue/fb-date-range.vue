@@ -84,7 +84,6 @@
 
 <script>
 import { DateRangePicker } from 'tiny-date-picker/src/date-range-picker'
-import { parse, format } from 'date-fns'
 import baseMixin from '../js/mixins/fb-base.js'
 import dateMixin from '../js/mixins/fb-date.js'
 import errorMixin from '../js/mixins/fb-error.js'
@@ -132,7 +131,7 @@ export default {
                 let value = this.formId ?
                     this.$store.getters['forms/fieldValue'](this.formId, this.startName) :
                     this.valueStart
-                return value && parse(value) || ''
+                return value && this.$dayjs(value).toDate() || ''
             },
 
             set(value) {
@@ -146,7 +145,7 @@ export default {
         },
 
         startDateFormatted() {
-            return this.startDate && format(this.startDate, this.format) || ''
+            return this.startDate && this.$dayjs(this.startDate).format(this.format) || ''
         },
 
         endDate: {
@@ -155,7 +154,7 @@ export default {
                 let value = this.formId ?
                     this.$store.getters['forms/fieldValue'](this.formId, this.endName) :
                     this.valueEnd
-                return value && parse(value) || ''
+                return value && this.$dayjs(value).toDate() || ''
             },
 
             set(value) {
@@ -169,7 +168,7 @@ export default {
         },
 
         endDateFormatted() {
-            return this.endDate && format(this.endDate, this.format) || ''
+            return this.endDate && this.$dayjs(this.endDate).format(this.format) || ''
         },
 
         error() {
