@@ -137,13 +137,9 @@
 
 
 <script>
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
 import uiCalendar from '@awes-io/utilities/resources/vue/components/calendar.vue'
 import baseMixin from '../js/mixins/fb-base.js'
 import errorMixin from '../js/mixins/fb-error.js'
-
-dayjs.extend(customParseFormat)
 
 export default {
 
@@ -250,7 +246,7 @@ export default {
                 return this.$get(this.availableDays, `${this.date.getTime()}`, [])
                     .map( ({ start_time, status }) => {
 
-                        let _date = dayjs(start_time)
+                        let _date = this.$dayjs(start_time)
 
                         return {
                             format24h: _date.format('HH:mm'),
@@ -277,7 +273,7 @@ export default {
         fetchData() {
             AWES.on('core:ajax', this._showLoader)
 
-            let range_start = dayjs(new Date(this.year, this.month)).set('date', 1)
+            let range_start = this.$dayjs(new Date(this.year, this.month)).set('date', 1)
             let range_end = range_start.add(1, 'month')
             range_start = this._formatDatestring(range_start)
             range_end = this._formatDatestring(range_end)
@@ -302,11 +298,11 @@ export default {
         },
 
         _parseDatestring(str) {
-            return dayjs(str, 'YYYY-MM-DD').toDate()
+            return this.$dayjs(str, 'YYYY-MM-DD').toDate()
         },
 
         _formatDatestring(date) {
-            return dayjs(date).format('YYYY-MM-DD')
+            return this.$dayjs(date).format('YYYY-MM-DD')
         },
 
         _setDate($event) {
@@ -323,7 +319,7 @@ export default {
             this.time = time
             const [hours, minutes] = time.split(':')
             let date = new Date(this.date)
-            this.selected = dayjs(date.setHours(hours, minutes, 0, 0)).format('YYYY-MM-DDTHH:mm:ssZ')
+            this.selected = this.$dayjs(date.setHours(hours, minutes, 0, 0)).format('YYYY-MM-DDTHH:mm:ssZ')
         },
 
         setMonth(month) {
@@ -365,7 +361,7 @@ export default {
     mounted() {
         this.$nextTick(() => {
             if ( this.selected ) {
-                let selected = dayjs(this.selected)
+                let selected = this.$dayjs(this.selected)
                 this.date = new Date( selected.toDate().setHours(0,0,0,0) )
                 this.time = selected.format('HH:mm')
             }

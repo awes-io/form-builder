@@ -1,5 +1,3 @@
-import { parse } from 'date-fns'
-
 export default {
 
     props: {
@@ -64,8 +62,8 @@ export default {
             let offset = this.yearRange * 31536000000
             let now = new Date().getTime()
 
-            let min = this.min && parse(this.min) 
-            let max = this.max && parse(this.max)
+            let min = this.min && this.$dayjs(this.min).toDate()
+            let max = this.max && this.$dayjs(this.max).toDate()
 
             min = min && min.getTime() ? min : new Date(now - offset)
             max = max && max.getTime() ? max : new Date(now + offset)

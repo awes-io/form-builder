@@ -1,7 +1,6 @@
 <template>
     <div
         class="fb-date fb-element"
-        @focusout="_focusoutHandler"
     >
         <fb-error-wrap
             :open="showTooltip"
@@ -27,7 +26,6 @@
                     :value="dateFormatted"
                     readonly
                     @focus="showPicker"
-                    @blur="_focusoutHandler"
                     ref="element"
                 >
             </label>
@@ -212,7 +210,40 @@ export default {
             if ( newValue /*&& ! oldValue*/ ) {
                 this.hidePicker()
             }
+        },
+
+        isOpened(isOpened) {
+            if ( isOpened ) {
+                this._setClickWatcher()
+            } else {
+                this._unsetClickWatcher()
+            }
         }
+    },
+
+
+    methods: {
+
+        _setClickWatcher() {
+            setTimeout( () => {
+                document.addEventListener('click', this._offClickHandler, true)
+            }, 10)
+        },
+
+        _unsetClickWatcher() {
+            document.removeEventListener('click', this._offClickHandler, true)
+        },
+
+        _offClickHandler($event) {
+            if ( $event.target !== this.$el && ! this.$el.contains($event.target) ) {
+                this.hidePicker()
+            }
+        }
+    },
+
+
+    beforeDestroy() {
+        this._unsetClickWatcher()
     }
 }
 </script>
