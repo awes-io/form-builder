@@ -6,9 +6,13 @@
         @file-added="checkFile"
         @file-progress="setProgress"
         @file-success="addFileNameToForm"
-        @upload-start="toggleFormBlock(true)"
-        @complete="toggleFormBlock(false)"
+        @file-error="handleFileError"
     >
+        <!-- 
+            This blocks form when uploader is working (if needed)
+            @upload-start="toggleFormBlock(true)"
+            @complete="toggleFormBlock(false)"
+        -->
         <uploader-unsupport></uploader-unsupport>
 
         <!-- dropzone -->
@@ -45,12 +49,23 @@
                                         <td class="fb-uploader__list-size">{{ file.size | bytesToMb }}</td>
                                         <td class="fb-uploader__list-date">
                                             <template v-if="file.isComplete()">
-                                                {{ file._lastProgressCallback | timestampToDate }}
+                                                {{ _timestampToDate(file._lastProgressCallback) }}
                                             </template>
-
+                                        </td>
+                                        <td
+                                            class="fb-uploader__list-status"
+                                            :class="{'is-uploaded': !file.error && file.isComplete(), 'is-error': file.error, 'is-loading': !file.isComplete()}"
+                                        >
+                                            <template v-if="file.isComplete()">
+                                                {{ $lang[file.error ? 'FORMS_UPLOAD_ERROR' : 'FORMS_UPLOAD_DONE'] }}
+                                            </template>
+                                            <template v-else>
+                                                {{ $lang.FORMS_UPLOAD_LOADING }}
+                                            </template>
                                         </td>
                                         <td class="fb-uploader__list-delete">
                                             <button
+                                                type="button"
                                                 class="fb-uploader__delete"
                                                 :title="$lang.FORMS_UPLOAD_DELETE"
                                                 :aria-label="$lang.FORMS_UPLOAD_DELETE"
@@ -62,7 +77,7 @@
                                         :key="file.id + 'loader'"
                                         class="fb-uploader__list-pgwrap"
                                     >
-                                        <td colspan="6" class="fb-uploader__list-progress">
+                                        <td colspan="7" class="fb-uploader__list-progress">
                                             <progress
                                                 class="fb-uploader__progress"
                                                 max="1"
@@ -104,6 +119,7 @@ export default {
 
         size: {
             type: [String, Number], // Mb
+            default: 2,
             validator(value) {
                 return +value == value
             }
@@ -112,6 +128,15 @@ export default {
         single: {
             type: Boolean,
             default: false
+        },
+
+        dateFormat: {
+            type: String,
+            default: 'MM.DD.YYYY'
+        },
+
+        value: {
+            default: () => []
         }
     },
 
@@ -124,11 +149,6 @@ export default {
 
 
     filters: {
-
-        timestampToDate(val) {
-            let date = new Date(val)
-            return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear() + 1}`
-        },
 
         bytesToMb(val) {
             let mb = val / 1024 / 1024
@@ -179,23 +199,23 @@ export default {
         checkFile(file) {
             if ( this.format && ! this._extensionMatch(file) ) {
                 file.ignored = true
-                this.showError(this.$lang.FORMS_UPLOADER_EXTENSION_ERROR.replace('%s', file.name));
+                this.$emit('error', this.$lang.FORMS_UPLOADER_EXTENSION_ERROR.replace('%s', file.name));
             }
             if ( this.size && file.size > this.maxSizeBytes ) {
                 file.ignored = true
-                this.showError(this.$lang.FORMS_UPLOADER_SIZE_ERROR.replace('%s', file.name));
+                this.$emit('error', this.$lang.FORMS_UPLOADER_SIZE_ERROR.replace('%s', file.name));
             }
-        },
-
-        showError(message) {
-            AWES.notify({
-                status: 'error',
-                message
-            })
+            if ( ! file.ignored ) {
+                this.$emit('added', file)
+            }
         },
 
         setProgress(file) {
             this.$set(this.filesProgress, file.uniqueIdentifier, file.progress())
+        },
+
+        removeFileInProgress(file) {
+            delete this.filesProgress[file.uniqueIdentifier]
         },
 
         getExtension(fileName) {
@@ -213,31 +233,45 @@ export default {
             return this.formatArray.includes(extension)
         },
 
-        toggleFormBlock(status) {
-            this.$store.commit('setLoading', {
-                formName: this.formId,
-                status
-            })
-            if ( ! status ) this.$forceUpdate()
+        _timestampToDate(val) {
+            let date = this.$dayjs(val)
+            return date.isValid() && date.format(this.dateFormat)
         },
 
+        // This blocks form when uploader is working (if needed)
+        // 
+        // toggleFormBlock(status) {
+        //     this.$store.commit('forms/setLoading', {
+        //         formName: this.formId,
+        //         status
+        //     })
+        //     if ( ! status ) this.$forceUpdate()
+        // },
+
         addFileNameToForm(rootFile, file, message, chunk) {
-            delete this.filesProgress[file.uniqueIdentifier]
+            this.removeFileInProgress(file)
             try {
                 let response = JSON.parse(message)
                 let fileName = AWES.utils.object.get(response, 'meta.path', file.relativePath)
                 Array.isArray(this.formValue) ? this.formValue.push(fileName) : this.formValue = [fileName]
+                this.$emit('uploaded', file)
             } catch(e) {
                 console.log(e);
             }
         },
 
+        handleFileError(rootFile, file, message, chunk) {
+            this.removeFileInProgress(file)
+            this.$emit('error', message || this.$lang.FORMS_UPLOAD_ERROR)
+            this.$forceUpdate()
+        },
+
         removeFile(file, index) {
-            if ( file.isComplete() ) {
-                this.formValue.splice(index, 1)
+            this.removeFileInProgress(file)
+            if ( ! file.error && file.isComplete() ) {
+                this.formValue && this.formValue.splice(index, 1)
             }
             file.cancel()
-            delete this.filesProgress[file.uniqueIdentifier]
         },
 
         setFocus(state) {

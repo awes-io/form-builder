@@ -28,7 +28,7 @@ export default {
 
         error: {
             handler(errors) {
-                if ( this.$listeners.error ) {
+                if ( this.$listeners.error && ! AWES.utils.object.isEmpty(errors) ) {
                     this.$emit('error', errors)
                     return
                 }

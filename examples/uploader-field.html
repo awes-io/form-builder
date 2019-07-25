@@ -16,7 +16,8 @@
     </style>
     <script>
       AWES_CONFIG = {
-        key: '5cd207e2c94eb723c3307764a5693def'
+        key: '5cd207e2c94eb723c3307764a5693def',
+        dev: true
       }
     </script>
     <script src="/js/main.js"></script>
@@ -27,11 +28,16 @@
 <body>
     <content-wrapper id="awes-app">
       <div style="max-width: 500px">
-        <form-builder url="http://httpbin.org/post" disabled-dialog>
+        <form-builder url="http://httpbin.org/post" name="myForm" disabled-dialog>
           <div class="demo-title">File uploader</div>
           <fb-uploader name="files" url="http://httpbin.org/post" format="txt" size="15" single></fb-uploader>
         </form-builder>
       </div>
+
+      <pre>
+        {{ $store.getters['forms/fieldValue']('myForm', 'files') }}
+        {{ $get($store.state, 'forms.myForm.fields.files[0]', 'No file loaded') }}
+      </pre>
     </content-wrapper>
 </body>
 

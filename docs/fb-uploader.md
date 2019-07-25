@@ -47,8 +47,18 @@ It uploads files according to the specified `url` property and sends paths to th
 | **id**              | `Number`           | `undefined`         | Sequence number within the &lt;fb-multi-block&gt; component    |
 | **url(*)**          | `String`           | `undefined`         | Address for uploading files                       |
 | **format**          | `String`           | `undefined`         | Valid extensions separated by a comma             |
-| **size**            | `Number`, `String` | `undefined`         | Maximum file size in megabytes                    |
+| **size**            | `Number`, `String` | `2`                 | Maximum file size in megabytes                    |
 | **single**          | `Boolean`          | `false`             | Only one file allowed. Uploading of the next file will erase previous |
+| **date-format**     | `String`           | `MM.DD.YYYY`        | Uploaded date format                              |
+
+
+## Component events
+
+| Name              | Data (type)            | Description                     |
+|-------------------|:----------------------:|---------------------------------|
+| **added**         | file (File)            | Fires after file upload started |
+| **uploaded**      | file (File)            | Fires after file is uploaded    |
+| **error**         | Error message (String) | Fires is error is occurred      |
 
 
 ## Component features
