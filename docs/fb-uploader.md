@@ -48,6 +48,7 @@ It uploads files according to the specified `url` property and sends paths to th
 | **url(*)**          | `String`           | `undefined`         | Address for uploading files                       |
 | **format**          | `String`           | `undefined`         | Valid extensions separated by a comma             |
 | **size**            | `Number`, `String` | `undefined`         | Maximum file size in megabytes                    |
+| **single**          | `Boolean`          | `false`             | Only one file allowed. Uploading of the next file will erase previous |
 
 
 ## Component features
