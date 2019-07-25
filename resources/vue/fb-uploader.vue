@@ -102,9 +102,11 @@ export default {
             type: [String, Array],
         },
 
-        size: [String, Number], // Mb
-        validator(value) {
-            return +value == value
+        size: {
+            type: [String, Number], // Mb
+            validator(value) {
+                return +value == value
+            }
         }
     },
 
@@ -133,8 +135,17 @@ export default {
     computed: {
 
         uploaderOptions() {
+
+            const token = this.AWES.utils.getMeta('csrf-token')
+
             return {
                 target: this.url,
+                query: {
+                    _token: token
+                },
+                headers: {
+                    'X-CSRF-TOKEN': token
+                },
                 testChunks: false
             }
         },
