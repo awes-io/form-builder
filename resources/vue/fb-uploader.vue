@@ -107,6 +107,11 @@ export default {
             validator(value) {
                 return +value == value
             }
+        },
+
+        single: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -140,6 +145,7 @@ export default {
 
             return {
                 target: this.url,
+                singleFile: this.single,
                 query: {
                     _token: token
                 },
