@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="bla-bla-bla">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AwesCode Forms package test</title>
     <style>
@@ -20,18 +21,18 @@
     </script>
     <script src="/js/main.js"></script>
     <link rel="stylesheet" href="/css/main.css">
-    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/js-core/v0.x.x/js/main.js"></script>
+    <script src="https://cdn.pkgkit.com/5cd207e2c94eb723c3307764a5693def/awes-io/base-js/v1.x.x/js/main.js"></script>
 </head>
 
 <body>
-    <div id="awes-app">
+    <content-wrapper id="awes-app">
       <div style="max-width: 500px">
         <form-builder url="http://httpbin.org/post" disabled-dialog>
           <div class="demo-title">File uploader</div>
-          <fb-uploader name="files" url="http://httpbin.org/post" format="mp4, docx" size="15"></fb-uploader>
+          <fb-uploader name="files" url="http://httpbin.org/post" format="txt" size="15"></fb-uploader>
         </form-builder>
       </div>
-    </div>
+    </content-wrapper>
 </body>
 
 </html>

@@ -34,8 +34,7 @@ module.exports = {
             include: 'node_modules/**'
         }),
         nodeResolve({
-            jsnext: true,
-            main: true
+            mainFields: ['module', 'main', 'jsnext:main']
         }),
         json()
     ]

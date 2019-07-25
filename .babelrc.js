@@ -2,6 +2,7 @@ module.exports = {
   presets: [
     ['@babel/preset-env', {
       useBuiltIns: 'usage',
+      corejs: '2',
       // debug: true,
       exclude: [
           'web.dom.iterable',
