@@ -22,8 +22,8 @@
                 <span class="fb-uploader__fakebtn">{{ $lang.FORMS_UPLOAD_ADD }}</span>
                 <uploader-btn class="fb-uploader__btn" tabindex="1" ref="uploaderBtn"><span>{{ $lang.FORMS_UPLOAD_ADD }}</span></uploader-btn>
             </p>
-            <p v-if="format || size">
-                <i class="fb-uploader__formats" v-if="format">
+            <p v-if="formatArray || size">
+                <i class="fb-uploader__formats" v-if="formatArray">
                     {{ $lang.FORMS_UPLOAD_FORMAT }} {{ formatString }}.
                 </i>
                 <i class="fb-uploader__size" v-if="size">
@@ -132,7 +132,7 @@ export default {
 
         dateFormat: {
             type: String,
-            default: 'MM.DD.YYYY'
+            default: 'DD.MM.YYYY'
         },
 
         value: {
@@ -177,15 +177,14 @@ export default {
         },
 
         formatArray() {
-            return this.format && Array.isArray(this.format) ?
-                   this.format :
-                   this.format.split(',').map( extension => extension.trim() )
+            if ( this.format && ! AWES.utils.object.isEmpty(this.format) ) {
+                let _formatArray = Array.isArray(this.format) ? this.format.slice() : this.format.split(',')
+                return _formatArray.map( extension => extension.replace(/\W/g, '') )
+            }
         },
 
         formatString() {
-            return this.format && Array.isArray(this.format) ?
-                   this.format.concat(', ') :
-                   this.format
+            return this.formatArray && this.formatArray.map( extension => `*.${extension}`).join(', ')
         },
 
         maxSizeBytes() {
@@ -197,7 +196,7 @@ export default {
     methods: {
 
         checkFile(file) {
-            if ( this.format && ! this._extensionMatch(file) ) {
+            if ( this.formatArray && ! this._extensionMatch(file) ) {
                 file.ignored = true
                 this.$emit('error', this.$lang.FORMS_UPLOADER_EXTENSION_ERROR.replace('%s', file.name));
             }
