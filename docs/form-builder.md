@@ -104,7 +104,9 @@ external data which are specified via the `store-data` parameter are extracted f
         ],
         today: 'Today',
         clear: 'Clear',
-        close: 'Close'
+        close: 'Close',
+        prevMonth: 'Previous month',
+        nextMonth: 'Next month'
     }
 }
 ```
