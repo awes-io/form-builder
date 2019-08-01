@@ -53,7 +53,7 @@ The component uses [Tiny Date Range Picker](https://github.com/chrisdavies/tiny-
 | **day-offset**      | `Number`           | `1`                 | Set this to 0 for Sunday. 1 is for Monday         |
 | **value-start**     | `String`           | `undefined`         | Selected start date                               |
 | **value-end**       | `String`           | `undefined`         | Selected end date                                 |
-| **format**          | `String`           | 'MM/DD/YYYY'        | Date format for input fields                      |
+| **format**          | `String`           | 'DD/MM/YYYY'        | Date format for input fields                      |
 | **disabled**        | `Boolean`          | `false`             | Are the inputs disabled                           |
 | **lang**            | `Object`           | see [lang object](#date-lang-object) | Language strings for current instance. Will be merged with defaults |
 

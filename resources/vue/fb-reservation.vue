@@ -32,14 +32,14 @@
                     type="button"
                     @click="setMonth(month - 1)"
                 >
-                    previouse month
+                    {{ $lang.FORMS_DATEPICKER.prevMonth }}
                 </button>
                 <button
                     class="ui-calendar__button is-next"
                     type="button"
                     @click="setMonth(month + 1)"
                 >
-                    next month
+                    {{ $lang.FORMS_DATEPICKER.nextMonth }}
                 </button>
             </div>
 
