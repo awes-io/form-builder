@@ -42,6 +42,8 @@ export default {
         ],
         today: 'Today',
         clear: 'Clear',
-        close: 'Close'
-    } 
+        close: 'Close',
+        prevMonth: 'Previous month',
+        nextMonth: 'Next month'
+    }
 }

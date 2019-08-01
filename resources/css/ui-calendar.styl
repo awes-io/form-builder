@@ -1,0 +1,140 @@
+calendar_width = 300px
+time_range_width = 75px
+calendar_padding = 5px
+calendar_button_height = 35px
+
+.ui-calendar
+    width calendar_width
+    max-width 100%
+    
+    background-color var(--tc_ui_bg)
+    
+    &.has-time
+        position relative
+        padding-right time_range_width
+        width calendar_width + time_range_width
+
+
+    &__days,
+    &__weekdays
+        display flex
+        flex-wrap wrap
+        padding calendar_padding
+        
+
+    &__weekdays
+        min-height calendar_button_height
+        align-items center
+
+    &__day,
+    &__weekday
+        text-align center
+        width (100% / 7.0001)
+
+
+    &__day,
+    &__button
+        height calendar_button_height
+        transition 200ms background, 200ms color
+        
+        &:hover
+            background-color var(--tc_ui_bg_darken)
+
+        &.is-edge
+            visibility hidden
+            pointer-events none
+        
+        &.is-today
+            position relative
+            
+            &::after
+               content ''
+               display block
+               size 4px
+               border-radius 50%
+               margin-left -2px
+               background-color var(--tc_btn_bg_active)
+               absolute left 50% bottom (calendar_padding - 2px)
+        
+        &.is-selected
+            color var(--tc_btn_text)
+            background-color var(--tc_btn_bg_active)
+        
+            &.is-today::after
+                background-color var(--tc_btn_text)
+        
+        &[disabled],
+        &.is-disabled
+            cursor default
+            color var(--tc_text_caption)
+            background-color transparent
+            pointer-events none
+        
+        &.in-range
+            background-color var(--tc_btn_bg)
+            color var(--tc_btn_text)
+            
+            &.is-today::after
+                background-color var(--tc_btn_text)
+
+
+    &__weekday
+        color var(--tc_text_caption)
+        font-size .67rem
+        padding calendar_padding
+
+
+    &__header,
+    &__footer
+        display flex
+        align-items center
+        font-size .8rem
+        padding calendar_padding
+    
+    &__header
+        min-height (calendar_button_height + 2 * calendar_padding)
+    
+    &__footer
+        min-height calendar_button_height
+
+
+    &__caption
+        flex-grow 1
+        padding (.8 * calendar_padding)
+    
+    &__month,
+    &__year
+        margin-left 7px
+
+
+    &__button.is-prev,
+    &__button.is-next
+        font-size 0
+        width calendar_button_height
+        icon('ar-right')
+        
+        &::before
+            vertical-align middle
+            font-size .8rem
+
+    &__button.is-next::before
+        transform rotate(180deg) translateY(-1px)
+    
+
+    &__time-range
+        padding calendar_padding
+        
+        ul
+            height (calendar_button_height * 7)
+            list-style none !important
+            margin 0 !important
+            overflow-y auto
+            
+        &.has-footer ul
+            height (calendar_button_height * 6)
+        
+        li
+            margin 0 !important
+            
+        .ui-calendar__button
+            width 100%

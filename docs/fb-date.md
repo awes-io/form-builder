@@ -52,7 +52,7 @@ The component uses [Tiny Date Picker](https://github.com/chrisdavies/tiny-date-p
 | **day-offset**      | `Number`           | `1`                 | Set this to 0 for Sunday. 1 is for Monday         |
 | **value**           | `String`           | `undefined`         | Selected date (only stringified Date object)      |
 | **time-range**      | `Boolean`, `Object`| `true`              | See [time range](#time-range-props) props         |
-| **format**          | `String`           | 'MM/DD/YYYY' or 'MM/DD/YYYY HH:mm' with time range | Date format for input field |
+| **format**          | `String`           | 'DD/MM/YYYY' or 'DD/MM/YYYY HH:mm' with time range | Date format for input field |
 | **disabled**        | `Boolean`, `Array` | `false`             | `Boolean` to disable whole field and `Array` of dates to disable specific date |
 | **lang**            | `Object`           | see [lang object](#date-lang-object) | Language strings for current instance. Will be merged with defaults |
 
@@ -73,7 +73,7 @@ Every time value is a 24-hour formatted `String`.
 
 > Don't forget leading zeros, `'5:00'` is incorrect. Correct one is `'05:00'`
 
-To set time, it should be passed to the **value** prop of `fb-`
+To set time, it should be passed to the **value** prop of `fb-date`
 
 
 ## Usage examples
@@ -150,7 +150,9 @@ AWES_CONFIG = {
                 'December',
             ],
             today: 'Today',
-            close: 'Close'
+            close: 'Close',
+            prevMonth: 'Previous month',
+            nextMonth: 'Next month'
         }
     }
 }

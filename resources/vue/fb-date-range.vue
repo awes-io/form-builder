@@ -61,10 +61,108 @@
         </label><!-- / end date -->
 
         <div
-            class="fb-date__picker"
+            class="fb-date__picker is-range"
             :class="{'is-opened': isOpened}"
-            ref="picker"
-        ></div>
+            :tabindex="isOpened ? '0' : null"
+            v-on="listeners"
+        >
+            <!-- left calendar -->
+            <ui-calendar
+                class="is-left"
+                :month="showDate.month()"
+                :year="showDate.year()"
+                :lang="_lang"
+            >
+                <template #header>
+                    <ui-calendar-header
+                        :month="showDate.month()"
+                        :year="showDate.year()"
+                        :prevDisabled="!_inMinRange(showDate.subtract(1, 'month'), 'month')"
+                        :nextDisabled="!_inMaxRange(showDate.add(1, 'month'), 'month')"
+                        :lang="_lang"
+                        @prevMonth="showDate = showDate.subtract(1, 'month')"
+                        @nextMonth="showDate = showDate.add(1, 'month')"
+                        @setMonth="calendarView = 'months'"
+                        @setYear="calendarView = (years.length > 1) ? 'years' : 'days'"
+                    />
+                </template>
+
+                <template #day="{date, timestamp, isEdge, isToday}">
+                    <button
+                        type="button"
+                        class="ui-calendar__day"
+                        :class="{
+                            'is-selected': _isSelected(timestamp),
+                            'in-range': _inSelectedRange(timestamp),
+                            'is-edge': isEdge,
+                            'is-today': isToday
+                        }"
+                        :disabled="isEdge || _isDisabled(date)"
+                        :data-set-date="timestamp"
+                        :key="timestamp"
+                    >
+                        {{ date.getDate() }}
+                    </button>
+                </template>
+            </ui-calendar><!-- / left calendar -->
+
+            <!-- right calendar -->
+            <ui-calendar
+                class="is-right"
+                :month="nextShowDate.month()"
+                :year="nextShowDate.year()"
+                :lang="_lang"
+            >
+                <template #header>
+                    <ui-calendar-header
+                        :month="nextShowDate.month()"
+                        :year="nextShowDate.year()"
+                        :prevDisabled="true"
+                        :nextDisabled="!_inMaxRange(nextShowDate.add(1, 'month'), 'month')"
+                        :lang="_lang"
+                        @nextMonth="showDate = showDate.add(2, 'month')"
+                        @setMonth="calendarView = 'months'"
+                        @setYear="calendarView = (years.length > 1) ? 'years' : 'days'"
+                    />
+                </template>
+
+                <template #day="{date, timestamp, isEdge, isToday}">
+                    <button
+                        type="button"
+                        class="ui-calendar__day"
+                        :class="{
+                            'is-selected': _isSelected(timestamp),
+                            'in-range': _inSelectedRange(timestamp),
+                            'is-edge': isEdge,
+                            'is-today': isToday
+                        }"
+                        :disabled="isEdge || _isDisabled(date)"
+                        :data-set-date="timestamp"
+                        :key="timestamp"
+                    >
+                        {{ date.getDate() }}
+                    </button>
+                </template>
+            </ui-calendar><!-- right calendar -->
+
+            <!-- month picker -->
+            <ui-calendar-months
+                v-if="calendarView === 'months'"
+                :month="showDate.month()"
+                :monthsDisabled="monthsDisabled"
+                :lang="_lang"
+                @setMonth="showDate = showDate.month($event); calendarView = 'days'"
+            />
+
+            <!-- year picker -->
+            <ui-calendar-years
+                v-if="calendarView === 'years'"
+                :year="showDate.year()"
+                :years="years"
+                @setYear="showDate = showDate.year($event); calendarView = 'days'"
+            />
+
+        </div>
 
         <fb-input
             :name="startName"
@@ -83,7 +181,6 @@
 
 
 <script>
-import { DateRangePicker } from 'tiny-date-picker/src/date-range-picker'
 import baseMixin from '../js/mixins/fb-base.js'
 import dateMixin from '../js/mixins/fb-date.js'
 import errorMixin from '../js/mixins/fb-error.js'
@@ -110,12 +207,20 @@ export default {
     data() {
         return {
             startError: null,
-            endError: null
+            endError: null,
+            calendarView: 'days',
+            hoverMode: false,
+            hoveredTimestamp: null,
+            isRangeInverted: false
         }
     },
 
 
     computed: {
+
+        nextShowDate() {
+            return this.showDate.add(1, 'month')
+        },
 
         startName() {
             return this.realName + '_start'
@@ -144,6 +249,10 @@ export default {
             }
         },
 
+        _startDateTimestamp() {
+            return this.startDate && this.startDate.getTime()
+        },
+
         startDateFormatted() {
             return this.startDate && this.$dayjs(this.startDate).format(this.format) || ''
         },
@@ -167,40 +276,84 @@ export default {
             }
         },
 
+        _endDateTimestamp() {
+            return this.endDate && this.endDate.getTime()
+        },
+
         endDateFormatted() {
             return this.endDate && this.$dayjs(this.endDate).format(this.format) || ''
         },
 
         error() {
             return [this.startError, this.endError]
+        },
+
+        listeners() {
+            const _listeners = {
+                click: this._setDates,
+            }
+
+            if ( this.hoverMode ) {
+                _listeners['mouseover'] = this._setRangeHovered
+            }
+
+            return _listeners
         }
     },
 
 
     methods: {
 
-        init() {
-            const OPTIONS = this._getPickerOptions()
-            this.picker = new DateRangePicker(this.$refs.picker, { startOpts: OPTIONS, endOpts: OPTIONS })
-            this.picker.setState({ start: this.startDate, end: this.endDate })
+        _isSelected(timestamp) {
 
-            this.$watch('startDate', start => {
-                this.picker.setState({ start, end: this.endDate })
-            })
-
-            this.$watch('endDate', end => {
-                this.picker.setState({ start: this.startDate, end })
-            })
-
-            this.picker.on('statechange', this._setDates)
+            return this._startDateTimestamp === timestamp ||
+                this._endDateTimestamp === timestamp
         },
 
-        _setDates($event, { state }) {
-            this.startDate = state.start
-            this.endDate = state.end
-            if ( state.end ) {
+        _inSelectedRange(timestamp) {
+            if ( this.hoverMode ) {
+                if ( this.isRangeInverted ) {
+                    return this.hoveredTimestamp < timestamp
+                        && timestamp < this._startDateTimestamp
+                } else {
+                    return this._startDateTimestamp < timestamp
+                        && timestamp < this.hoveredTimestamp
+                }
+            } else if ( this.startDate && this.endDate ) {
+                return this._startDateTimestamp < timestamp
+                        && timestamp < this._endDateTimestamp
+            }
+        },
+
+        _setDates($event) {
+
+            let date = $event.target.getAttribute('data-set-date')
+
+            if ( ! date ) return
+
+            date = new Date(+date)
+
+            if ( !this.startDate || this.endDate ) {
+                this.startDate = date
+                this.endDate = undefined
+                this.hoverMode = true
+            } else {
+                let reverse = this.startDate.getTime() > date.getTime()
+                this.endDate = reverse ? this.startDate : date
+                this.startDate = reverse ? date : this.startDate
+                this.hoverMode = false
                 this.hidePicker()
             }
+        },
+
+        _setRangeHovered($event) {
+
+            let date = $event.target.getAttribute('data-set-date')
+
+            if ( ! date ) return
+
+            this.hoveredTimestamp = +date
+            this.isRangeInverted = date < this._startDateTimestamp
         },
 
         _setField( fieldName, value ) {
@@ -220,11 +373,6 @@ export default {
                 console.error(e)
             }
         }
-    },
-
-
-    mounted() {
-        this.init()
     }
 }
 </script>
